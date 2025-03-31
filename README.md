@@ -1,6 +1,8 @@
 # COF
 
+#TEA and COFFEE internet shop
 
+==========================================================
 
 ## Getting started
 
