@@ -37,9 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'women.apps.CatalogConfig',
-    'women.apps.CartConfig',
-    'women.apps.UsersConfig',
+    'catalog.apps.CatalogConfig',
+    'django_extensions',
+    'cart.apps.CartConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
