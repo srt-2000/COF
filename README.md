@@ -1,6 +1,6 @@
 # COF
 
-#TEA and COFFEE internet shop
+#TEA and COFFEE internet shop shop
 
 ==========================================================
 
