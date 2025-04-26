@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if filter %}
+<form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" value="search"/>
+</form>
+{% endif %}
+<ul>
+
+    {% for item in cof_products %}
+    <li>
+        <div>
+	        <p>
+                {{item.category.name}} | {{item.name}} |
+                {% if item.region %}
+                region: {{item.region}}
+                {% endif %}
+                {% if item.manufacture %}
+                manufacture: {{item.manufacture}}
+                {% endif %}
+            </p>
+            {% if item.image %}
+            <p>
+                <img width=150px height=auto src="{{item.image.url}}">
+            </p>
+            {% endif %}
+            <p>
+                {{item.description}}
+            </p>
+            {% if item.sort %}
+            <p>
+                sort: {{item.sort}}
+            </p>
+            {% endif %}
+            {% if item.type %}
+            <p>
+                type: {{item.type}}
+            </p>
+            {% endif %}
+            <p>
+            {% if item.category.slug == 'tea' %}
+                Price per 1000 g: {{item.price}}
+            {% endif %}
+            {% if item.category.slug == 'coffee' %}
+                Price per 1000 g: {{item.price}}
+            {% endif %}
+            {% if item.category.slug == 'accessories' %}
+                Price per 1 psc: {{item.price}}
+            {% endif %}
+            {% if item.category.slug == 'coffee-makers' %}
+                Price per 1 psc: {{item.price}}
+            {% endif %}
+                <b></b><a href="#">| add to cart |</a></b>
+            </p>
+            <p>
+                <b></b><a href="{% url 'item' item.slug %}">SEE MORE...</a></b>
+            </p>
+
+
+
+        </div>
+    <hr>
+    </li>
+    {% endfor %}
+
+</ul>
+
+{% endblock %}
+
+{% block navigation %}
+{% if page_obj.has_other_pages %}
+<nav class="pagination">
+    <ul>
+        {% if page_obj.has_previous %}
+        <li>
+            <a href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
+        </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <li class="active">
+                <span>{{ num }}</span>
+            </li>
+            {% else %}
+            <li>
+                <a href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li>
+            <a href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}
