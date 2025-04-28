@@ -2,6 +2,11 @@ from django.db import models
 
 
 class Product(models.Model):
+    """Product model (coffee/tea/accessories).
+    
+    Stores main product information including name, image,
+    description, price and relationships with other models (category, sort, type etc.).
+    """
     name = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique=True)
     image = models.ImageField()
@@ -33,6 +38,10 @@ class Product(models.Model):
 
 
 class Category(models.Model):
+    """Product category model.
+    
+    Defines product category (e.g.: coffee, tea, accessories).
+    """
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255, unique=True)
 
@@ -40,33 +49,48 @@ class Category(models.Model):
         return self.name
 
 
-class Sort(models.Model):
+class AuxFieldModel(models.Model):
+    """Abstract base model for auxiliary product models.
+    
+    Contains common fields for auxiliary models like Sort, Type, Region, Manufacture.
+    """
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255, unique=True)
+
+    class Meta:
+        abstract = True
 
     def __str__(self):
         return self.name
 
 
-class Type(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=255, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Region(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=255, unique=True)
-
-    def __str__(self):
-        return self.name
+class Sort(AuxFieldModel):
+    """Product sort model.
+    
+    Defines coffee or tea sort (e.g.: arabica, robusta).
+    """
+    pass
 
 
-class Manufacture(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=255, unique=True)
+class Type(AuxFieldModel):
+    """Product type model.
+    
+    Defines accessories product type (e.g.: dishes, manual espresso).
+    """
+    pass
 
-    def __str__(self):
-        return self.name
+
+class Region(AuxFieldModel):
+    """Origin product region model.
+    
+    Defines product origin region for tea/coffee (e.g.: Ethiopia, Brazil).
+    """
+    pass
+
+
+class Manufacture(AuxFieldModel):
+    """Manufacturer model.
+    
+    Defines product manufacturer foe accessories (e.g.: Philips, Sony).
+    """
+    pass
