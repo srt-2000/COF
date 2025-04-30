@@ -1,30 +1,47 @@
+from __future__ import annotations
+
+import builtins
+
 from django_filters import FilterSet, filters
 
-from .models import Product, Sort, Type, Region, Manufacture
+from .models import Product, ProductManufacture, ProductRegion, ProductSort, ProductType
 
 
 class ProductFilter(FilterSet):
+    """
+    Filter set for Product model that provides filtering capabilities by sort, type, region, and manufacture.
 
-    sort = filters.ModelChoiceFilter(
-        queryset=Sort.objects.filter(sorts__sort__isnull=False).distinct(),
-        empty_label='Sort not chosen',
-        label='Sort')
+    This filter set allows users to filter products based on various attributes:
+    - sort: Filter by coffee/tea sort
+    - type: Filter by product type
+    - region: Filter by region of origin
+    - manufacture: Filter by manufacturer
+    """
 
-    type = filters.ModelChoiceFilter(
-        queryset=Type.objects.filter(types__type__isnull=False).distinct(),
-        empty_label='Type not chosen',
-        label='Type')
+    sort: builtins.type[filters.ModelChoiceFilter] = filters.ModelChoiceFilter(
+        queryset=ProductSort.objects.filter(sorts__sort__isnull=False).distinct(),
+        empty_label="Sort not chosen",
+        label="Sort",
+    )
 
-    region = filters.ModelChoiceFilter(
-        queryset=Region.objects.filter(regions__region__isnull=False).distinct(),
-        empty_label='Region not chosen',
-        label='Region')
+    product_type: builtins.type[filters.ModelChoiceFilter] = filters.ModelChoiceFilter(
+        queryset=ProductType.objects.filter(types__product_type__isnull=False).distinct(),
+        empty_label="Type not chosen",
+        label="Type",
+    )
 
-    manufacture = filters.ModelChoiceFilter(
-        queryset=Manufacture.objects.filter(manufacturers__manufacture__isnull=False).distinct(),
-        empty_label='Manufacture not chosen',
-        label='Manufacture')
+    region: builtins.type[filters.ModelChoiceFilter] = filters.ModelChoiceFilter(
+        queryset=ProductRegion.objects.filter(regions__region__isnull=False).distinct(),
+        empty_label="Region not chosen",
+        label="Region",
+    )
+
+    manufacture: builtins.type[filters.ModelChoiceFilter] = filters.ModelChoiceFilter(
+        queryset=ProductManufacture.objects.filter(manufacturers__manufacture__isnull=False).distinct(),
+        empty_label="Manufacture not chosen",
+        label="Manufacture",
+    )
 
     class Meta:
         model = Product
-        fields = ['sort', 'type', 'region', 'manufacture']
+        fields = ["sort", "product_type", "region", "manufacture"]

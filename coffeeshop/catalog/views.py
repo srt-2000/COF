@@ -1,4 +1,9 @@
-from django.views.generic import ListView, DetailView
+from __future__ import annotations
+
+from typing import Any
+
+from django.db.models import QuerySet
+from django.views.generic import DetailView, ListView
 from django_filters.views import FilterView
 
 from .filters import ProductFilter
@@ -7,37 +12,46 @@ from .utils import DataMixin
 
 
 class CoffeShopHome(DataMixin, FilterView):
-    model = Product  # name of model = get_queryset with return Project.objects.all()
-    filterset_class = ProductFilter  # name of filter
-    template_name = 'catalog.html'  # name of the template
-    context_object_name = 'cof_products'  # name of template object_list
-    extra_context = {'title': 'Catalog'}
+    """View for displaying the main catalog page with filtering capabilities."""
+
+    model: type[Product] = Product
+    filterset_class: type[ProductFilter] = ProductFilter
+    template_name: str = "catalog.html"
+    context_object_name: str = "cof_products"
+    extra_context: dict[str, str] = {"title": "Catalog"}
 
 
 class CoffeShopCategory(DataMixin, ListView):
-    model = Product
-    template_name = 'catalog.html'
-    context_object_name = 'cof_products'
+    """View for displaying products filtered by category."""
 
-    def get_queryset(self):
-        return Product.objects.filter(category__slug=self.kwargs['category_slug'])
+    model: type[Product] = Product
+    template_name: str = "catalog.html"
+    context_object_name: str = "cof_products"
 
-    def get_context_data(self, **kwargs):
+    def get_queryset(self) -> QuerySet[Product]:
+        """Returns products filtered by category slug."""
+        return Product.objects.filter(category__slug=self.kwargs["category_slug"])
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Adds category title to the context."""
         context = super().get_context_data(**kwargs)
-        if context['cof_products']:
-            category_object = context['cof_products'][0].category
-            context['title'] = 'Product category - ' + category_object.name
+        if context["cof_products"]:
+            category_object = context["cof_products"][0].category
+            context["title"] = "Product category - " + category_object.name
         else:
-            context['title'] = 'Category not found'
+            context["title"] = "Category not found"
         return context
 
 
 class ShowItem(DetailView):
-    model = Product
-    template_name = 'item.html'
-    context_object_name = 'item'
+    """View for displaying individual product details."""
 
-    def get_context_data(self, **kwargs):
+    model: type[Product] = Product
+    template_name: str = "item.html"
+    context_object_name: str = "item"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        """Adds product title to the context."""
         context = super().get_context_data(**kwargs)
-        context['title'] = f'{self.object.category} - {self.object.name}'  # self.object - it's a current object of Product
+        context["title"] = f"{self.object.category} - {self.object.name}"
         return context
