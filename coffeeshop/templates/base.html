@@ -1,0 +1,57 @@
+{% load static %}
+{% load catalog_tags %}
+<head>
+    <title>{{ title }}</title>
+    <link type="text/css" href="{% static 'css/base_styles.css' %}" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<table class="table-page" border=0 cellpadding="0" cellspacing="0">
+    <tr>
+        <td valign=top>
+
+            {% block mainmenu %}
+            {% get_main_menu as menu %}
+		    <div class="header">
+			<ul id="mainmenu" class="mainmenu">
+            {% for m in menu %}
+	        <li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
+            {% endfor %}
+            {% if user.is_authenticated %}
+			<li class="last"><a href="#">username</a> | <a href="#">logout</a></li>
+            {% else %}
+            <li class="last"><a href="#">enter</a> | <a href="#">registration</a></li>
+            {% endif %}
+			</ul>
+            {% endblock mainmenu %}
+
+
+            <table class="table-content" border=0 cellpadding="0" cellspacing="0">
+                <tr>
+                    <!-- Sidebar слева -->
+
+                    <td valign="top" class="left-chapters">
+                        <ul>
+                            <li><a href="{% url 'catalog' %}">ALL PRODUCTS</a></li>
+                            {% show_categories %}
+                        </ul>
+                    </td>
+                    <!-- Конец Sidebar'а -->
+                    <td valign="top" class="content">
+                        <h1>{{title}}</h1>
+                        <!-- Блок контента -->
+                        <div class="content-text">
+                            {% block content %}
+                            {% endblock %}
+                            {% block navigation %}
+                            {% endblock %}
+                        </div>
+                        <!-- Конец блока контента -->
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>

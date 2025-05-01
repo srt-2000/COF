@@ -10,10 +10,68 @@ requires-python = ">=3.12"
 dependencies = [
     "django (>=5.1.7,<6.0.0)",
     "pillow (>=11.2.0,<12.0.0)",
-    "django-extensions (>=3.2.3,<4.0.0)"
+    "django-extensions (==4.1)",
+    "django-filter (>=25.1,<26.0)",
+    "pytest-django (>=4.11.1,<5.0.0)",
+    "pytest-mock (>=3.14.0,<4.0.0)",
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+#[tool.pytest.ini_options]
+#DJANGO_SETTINGS_MODULE = "config.settings"
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.7"
+
+[tool.ruff]
+# Основные параметры
+line-length = 120  # Стандартная длина строки (можно изменить на 88 или 100)
+target-version = "py311"  # Минимальная версия Python (замените на свою: py37, py38 и т.д.)
+exclude = [
+  "**/migrations/",  # Игнорировать Django-миграции
+  "**/tests/",       # Игнорировать тесты
+  "**/__pycache__/",
+  "*.pyi",           # Игнорировать stub-файлы
+  "*.venv",
+  "*.cursor",
+]
+[tool.ruff.lint]
+fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "U", "W", "ANN", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
+unfixable = []  # Правила, которые нельзя автоматически исправить
+
+# Включаемые правила (аналогично flake8 + дополнительные)
+select = [
+  "E",   # PEP8 ошибки (pycodestyle)
+  "F",   # Pyflakes (неиспользуемые переменные, импорты и т.д.)
+  "W",   # PEP8 предупреждения (pycodestyle)
+  "UP",  # Правила для современных версий Python (например, автоматическое обновление `typing.List` -> `list`)
+  "I",   # Сортировка импортов (isort)
+  "ANN", # ANN = flake8-annotations
+  "C90", # Сложность кода (mccabe)
+  "B",   # Найденные баги (flake8-bugbear)
+  "DTZ", # Ошибки временных зон (например, datetime.now() без таймзоны)
+]
+
+# Игнорируемые правила
+ignore = [
+  "E501",  # Игнорировать длину строки (если используете black)
+  "F401",  # Неиспользуемые импорты в __init__.py
+  "B008",  # Не рекомендуется использовать изменяемые аргументы по умолчанию
+  "ANN003", # Missing type annotation for `**kwargs
+]
+
+# Настройки isort (сортировка импортов)
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]  # Автоматически добавлять импорты
+known-first-party = ["my_package"]  # Свои модули для сортировки
+
+# Настройки форматирования (если ruff format)
+[tool.ruff.format]
+docstring-code-format = true  # Форматировать код в docstrings
+quote-style = "double"       # Одинарные или двойные кавычки ("double" или "single")
+
+
+
