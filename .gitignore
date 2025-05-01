@@ -3,5 +3,5 @@
 .idea/
 .cursor/
 .cursorrules
-.cursor
+.cursor/
 db.sqlite3
