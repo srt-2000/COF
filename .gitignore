@@ -1,7 +1,6 @@
 # created by virtualenv automatically
 .venv/
 .idea/
-.cursor/
 .cursorrules
 .cursor/
 db.sqlite3

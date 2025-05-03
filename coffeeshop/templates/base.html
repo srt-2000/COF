@@ -16,12 +16,27 @@
 		    <div class="header">
 			<ul id="mainmenu" class="mainmenu">
             {% for m in menu %}
-	        <li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
+	        <li>
+                <a href="{% url m.url_name %}">{{ m.title }}</a>
+            </li>
             {% endfor %}
             {% if user.is_authenticated %}
-			<li class="last"><a href="#">username</a> | <a href="#">logout</a></li>
+            <li class="last">
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">logout</button>
+                </form>
+            </li>
+			<li class="last">
+<!--                <form method="get" action="{% url 'profile' %}">-->
+<!--                    <button type="submit">{{ user.username }} profile</button>-->
+<!--                </form>-->
+                <a href="{% url 'profile' %}">{{ user.username }} profile</a>
+            </li>
             {% else %}
-            <li class="last"><a href="#">enter</a> | <a href="#">registration</a></li>
+            <li class="last">
+                <a href="{% url 'login' %}">enter</a> | <a href="{% url 'registration' %}">registration</a>
+            </li>
             {% endif %}
 			</ul>
             {% endblock mainmenu %}
