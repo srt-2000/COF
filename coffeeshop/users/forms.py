@@ -73,7 +73,7 @@ class ProfileUserForm(forms.ModelForm):
     """
 
     username = forms.CharField(disabled=True, label="Login")
-    email = forms.CharField(disabled=True, label="E-mail")
+    email = forms.EmailField(disabled=True, label="E-mail")
     first_name = forms.CharField(label="First Name", max_length=200)
     last_name = forms.CharField(label="Last Name", max_length=200)
 
