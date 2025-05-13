@@ -1,8 +1,16 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import django.test
 import pytest
 from catalog.models import Product, ProductCategory, ProductManufacture, ProductRegion, ProductSort, ProductType
+from django.contrib.auth import get_user_model
+
+from coffeeshop.users.authentication import EmailAuthBackend
+
+if TYPE_CHECKING:
+    User = get_user_model()
 
 
 @pytest.fixture
@@ -297,6 +305,67 @@ def multiple_products(
         )
     return products
 
+
+@pytest.fixture
+def user_data() -> dict[str, str]:
+    """Create a fixture with valid user data for testing forms.
+
+    Returns:
+        dict[str, str]: Dictionary containing valid user data for registration and login forms.
+        Keys: username, email, first_name, last_name, password1, password2
+    """
+    return {
+        "username": "testuser",
+        "email": "test@example.com",
+        "first_name": "Test",
+        "last_name": "User",
+        "password1": "testpass123",
+        "password2": "testpass123",
+    }
+
+
+@pytest.fixture
+def test_user() -> User:
+    """Create a test user in the database for testing.
+
+    Returns:
+        User: A test user instance with predefined data:
+            - username: 'existinguser'
+            - email: 'existing@example.com'
+            - password: 'existing123'
+            - first_name: 'Existing'
+            - last_name: 'User'
+    """
+    User = get_user_model()
+    return User.objects.create_user(
+        username="existinguser",
+        email="existing@example.com",
+        password="existing123",
+        first_name="Existing",
+        last_name="User",
+    )
+
+@pytest.fixture
+def backend() -> EmailAuthBackend:
+    """Fixture providing an instance of EmailAuthBackend."""
+    return EmailAuthBackend()
+
+@pytest.fixture
+def user_with_email(test_user: 'User') -> 'User':
+    """Modifies test_user for email authentication tests."""
+    test_user.email = "auth@example.com"
+    test_user.set_password("secure123")
+    test_user.save()
+    return test_user
+
+@pytest.fixture
+def inactive_user(test_user: 'User') -> 'User':
+    """Creates an inactive user for testing."""
+    test_user.email = "inactive@example.com"
+    test_user.set_password("inactive123")
+    test_user.is_active = False
+    test_user.save()
+    return test_user
 
 @pytest.fixture(autouse=True)
 def enable_db_access_for_all_tests(db: django.test.TestCase) -> None:

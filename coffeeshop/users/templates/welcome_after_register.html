@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>WELCOME to CoffeeShop!</h1>
+
+<p>Your registration is successful!</p>
+<p>To enter you need authorisation.</p>
+  <a href="{% url 'login' %}">Enter</a>
+</p>
+{% endblock %}
