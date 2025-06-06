@@ -6,9 +6,9 @@ from django.db.models import QuerySet
 from django.views.generic import DetailView, ListView
 from django_filters.views import FilterView
 
-from .filters import ProductFilter
-from .models import Product
-from .utils import DataMixin
+from catalog.filters import ProductFilter
+from catalog.models import Product
+from catalog.utils import DataMixin
 
 
 class CoffeShopHome(DataMixin, FilterView):

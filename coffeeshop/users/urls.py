@@ -4,8 +4,8 @@ from django.contrib.auth.views import LogoutView, PasswordChangeDoneView, Passwo
 from django.urls import path
 from django.urls.resolvers import URLPattern
 
-from . import views
-from .views import ProfileUser, RegisterUser
+from users import views
+
 
 # Authentication URL patterns
 urlpatterns: list[URLPattern] = [
@@ -14,9 +14,9 @@ urlpatterns: list[URLPattern] = [
     # Logout page
     path("logout/", LogoutView.as_view(), name="logout"),
     # User registration
-    path("registration/", RegisterUser.as_view(), name="registration"),
+    path("registration/", views.RegisterUser.as_view(), name="registration"),
     # User profile
-    path("profile/", ProfileUser.as_view(), name="profile"),
+    path("profile/", views.ProfileUser.as_view(), name="profile"),
     # Password change
     path("password-change/", PasswordChangeView.as_view(), name="password_change"),
     # Password change confirmation

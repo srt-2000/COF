@@ -4,49 +4,52 @@
 <h1>{{item.name}}</h1>
 
 <div>
-	        <p>
-                {{item.category.name}} | {{item.name}} |
-                {% if item.region %}
-                region: {{item.region}}
-                {% endif %}
-                {% if item.manufacture %}
-                manufacture: {{item.manufacture}}
-                {% endif %}
-            </p>
-            {% if item.image %}
-            <p>
-                <img width=300px height=auto src="{{item.image.url}}">
-            </p>
-            {% endif %}
-            <p>
-                {{item.description}}
-            </p>
-            {% if item.sort %}
-            <p>
-                sort: {{item.sort}}
-            </p>
-            {% endif %}
-            {% if item.type %}
-            <p>
-                type: {{item.product_type}}
-            </p>
-            {% endif %}
-            <p>
-            {% if item.category.slug == 'tea' %}
-                Price per 1000 g: {{item.price}}
-            {% endif %}
-            {% if item.category.slug == 'coffee' %}
-                Price per 1000 g: {{item.price}}
-            {% endif %}
-            {% if item.category.slug == 'accessories' %}
-                Price per 1 psc: {{item.price}}
-            {% endif %}
-            {% if item.category.slug == 'coffee-makers' %}
-                Price per 1 psc: {{item.price}}
-            {% endif %}
-                <b></b><a href="#">| add to cart |</a></b>
-            </p>
+    <p>
+        {{item.category.name}} | {{item.name}} |
+        {% if item.region %}
+        region: {{item.region}}
+        {% endif %}
+        {% if item.manufacture %}
+        manufacture: {{item.manufacture}}
+        {% endif %}
+    </p>
+    {% if item.image %}
+    <p>
+        <img width=300px height=auto src="{{item.image.url}}">
+    </p>
+    {% endif %}
+    <p>
+        {{item.description}}
+    </p>
+    {% if item.sort %}
+    <p>
+        sort: {{item.sort}}
+    </p>
+    {% endif %}
+    {% if item.type %}
+    <p>
+        type: {{item.product_type}}
+    </p>
+    {% endif %}
+    <p>
+        {% if item.category.slug == 'tea' %}
+        Price per 1000 g: {{item.price}}
+        {% endif %}
+        {% if item.category.slug == 'coffee' %}
+        Price per 1000 g: {{item.price}}
+        {% endif %}
+        {% if item.category.slug == 'accessories' %}
+        Price per 1 psc: {{item.price}}
+        {% endif %}
+        {% if item.category.slug == 'coffee-makers' %}
+        Price per 1 psc: {{item.price}}
+        {% endif %}
+    <form action="{% url 'cart_add' item.id %}" method="post">
+        {% csrf_token %}
+        <input type="number" name="quantity" value="1" min="1" max="20">
+        <button type="submit"><b>add to cart</b></button>
+    </form>
 
-        </div>
+</div>
 
 {% endblock %}

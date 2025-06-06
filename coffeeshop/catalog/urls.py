@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from django.urls import path
 
-from . import views
+from catalog import views
 
 urlpatterns = [
     path("", views.CoffeShopHome.as_view(), name="home"),  # http://127.0.0.1:8000

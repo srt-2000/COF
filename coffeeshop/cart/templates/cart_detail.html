@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Ваша корзина</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Товар</th>
+            <th>Количество</th>
+            <th>Удалить</th>
+            <th>Цена за единицу</th>
+            <th>Общая стоимость</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart %}
+            {% with product=item.product %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>
+                    <form action="{% url 'cart_update' product.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                        <button type="submit">Обновить</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{% url 'cart_remove' product.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Удалить</button>
+                    </form>
+                </td>
+                <td class="num">{{ item.price }}</td>
+                <td class="num">{{ item.total_price }}</td>
+            </tr>
+            {% endwith %}
+        {% empty %}
+            <tr>
+                <td colspan="5">Ваша корзина пуста</td>
+            </tr>
+        {% endfor %}
+        {% if cart.get_total_price %}
+            <tr class="total">
+                <td colspan="4">Итого</td>
+                <td class="num">{{ cart.get_total_price }}</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+<p class="text-right">
+    <a href="{% url 'catalog' %}" class="button light">Продолжить покупки</a>
+    {% if cart.get_total_price %}
+    <a href="#" class="button">Оформить заказ</a>
+    {% endif %}
+    <form action="{% url 'cart_clear' %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="button">Очистить корзину</button>
+    </form>
+</p>
+{% endblock %}
+
+
+
+
+<!--==============-->
+<!--&lt;!&ndash;4. Пример использования в шаблонах&ndash;&gt;-->
+
+<!--&lt;!&ndash;Добавление товара в корзину (например, в templates/products/detail.html):&ndash;&gt;-->
+<!--&lt;!&ndash;html&ndash;&gt;-->
+
+<!--<form action="{% url 'cart_add' product.id %}" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    <input type="number" name="quantity" value="1" min="1" max="20">-->
+<!--    <button type="submit">Добавить в корзину</button>-->
+<!--</form>-->
+
+<!--&lt;!&ndash;Отображение корзины в навигации (в templates/base.html):&ndash;&gt;-->
+<!--&lt;!&ndash;html&ndash;&gt;-->
+
+<!--<div class="cart">-->
+<!--    {% with total_items=cart|length %}-->
+<!--        {% if total_items > 0 %}-->
+<!--            В корзине:-->
+<!--            <a href="{% url 'cart_detail' %}">-->
+<!--                {{ total_items }} товар(ов) на {{ cart.get_total_price }}-->
+<!--            </a>-->
+<!--        {% else %}-->
+<!--            Корзина пуста-->
+<!--        {% endif %}-->
+<!--    {% endwith %}-->
+<!--</div>-->

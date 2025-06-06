@@ -4,7 +4,7 @@ import builtins
 
 from django_filters import FilterSet, filters
 
-from .models import Product, ProductManufacture, ProductRegion, ProductSort, ProductType
+from catalog.models import Product, ProductManufacture, ProductRegion, ProductSort, ProductType
 
 
 class ProductFilter(FilterSet):

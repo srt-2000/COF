@@ -28,14 +28,11 @@
                 </form>
             </li>
 			<li class="last">
-<!--                <form method="get" action="{% url 'profile' %}">-->
-<!--                    <button type="submit">{{ user.username }} profile</button>-->
-<!--                </form>-->
                 <a href="{% url 'profile' %}">{{ user.username }} profile</a>
             </li>
             {% else %}
             <li class="last">
-                <a href="{% url 'login' %}">enter</a> | <a href="{% url 'registration' %}">registration</a>
+                <a href="{% url 'cart_detail' %}">my cart</a> | <a href="{% url 'login' %}">enter</a> | <a href="{% url 'registration' %}">registration</a>
             </li>
             {% endif %}
 			</ul>
@@ -50,6 +47,16 @@
                         <ul>
                             <li><a href="{% url 'catalog' %}">ALL PRODUCTS</a></li>
                             {% show_categories %}
+
+                            <li>
+                                {% with total_items=cart|length %}
+                                {% if total_items > 0 %}
+                                CART: <a href="{% url 'cart_detail' %}">{{ total_items }} items</a>
+                                {% else %}
+                                CART is empty
+                                {% endif %}
+                                {% endwith %}
+                            </li>
                         </ul>
                     </td>
                     <!-- Конец Sidebar'а -->
