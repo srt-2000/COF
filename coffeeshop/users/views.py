@@ -7,7 +7,7 @@ from django.db.models import Model, QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
-from coffeeshop.users.forms import LoginUserForm, ProfileUserForm, RegisterUserForm
+from users.forms import LoginUserForm, ProfileUserForm, RegisterUserForm
 
 
 class LoginUser(LoginView):

@@ -52,11 +52,15 @@
             {% if item.category.slug == 'coffee-makers' %}
                 Price per 1 psc: {{item.price}}
             {% endif %}
-                <b></b><a href="#">| add to cart |</a></b>
-            </p>
+            <form action="{% url 'cart_add' item.id %}" method="post">
+            {% csrf_token %}
+                <input type="number" name="quantity" value="1" min="1" max="20">
+                <button type="submit"><b>add to cart</b></button>
+            </form>
             <p>
-                <b></b><a href="{% url 'item' item.slug %}">SEE MORE...</a></b>
+                <a href="{% url 'item' item.slug %}">SEE MORE...</a>
             </p>
+
 
 
 
