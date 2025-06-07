@@ -26,4 +26,5 @@ def cart(request: HttpRequest) -> CartContext:
     Returns:
         CartContext: A dictionary containing the cart.
     """
-    return {"cart": CartFactory.create_from_request(request)}
+    cart_instance = CartFactory.create_from_request(request)
+    return {"cart": cart_instance}

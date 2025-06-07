@@ -41,6 +41,10 @@
         {% endfor %}
         {% if cart.get_total_price %}
             <tr class="total">
+                <td colspan="4">Общее количество товаров</td>
+                <td class="num">{{ cart|length }}</td>
+            </tr>
+            <tr class="total">
                 <td colspan="4">Итого</td>
                 <td class="num">{{ cart.get_total_price }}</td>
             </tr>
@@ -50,9 +54,9 @@
 <p class="text-right">
     <a href="{% url 'catalog' %}" class="button light">Продолжить покупки</a>
     {% if cart.get_total_price %}
-    <a href="#" class="button">Оформить заказ</a>
+    <a href="{% url 'order_create' %}" class="button">Оформить заказ</a>
     {% endif %}
-    <form action="{% url 'cart_clear' %}" method="post" style="display: inline;">
+    <form action="{% url 'cart_clear' %}" method="post">
         {% csrf_token %}
         <button type="submit" class="button">Очистить корзину</button>
     </form>

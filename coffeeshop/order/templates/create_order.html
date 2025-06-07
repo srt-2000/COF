@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="mb-4">Checkout</h1>
+  
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="card-title">Your Order</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-right">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in cart %}
+                <tr>
+                  <td>{{ item.product.name }}</td>
+                  <td class="text-center">{{ item.quantity }}</td>
+                  <td class="text-right">{{ item.total_price }} ₽</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="2">Total Items</th>
+                <th class="text-right">{{ cart|length }}</th>
+              </tr>
+              <tr>
+                <th colspan="2">Total Amount</th>
+                <th class="text-right">
+                  {{ cart.get_total_price }} ₽
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">Delivery Information</h2>
+          <form method="post" novalidate>
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+            
+            <div class="form-group">
+              {{ form.delivery_address.label_tag }}
+              {{ form.delivery_address }}
+              {% if form.delivery_address.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.delivery_address.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+            
+            <div class="form-group">
+              {{ form.phone.label_tag }}
+              {{ form.phone }}
+              {% if form.phone.errors %}
+                <div class="invalid-feedback d-block">
+                  {{ form.phone.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block mt-4">
+              Confirm Order
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
