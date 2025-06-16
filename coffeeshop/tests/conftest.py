@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from decimal import Decimal
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 from unittest.mock import MagicMock, patch
 
 import django.test
@@ -671,3 +671,173 @@ def mock_get_object_or_404() -> None:
     """Patch get_object_or_404 function for testing."""
     with patch("cart.views.get_object_or_404") as mock:
         yield mock
+
+
+@pytest.fixture
+def order_form_data() -> dict[str, str]:
+    """Create sample order form data
+    
+    Returns:
+        dict: Sample order form data with valid values
+    """
+    return {
+        'phone': '+79001234567',
+        'delivery_address': '123 Main Street, Apt 4B, City, 123456'
+    }
+
+
+@pytest.fixture
+def invalid_order_form_data() -> dict[str, str]:
+    """Create invalid order form data
+    
+    Returns:
+        dict: Sample order form data with invalid values
+    """
+    return {
+        'phone': '123',  # Invalid phone format
+        'delivery_address': 'Short'  # Too short address
+    }
+
+
+@pytest.fixture
+def mock_order_form(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Mock OrderCreateForm for testing
+    
+    Args:
+        monkeypatch: pytest monkeypatch fixture
+    """
+    from order.forms import OrderCreateForm
+    
+    def mock_clean(self):
+        return self.cleaned_data
+    
+    monkeypatch.setattr(OrderCreateForm, 'clean', mock_clean)
+
+
+@pytest.fixture
+def order_item_data() -> dict[str, str | int | Decimal]:
+    """Create sample order item data for testing.
+    
+    Returns:
+        dict[str, str | int | Decimal]: Sample order item data with:
+            - product_id: int
+            - product_name: str
+            - quantity: int
+            - price: Decimal
+    """
+    return {
+        'product_id': 1,
+        'product_name': 'Test Product',
+        'quantity': 2,
+        'price': Decimal('100.00')
+    }
+
+
+@pytest.fixture
+def order_data(test_user: User, order_item_data: dict[str, str | int | Decimal]) -> dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]:
+    """Create sample order data for testing.
+    
+    Args:
+        test_user: Test user fixture
+        order_item_data: Order item data fixture
+        
+    Returns:
+        dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]: Sample order data with:
+            - order_id: int
+            - user_email: str
+            - delivery_address: str
+            - phone: str
+            - total_price: Decimal
+            - time_created: str
+            - items: list[dict[str, str | int | Decimal]]
+    """
+    return {
+        'order_id': 1,
+        'user_email': test_user.email,
+        'delivery_address': '123 Main Street',
+        'phone': '+79001234567',
+        'total_price': Decimal('200.00'),
+        'time_created': '2024-03-20 12:00:00',
+        'items': [order_item_data]
+    }
+
+
+@pytest.fixture
+def mock_order_service(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Mock OrderService for testing.
+    
+    Args:
+        monkeypatch: pytest monkeypatch fixture
+    """
+    from order.services import OrderService
+    
+    def mock_create_order(self, user: User, items: list[dict[str, str | int | Decimal]], total_price: Decimal, delivery_address: str, phone: str) -> dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]:
+        """Mock implementation of create_order.
+        
+        Args:
+            user: User creating the order
+            items: List of items in the order
+            total_price: Total price of the order
+            delivery_address: Delivery address
+            phone: Customer phone number
+            
+        Returns:
+            dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]: Mock order data
+        """
+        return {
+            'order_id': 1,
+            'user_email': user.email,
+            'delivery_address': delivery_address,
+            'phone': phone,
+            'total_price': total_price,
+            'time_created': '2024-03-20 12:00:00',
+            'items': items
+        }
+    
+    monkeypatch.setattr(OrderService, 'create_order', mock_create_order)
+
+
+@pytest.fixture
+def mock_order_notification(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Mock OrderNotification for testing
+    
+    Args:
+        monkeypatch: pytest monkeypatch fixture
+    """
+    from order.services import EmailOrderNotification
+    
+    def mock_send_notification(self, order):
+        pass
+    
+    monkeypatch.setattr(EmailOrderNotification, 'send_order_notification', mock_send_notification)
+
+
+@pytest.fixture
+def mock_order_repository(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Mock OrderRepository for testing.
+    
+    Args:
+        monkeypatch: pytest monkeypatch fixture
+    """
+    from order.services import DatabaseOrderRepository
+    
+    def mock_save_order(self, order_data: dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]) -> dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]:
+        """Mock implementation of save_order.
+        
+        Args:
+            order_data: Order data to save
+            
+        Returns:
+            dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]: Saved order data
+        """
+        # Add order_id if not present
+        if 'order_id' not in order_data:
+            order_data = order_data.copy()
+            order_data['order_id'] = 1
+        # Add time_created if not present
+        if 'time_created' not in order_data:
+            order_data = order_data.copy()
+            order_data['time_created'] = '2024-03-20 12:00:00'
+        return order_data
+    
+    monkeypatch.setattr(DatabaseOrderRepository, 'save_order', mock_save_order)

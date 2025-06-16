@@ -1,0 +1,17 @@
+New Order #{{ order.id }}
+
+Order Information:
+----------------
+Customer Email: {{ order.user.email }}
+Phone: {{ order.phone }}
+Delivery Address: {{ order.delivery_address }}
+Order Date: {{ order.time_created|date:"d.m.Y H:i" }}
+
+Order Items:
+----------------
+{% for item in order.items.all %}
+{{ item.product_name }} - {{ item.quantity }} pcs. x {{ item.price }} ₽
+{% endfor %}
+
+Total Items: {{ order.get_total_items }}
+Total Amount: {{ order.total_price }} ₽

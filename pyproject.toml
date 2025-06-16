@@ -14,6 +14,7 @@ dependencies = [
     "django-filter (>=25.1,<26.0)",
     "pytest-django (>=4.11.1,<5.0.0)",
     "pytest-mock (>=3.14.0,<4.0.0)",
+    "django-environ (==0.12.0)",
 ]
 
 
@@ -73,5 +74,8 @@ known-first-party = ["my_package"]  # Свои модули для сортир�
 docstring-code-format = true  # Форматировать код в docstrings
 quote-style = "double"       # Одинарные или двойные кавычки ("double" или "single")
 
-
-
+# Для работы с .env
+[tool.poetry.dependencies]
+python = "^3.12"
+#django-environ = "^0.12.0"  # Версия, поддерживающая Python 3.12
+django-environ = { version = "^0.12.0", python = ">=3.9" }
