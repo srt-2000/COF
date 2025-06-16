@@ -1,7 +1,14 @@
 from pathlib import Path
+import environ
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+env_path = BASE_DIR / '.env'
+
+# Initialisation django-environ
+env = environ.Env()
+environ.Env.read_env(env_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -49,7 +56,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',
+            BASE_DIR / 'coffeeshop' / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -73,7 +80,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'coffeeshop' / 'db.sqlite3',
     }
 }
 
@@ -121,7 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'coffeeshop' / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -129,7 +136,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Media files
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / 'coffeeshop' / 'media'
 MEDIA_URL = '/media/'
 
 CART_SESSION_ID = 'cart'
@@ -138,7 +145,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'srt2000888tester@gmail.com'  # Ваш полный адрес Gmail
-EMAIL_HOST_PASSWORD = 'zpli imly ixas bibf'  # app password
+EMAIL_HOST_USER = env('GMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('GMAIL_APP_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-ADMIN_EMAIL = 'srt2000888tester@gmail.com'  # Куда отправлять уведомления о заказах
+ADMIN_EMAIL = env('ADMIN_EMAIL')
