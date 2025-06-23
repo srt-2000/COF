@@ -58,7 +58,8 @@ class Product(models.Model):
     )
 
     class Meta:
-        verbose_name = "Products"
+        verbose_name = "Product"
+        verbose_name_plural = "Products"
         ordering = ("name",)
 
     def __str__(self) -> str:
@@ -86,6 +87,10 @@ class ProductCategory(models.Model):
             str: The URL for the category
         """
         return reverse("category", kwargs={"category_slug": self.slug})
+
+    class Meta:
+        verbose_name = "Product category"
+        verbose_name_plural = "Product categories"
 
     def __str__(self) -> str:
         return self.name
