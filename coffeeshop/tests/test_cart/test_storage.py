@@ -7,11 +7,11 @@ This module contains tests for the SessionCartStorage class including:
 """
 from __future__ import annotations
 
-from unittest.mock import MagicMock
+
 
 import pytest
 from cart.storage import SessionCartStorage
-from cart.interfaces import CartDataTypedDict
+from cart.domains import CartData
 
 
 class TestSessionCartStorage:
@@ -19,7 +19,7 @@ class TestSessionCartStorage:
 
     def test_init(
         self,
-        mock_session: MagicMock,
+        mock_session,
         mock_settings: None,
     ) -> None:
         """Test storage initialization.
@@ -35,7 +35,7 @@ class TestSessionCartStorage:
 
     def test_load_empty(
         self,
-        mock_session: MagicMock,
+        mock_session,
         mock_settings: None,
     ) -> None:
         """Test loading empty cart data.
@@ -52,9 +52,9 @@ class TestSessionCartStorage:
 
     def test_load_with_data(
         self,
-        mock_session: MagicMock,
+        mock_session,
         mock_settings: None,
-        sample_cart_data: dict[str, CartDataTypedDict],
+        sample_cart_data: dict[str, CartData],
     ) -> None:
         """Test loading cart data.
 
@@ -72,9 +72,9 @@ class TestSessionCartStorage:
 
     def test_save(
         self,
-        mock_session: MagicMock,
+        mock_session,
         mock_settings: None,
-        sample_cart_data: dict[str, CartDataTypedDict],
+        sample_cart_data: dict[str, CartData],
     ) -> None:
         """Test saving cart data.
 
@@ -91,8 +91,9 @@ class TestSessionCartStorage:
 
     def test_clear(
         self,
-        mock_session: MagicMock,
+        mock_session,
         mock_settings: None,
+        mocker,
     ) -> None:
         """Test clearing cart data.
 
@@ -100,7 +101,7 @@ class TestSessionCartStorage:
             mock_session: Mocked session object
             mock_settings: Mocked settings
         """
-        mock_session.__contains__.return_value = True
+        mock_session.__contains__ = mocker.Mock(return_value=True)
         storage = SessionCartStorage(mock_session)
         storage.clear()
 
@@ -113,9 +114,9 @@ class TestSessionCartStorageIntegration:
 
     def test_save_and_load(
         self,
-        mock_session: MagicMock,
+        mock_session,
         mock_settings: None,
-        sample_cart_data: dict[str, CartDataTypedDict],
+        sample_cart_data: dict[str, CartData],
     ) -> None:
         """Test saving and loading cart data.
 
@@ -135,9 +136,10 @@ class TestSessionCartStorageIntegration:
 
     def test_clear_and_load(
         self,
-        mock_session: MagicMock,
+        mock_session,
         mock_settings: None,
-        sample_cart_data: dict[str, CartDataTypedDict],
+        sample_cart_data: dict[str, CartData],
+        mocker,
     ) -> None:
         """Test clearing and loading cart data.
 
@@ -151,7 +153,7 @@ class TestSessionCartStorageIntegration:
         storage.save(sample_cart_data)
         mock_session.__setitem__.assert_called_once_with("cart", sample_cart_data)
 
-        mock_session.__contains__.return_value = True
+        mock_session.__contains__ = mocker.Mock(return_value=True)
         storage.clear()
         mock_session.__delitem__.assert_called_once_with("cart")
 
@@ -176,9 +178,9 @@ class TestSessionCartStorageMock:
     )
     def test_save_with_different_data(
         self,
-        mock_session: MagicMock,
+        mock_session,
         mock_settings: None,
-        cart_data: dict[str, CartDataTypedDict],
+        cart_data: dict[str, CartData],
     ) -> None:
         """Test saving different cart data.
 
@@ -196,16 +198,22 @@ class TestSessionCartStorageMock:
     def test_load_with_mock_session(
         self,
         mock_settings: None,
-        sample_cart_data: dict[str, CartDataTypedDict],
+        sample_cart_data: dict[str, CartData],
+        mocker,
     ) -> None:
         """Test loading with mocked session.
 
         Args:
             mock_settings: Mocked settings
             sample_cart_data: Sample cart data to test with
+            mocker: Pytest mocker fixture
         """
-        mock_session = MagicMock()
+        mock_session = mocker.Mock()
         mock_session.get.return_value = sample_cart_data
+        mock_session.__setitem__ = mocker.Mock()
+        mock_session.__delitem__ = mocker.Mock()
+        mock_session.__contains__ = mocker.Mock(return_value=True)
+        mock_session.__getitem__ = mocker.Mock(return_value={})
 
         storage = SessionCartStorage(mock_session)
         result = storage.load()
@@ -216,14 +224,19 @@ class TestSessionCartStorageMock:
     def test_clear_with_mock_session(
         self,
         mock_settings: None,
+        mocker,
     ) -> None:
         """Test clearing with mocked session.
 
         Args:
             mock_settings: Mocked settings
+            mocker: Pytest mocker fixture
         """
-        mock_session = MagicMock()
-        mock_session.__contains__.return_value = True
+        mock_session = mocker.Mock()
+        mock_session.__contains__ = mocker.Mock(return_value=True)
+        mock_session.__setitem__ = mocker.Mock()
+        mock_session.__delitem__ = mocker.Mock()
+        mock_session.__getitem__ = mocker.Mock(return_value={})
 
         storage = SessionCartStorage(mock_session)
         storage.clear()

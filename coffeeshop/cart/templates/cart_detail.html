@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Ваша корзина</h1>
+<h1>Your Cart</h1>
 <table>
     <thead>
         <tr>
-            <th>Товар</th>
-            <th>Количество</th>
-            <th>Удалить</th>
-            <th>Цена за единицу</th>
-            <th>Общая стоимость</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Remove</th>
+            <th>Price 1 psc</th>
+            <th>Total items price</th>
         </tr>
     </thead>
     <tbody>
@@ -21,13 +21,13 @@
                     <form action="{% url 'cart_update' product.id %}" method="post">
                         {% csrf_token %}
                         <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                        <button type="submit">Обновить</button>
+                        <button type="submit">Update</button>
                     </form>
                 </td>
                 <td>
                     <form action="{% url 'cart_remove' product.id %}" method="post">
                         {% csrf_token %}
-                        <button type="submit">Удалить</button>
+                        <button type="submit">Remove</button>
                     </form>
                 </td>
                 <td class="num">{{ item.price }}</td>
@@ -36,60 +36,71 @@
             {% endwith %}
         {% empty %}
             <tr>
-                <td colspan="5">Ваша корзина пуста</td>
+                <td colspan="5">Your cart is empty</td>
             </tr>
         {% endfor %}
-        {% if cart.get_total_price %}
+        {% if total_price %}
             <tr class="total">
-                <td colspan="4">Общее количество товаров</td>
+                <td colspan="4">Total items quantity:</td>
                 <td class="num">{{ cart|length }}</td>
             </tr>
             <tr class="total">
-                <td colspan="4">Итого</td>
-                <td class="num">{{ cart.get_total_price }}</td>
+                <td colspan="4">Total:</td>
+                <td class="num">{{ total_cart_price }}</td>
             </tr>
+            <tr>
+                <td colspan="4"><br></td>
+            </tr>
+
+            {% if applied_promo_name %}
+                {% if applied_promo_status %}
+                <tr class="total">
+                    <td colspan="4">Applied promo: {{ applied_promo_name }}</td>
+                </tr>
+                <tr class="total">
+                    <td colspan="4">YOUR discount:</td>
+                    <td class="num">{{ discount_sum }}</td>
+                </tr>
+                <tr class="total">
+                    <td colspan="4">TOTAL cart price with discount:</td>
+                    <td class="num"><b>{{ total_price }}</b></td>
+                </tr>
+                {% else %}
+                <tr class="total">
+                    <td colspan="4">CAN'T apply promo: {{ applied_promo_name }} to your current CART</td>
+                </tr>
+                {% endif %}
+            {% endif %}
+
+            {% if not applied_promo_name %}
+            <tr class="total">
+                <td colspan="4">No promo applied</td>
+            </tr>
+            <tr class="total">
+                <td>
+                    <form action="{% url 'promo_apply' %}" method="post">
+                    {% csrf_token %}
+                    {{ promo_form.as_p }}
+                    <button type="submit" class="button">Apply promo</button>
+                    </form>
+                </td>
+            </tr>
+            {% endif %}
+
         {% endif %}
     </tbody>
 </table>
-<p class="text-right">
-    <a href="{% url 'catalog' %}" class="button light">Продолжить покупки</a>
-    {% if cart.get_total_price %}
-    <a href="{% url 'order_create' %}" class="button">Оформить заказ</a>
-    {% endif %}
-    <form action="{% url 'cart_clear' %}" method="post">
+
+<form action="{% url 'cart_clear' %}" method="post">
         {% csrf_token %}
-        <button type="submit" class="button">Очистить корзину</button>
-    </form>
+        <button type="submit" class="button">Clear cart</button>
+</form>
+
+<p class="text-right">
+    <a href="{% url 'catalog' %}" class="button light">GO shopping</a>
+    <br>
+    {% if cart.get_total_price %}
+    <a href="{% url 'order_create' %}" class="button">Make order</a>
+    {% endif %}
 </p>
 {% endblock %}
-
-
-
-
-<!--==============-->
-<!--&lt;!&ndash;4. Пример использования в шаблонах&ndash;&gt;-->
-
-<!--&lt;!&ndash;Добавление товара в корзину (например, в templates/products/detail.html):&ndash;&gt;-->
-<!--&lt;!&ndash;html&ndash;&gt;-->
-
-<!--<form action="{% url 'cart_add' product.id %}" method="post">-->
-<!--    {% csrf_token %}-->
-<!--    <input type="number" name="quantity" value="1" min="1" max="20">-->
-<!--    <button type="submit">Добавить в корзину</button>-->
-<!--</form>-->
-
-<!--&lt;!&ndash;Отображение корзины в навигации (в templates/base.html):&ndash;&gt;-->
-<!--&lt;!&ndash;html&ndash;&gt;-->
-
-<!--<div class="cart">-->
-<!--    {% with total_items=cart|length %}-->
-<!--        {% if total_items > 0 %}-->
-<!--            В корзине:-->
-<!--            <a href="{% url 'cart_detail' %}">-->
-<!--                {{ total_items }} товар(ов) на {{ cart.get_total_price }}-->
-<!--            </a>-->
-<!--        {% else %}-->
-<!--            Корзина пуста-->
-<!--        {% endif %}-->
-<!--    {% endwith %}-->
-<!--</div>-->

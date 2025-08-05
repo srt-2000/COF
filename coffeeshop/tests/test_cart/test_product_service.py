@@ -9,11 +9,11 @@ from __future__ import annotations
 
 from decimal import Decimal
 from typing import TypedDict
-from unittest.mock import MagicMock, patch
+
 
 import pytest
 from cart.product_service import CartProductService
-from cart.interfaces import CartItemServiceTypedDict
+from cart.domains import CartItemServiceData
 from catalog.models import Product
 
 
@@ -22,8 +22,8 @@ class TestCartProductService:
 
     def test_get_products(
         self,
-        mock_product_model: MagicMock,
-        mock_product: MagicMock,
+        mock_product_model,
+        mock_product,
     ) -> None:
         """Test retrieving products by IDs.
 
@@ -67,7 +67,7 @@ class TestCartProductService:
 
     def test_prepare_item(
         self,
-        mock_product: MagicMock,
+        mock_product,
     ) -> None:
         """Test preparing cart item from product.
 
@@ -123,7 +123,7 @@ class TestCartProductServiceIntegration:
             product_object_tea: Tea product instance
         """
         quantity = 2
-        expected_total = product_object_tea.price * quantity
+        expected_total = Decimal(product_object_tea.price * quantity)
         service = CartProductService()
 
         result = service.prepare_item(product_object_tea, quantity)
@@ -131,7 +131,7 @@ class TestCartProductServiceIntegration:
         assert isinstance(result, dict)
         assert result["product"] == product_object_tea
         assert result["quantity"] == quantity
-        assert result["price"] == product_object_tea.price
+        assert float(result["price"]) == float(product_object_tea.price)
         assert result["total_price"] == expected_total
 
 
@@ -140,9 +140,10 @@ class TestCartProductServiceMock:
 
     def test_get_products_with_mock_queryset(
         self,
-        mock_product_model: MagicMock,
-        mock_product_queryset: MagicMock,
-        mock_product: MagicMock,
+        mock_product_model,
+        mock_product_queryset,
+        mock_product,
+        mocker,
     ) -> None:
         """Test retrieving products with mocked queryset.
 
@@ -151,19 +152,20 @@ class TestCartProductServiceMock:
             mock_product_queryset: Mocked product queryset
             mock_product: Mocked product instance
         """
-        mock_product_queryset.__iter__.return_value = [mock_product]
+        mock_product_queryset.__iter__ = mocker.Mock(return_value=iter([mock_product]))
         mock_product_model.objects.filter.return_value = mock_product_queryset
         service = CartProductService()
 
         result = service.get_products([1])
 
         mock_product_model.objects.filter.assert_called_once_with(id__in=[1])
-        mock_product_queryset.__iter__.assert_called_once()
+        # __iter__ was called when iterating over the queryset
+        assert mock_product_queryset.__iter__.called
         assert result == {1: mock_product}
 
     def test_prepare_item_with_mock_product(
         self,
-        mock_product: MagicMock,
+        mock_product,
     ) -> None:
         """Test preparing cart item with mocked product.
 

@@ -1,16 +1,16 @@
 from __future__ import annotations
 
-from typing import Any
 
-from ..models import ProductCategory
-from ..utils import main_menu
+from catalog.domains import MenuItem
+from catalog.models import ProductCategory
+from catalog.utils import main_menu
 from django import template
 
 register = template.Library()
 
 
 @register.simple_tag()
-def get_main_menu() -> list[dict[str, Any]]:
+def get_main_menu() -> list[MenuItem]:
     """
     Returns the main menu structure for the website navigation.
 

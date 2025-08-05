@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for p in promo_list %}
+<p>
+    Promo name: {{p.name}}
+</p>
+<p>
+    Promo description: {{p.description}}
+</p>
+<p>
+    Promo valid until: {{p.date_end}}
+</p>
+<p>
+    Min cart total: {{p.min_cart_total}}
+</p>
+<p>
+    Discount percent: {{p.discount}}
+</p>
+
+
+{% endfor %}
+
+{% endblock %}

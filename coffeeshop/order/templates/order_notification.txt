@@ -14,4 +14,18 @@ Order Items:
 {% endfor %}
 
 Total Items: {{ order.get_total_items }}
-Total Amount: {{ order.total_price }} ₽
+Cart Total: {{ order.cart_price }}
+{% if order.applied_promo_name %}
+    {% if order.applied_promo_status %}
+        Applied promo: {{ order.applied_promo_name }}
+        YOUR discount: {{ order.discount_sum }}
+        TOTAL amount with discount: {{ order.total_price }}
+    {% else %}
+        No promo applied
+        Total Amount: {{ order.total_price }} ₽
+    {% endif %}
+
+{% else %}
+    No promo applied
+    Total Amount: {{ order.total_price }} ₽
+{% endif %}

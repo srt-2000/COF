@@ -1,11 +1,10 @@
 """
 Factory for creating cart instances.
-
-This module provides a factory class for creating cart instances from HTTP requests.
 """
+
 from __future__ import annotations
 
-from django.http import HttpRequest
+from django.contrib.sessions.backends.base import SessionBase
 
 from cart.cart import Cart
 from cart.product_service import CartProductService
@@ -18,16 +17,17 @@ class CartFactory:
     """
 
     @staticmethod
-    def create_from_request(request: HttpRequest) -> Cart:
+    def create_from_session(session: SessionBase) -> Cart:
         """
-        Create a cart instance from an HTTP request.
+        Create a cart instance.
 
         Args:
-            request (HttpRequest): The HTTP request object.
+            session (SessionBase): The SessionBase object.
 
         Returns:
             Cart: A new cart instance.
+            :param session:
         """
-        storage = SessionCartStorage(request.session)
-        product_service = CartProductService()
+        storage: SessionCartStorage = SessionCartStorage(session)
+        product_service: CartProductService = CartProductService()
         return Cart(storage, product_service)

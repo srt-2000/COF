@@ -51,10 +51,46 @@
                     <td colspan="2" class="total">Total Items:</td>
                     <td class="total">{{ order.get_total_items }}</td>
                 </tr>
-                <tr>
-                    <td colspan="2" class="total">Total Amount:</td>
-                    <td class="total">{{ order.total_price }} ₽</td>
+                <tr class="total">
+                  <td colspan="4">Cart Total:</td>
+                  <td class="num">{{ order.cart_price }}</td>
                 </tr>
+                <tr>
+                  <td colspan="4"><br></td>
+                </tr>
+                {% if order.applied_promo_name %}
+                  {% if order.applied_promo_status %}
+                  <tr class="total">
+                    <td colspan="4">Applied promo: {{ order.applied_promo_name }}</td>
+                  </tr>
+                  <tr class="total">
+                    <td colspan="4">YOUR discount:</td>
+                    <td class="num">{{ order.discount_sum }}</td>
+                  </tr>
+                  <tr class="total">
+                    <td colspan="4">TOTAL amount with discount:</td>
+                    <td class="num"><b>{{ order.total_price }}</b></td>
+                  </tr>
+                  {% else %}
+                  <tr class="total">
+                    <td colspan="4">No promo applied</td>
+                  </tr>
+                  <tr>
+                    <th colspan="2">Total Amount</th>
+                    <th class="text-right">{{ order.total_price }} ₽</th>
+                  </tr>
+                  {% endif %}
+
+                {% else %}
+                  <tr class="total">
+                    <td colspan="4">No promo applied</td>
+                  </tr>
+                  <tr>
+                    <th colspan="2">Total Amount</th>
+                    <th class="text-right">{{ order.total_price }} ₽</th>
+                  </tr>
+                {% endif %}
+
             </tfoot>
         </table>
     </div>

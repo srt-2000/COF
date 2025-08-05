@@ -2,13 +2,12 @@ from __future__ import annotations
 
 from django.contrib.auth.views import LogoutView, PasswordChangeDoneView, PasswordChangeView
 from django.urls import path
-from django.urls.resolvers import URLPattern
 
 from users import views
 
 
 # Authentication URL patterns
-urlpatterns: list[URLPattern] = [
+urlpatterns = [
     # Login page
     path("login/", views.LoginUser.as_view(), name="login"),
     # Logout page

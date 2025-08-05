@@ -6,15 +6,16 @@ authors = [
     {name = "srt-2000",email = "srt2000888@gmail.ru"}
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11,<4"
 dependencies = [
-    "django (>=5.1.7,<6.0.0)",
+    "django (==5.2.4)",
     "pillow (>=11.2.0,<12.0.0)",
     "django-extensions (==4.1)",
     "django-filter (>=25.1,<26.0)",
     "pytest-django (>=4.11.1,<5.0.0)",
     "pytest-mock (>=3.14.0,<4.0.0)",
     "django-environ (==0.12.0)",
+    "asgiref (==3.9.1)",
 ]
 
 
@@ -28,54 +29,54 @@ build-backend = "poetry.core.masonry.api"
 ruff = "^0.11.7"
 
 [tool.ruff]
-# Основные параметры
-line-length = 120  # Стандартная длина строки (можно изменить на 88 или 100)
-target-version = "py311"  # Минимальная версия Python (замените на свою: py37, py38 и т.д.)
-exclude = [
-  "**/migrations/",  # Игнорировать Django-миграции
-  "**/tests/",       # Игнорировать тесты
-  "**/__pycache__/",
-  "*.pyi",           # Игнорировать stub-файлы
-  "*.venv",
-  "*.cursor",
-]
+# Main parameters
+line-length = 120  # Standard line length (can be changed to 88 or 100)
+target-version = "py311"  # Minimum Python version (replace with yours: py37, py38, etc.)
+
 [tool.ruff.lint]
-fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "U", "W", "ANN", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
-unfixable = []  # Правила, которые нельзя автоматически исправить
+# Ignore specific directories and files
+extend-exclude = [
+    "**/migrations/",  # Ignore Django migrations
+    "**/tests/",       # Ignore tests
+    "**/static/",      # Ignore static files
+    "*.pyi",           # Ignore stub files
+]
 
-# Включаемые правила (аналогично flake8 + дополнительные)
+[tool.ruff.lint.rules]
+# Rules that cannot be automatically fixed
+unfixable = []
+
+# Included rules (similar to flake8 + additional)
 select = [
-  "E",   # PEP8 ошибки (pycodestyle)
-  "F",   # Pyflakes (неиспользуемые переменные, импорты и т.д.)
-  "W",   # PEP8 предупреждения (pycodestyle)
-  "UP",  # Правила для современных версий Python (например, автоматическое обновление `typing.List` -> `list`)
-  "I",   # Сортировка импортов (isort)
-  "ANN", # ANN = flake8-annotations
-  "C90", # Сложность кода (mccabe)
-  "B",   # Найденные баги (flake8-bugbear)
-  "DTZ", # Ошибки временных зон (например, datetime.now() без таймзоны)
+    "E",   # PEP8 errors (pycodestyle)
+    "F",   # Pyflakes (unused variables, imports, etc.)
+    "W",   # PEP8 warnings (pycodestyle)
+    "UP",  # Rules for modern Python versions (e.g., automatic update of `typing.List` -> `list`)
+    "I",   # Import sorting (isort)
+    "C90", # Code complexity (mccabe)
+    "B",   # Found bugs (flake8-bugbear)
+    "DTZ", # Timezone errors (e.g., datetime.now() without timezone)
 ]
 
-# Игнорируемые правила
+# Ignored rules
 ignore = [
-  "E501",  # Игнорировать длину строки (если используете black)
-  "F401",  # Неиспользуемые импорты в __init__.py
-  "B008",  # Не рекомендуется использовать изменяемые аргументы по умолчанию
-  "ANN003", # Missing type annotation for `**kwargs
+    "E501",  # Ignore line length (if using black)
+    "F401",  # Unused imports in __init__.py
+    "B008",  # Not recommended to use mutable default arguments
 ]
 
-# Настройки isort (сортировка импортов)
 [tool.ruff.lint.isort]
-required-imports = ["from __future__ import annotations"]  # Автоматически добавлять импорты
-known-first-party = ["my_package"]  # Свои модули для сортировки
+# isort settings (import sorting)
+known-first-party = ["coffeeshop"]  # Your modules for sorting
+required-imports = ["from __future__ import annotations"]  # Automatically add imports
 
-# Настройки форматирования (если ruff format)
 [tool.ruff.format]
-docstring-code-format = true  # Форматировать код в docstrings
-quote-style = "double"       # Одинарные или двойные кавычки ("double" или "single")
+# Formatting settings (if ruff format)
+docstring-code-format = true  # Format code in docstrings
+quote-style = "double"       # Single or double quotes ("double" or "single")
 
-# Для работы с .env
+# For working with .env
 [tool.poetry.dependencies]
-python = "^3.12"
-#django-environ = "^0.12.0"  # Версия, поддерживающая Python 3.12
-django-environ = { version = "^0.12.0", python = ">=3.9" }
+python = ">=3.11,<4"
+django = "^5.0"
+#django-environ = "^0.12.0"  # Version supporting Python 3.12

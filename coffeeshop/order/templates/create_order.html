@@ -26,16 +26,52 @@
               {% endfor %}
             </tbody>
             <tfoot>
+
               <tr>
                 <th colspan="2">Total Items</th>
                 <th class="text-right">{{ cart|length }}</th>
               </tr>
-              <tr>
-                <th colspan="2">Total Amount</th>
-                <th class="text-right">
-                  {{ cart.get_total_price }} ₽
-                </th>
+              <tr class="total">
+                <td colspan="4">Cart Total:</td>
+                <td class="num">{{ total_cart_price }}</td>
               </tr>
+              <tr>
+                <td colspan="4"><br></td>
+              </tr>
+
+              {% if applied_promo_name %}
+                {% if applied_promo_status %}
+                  <tr class="total">
+                    <td colspan="4">Applied promo: {{ applied_promo_name }}</td>
+                  </tr>
+                  <tr class="total">
+                    <td colspan="4">YOUR discount:</td>
+                    <td class="num">{{ discount_sum }}</td>
+                  </tr>
+                  <tr class="total">
+                    <td colspan="4">TOTAL amount with discount:</td>
+                    <td class="num"><b>{{ total_price }}</b></td>
+                 </tr>
+                {% else %}
+                <tr class="total">
+                  <td colspan="4">No promo applied</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Total Amount</th>
+                  <th class="text-right">{{ total_price }} ₽</th>
+                </tr>
+                {% endif %}
+
+              {% else %}
+                <tr class="total">
+                  <td colspan="4">No promo applied</td>
+                </tr>
+                <tr>
+                  <th colspan="2">Total Amount</th>
+                  <th class="text-right">{{ total_price }} ₽</th>
+                </tr>
+              {% endif %}
+
             </tfoot>
           </table>
         </div>

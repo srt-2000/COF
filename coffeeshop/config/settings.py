@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'users.apps.UsersConfig',
     'order.apps.OrderConfig',
+    'promo.apps.PromoConfig',
     'django_extensions',
 ]
 
@@ -66,6 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'cart.context_processor.cart',
+                'promo.context_processor.promo_status',
             ],
         },
     },

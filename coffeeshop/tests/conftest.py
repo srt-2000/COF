@@ -1,16 +1,16 @@
 from __future__ import annotations
 
-from collections.abc import Iterator
+from datetime import timedelta
 from decimal import Decimal
-from typing import TYPE_CHECKING, Any
-from unittest.mock import MagicMock, patch
+from typing import TYPE_CHECKING, Iterator
+
 
 import django.test
 import pytest
+from django.utils import timezone
+
 from cart.cart import Cart
-from cart.context_processor import CartContext
 from cart.factory import CartFactory
-from cart.interfaces import CartItemTypedDict, ICart
 from cart.product_service import CartProductService
 from cart.storage import SessionCartStorage
 from catalog.models import Product, ProductCategory, ProductManufacture, ProductRegion, ProductSort, ProductType
@@ -18,10 +18,19 @@ from django.contrib.auth import get_user_model
 from django.http import HttpRequest
 
 from coffeeshop.users.authentication import EmailAuthBackend
+from promo.models import Promo
+from promo.promo import BasePromo
 
 if TYPE_CHECKING:
     User = get_user_model()
 
+
+@pytest.fixture(autouse=True)
+def enable_db_access_for_all_tests(db: django.test.TestCase) -> None:
+    """Enable database access for all tests.
+    This fixture runs automatically for all tests.
+    """
+    pass
 
 @pytest.fixture
 def category_object_tea() -> ProductCategory:
@@ -381,36 +390,36 @@ def inactive_user(test_user: User) -> User:
     return test_user
 
 
-@pytest.fixture(autouse=True)
-def enable_db_access_for_all_tests(db: django.test.TestCase) -> None:
-    """Enable database access for all tests.
-    This fixture runs automatically for all tests.
-    """
-    pass
+
 
 
 @pytest.fixture
-def mock_storage() -> SessionCartStorage:
+def mock_storage(mocker) -> SessionCartStorage:
     """Create a mock storage for cart testing.
 
     Returns:
         SessionCartStorage: A mock storage instance
     """
-    storage = MagicMock(spec=SessionCartStorage)
+    storage = mocker.Mock(spec=SessionCartStorage)
     storage.load.return_value = {}
     return storage
 
 
 @pytest.fixture
-def mock_product_service() -> CartProductService:
+def mock_product_service(sample_products, mocker) -> CartProductService:
     """Create a mock product service for cart testing.
 
     Returns:
         CartProductService: A mock product service instance
     """
-    service = MagicMock(spec=CartProductService)
-    service.get_products.return_value = {}
-    service.prepare_item.return_value = {"id": 1, "name": "Test Product", "price": Decimal("100.00"), "quantity": 1}
+    service = mocker.Mock(spec=CartProductService)
+    service.get_products.side_effect = lambda ids: {i: sample_products[i] for i in ids if i in sample_products}
+    service.prepare_item.side_effect = lambda product, quantity: {
+        "product": product,
+        "quantity": quantity,
+        "price": product["price"],
+        "total_price": product["price"] * quantity,
+    }
     return service
 
 
@@ -441,138 +450,80 @@ def sample_products() -> dict[int, dict]:
     }
 
 
-class MockCart(ICart):
-    """Mock implementation of ICart for testing."""
 
-    def __init__(self) -> None:
-        self._items: dict[int, CartItemTypedDict] = {}
-
-    def add(self, product_id: int, quantity: int = 1, override_quantity: bool = False) -> None:
-        if product_id not in self._items:
-            self._items[product_id] = {
-                "product": {"id": product_id, "name": f"Product {product_id}", "price": Decimal("100.00")},
-                "quantity": 0,
-                "price": Decimal("100.00"),
-                "total_price": Decimal("0.00"),
-            }
-
-        if override_quantity:
-            self._items[product_id]["quantity"] = quantity
-        else:
-            self._items[product_id]["quantity"] += quantity
-
-        self._items[product_id]["total_price"] = self._items[product_id]["price"] * self._items[product_id]["quantity"]
-
-    def remove(self, product_id: int) -> None:
-        if product_id in self._items:
-            del self._items[product_id]
-
-    def clear(self) -> None:
-        self._items.clear()
-
-    def __iter__(self) -> Iterator[CartItemTypedDict]:
-        return iter(self._items.values())
-
-    def __len__(self) -> int:
-        return sum(item["quantity"] for item in self._items.values())
-
-    def get_total_price(self) -> Decimal:
-        return sum(item["total_price"] for item in self._items.values())
-
-    def get_item(self, product_id: int) -> CartItemTypedDict | None:
-        return self._items.get(product_id)
 
 
 @pytest.fixture
-def mock_cart() -> MockCart:
-    """Create a mock cart implementation for testing interfaces.
-
-    Returns:
-        MockCart: A mock implementation of ICart
-    """
-    return MockCart()
-
-
-@pytest.fixture
-def sample_cart_item() -> CartItemTypedDict:
-    """Create a sample cart item for testing.
-
-    Returns:
-        CartItemTypedDict: A sample cart item
-    """
-    return {
-        "product": {"id": 1, "name": "Test Product", "price": Decimal("100.00")},
-        "quantity": 2,
-        "price": Decimal("100.00"),
-        "total_price": Decimal("200.00"),
-    }
-
-
-@pytest.fixture
-def mock_request() -> HttpRequest:
+def mock_request(mocker) -> HttpRequest:
     """Create a mock request for testing.
 
     Returns:
         HttpRequest: A mock request object
     """
-    request = MagicMock(spec=HttpRequest)
+    request = mocker.Mock(spec=HttpRequest)
     request.session = {}
     return request
 
 
 @pytest.fixture
-def mock_cart_factory() -> None:
-    """Patch CartFactory.create_from_request to return a mock cart."""
-    with patch.object(CartFactory, "create_from_request") as mock:
-        mock.return_value = MagicMock()
-        yield mock
+def mock_cart_factory(mocker) -> None:
+    """Patch CartFactory.create_from_session to return a mock cart."""
+    mock = mocker.patch.object(CartFactory, "create_from_session")
+    mock.return_value = mocker.Mock()
+    return mock
 
 
 @pytest.fixture
-def mock_session() -> MagicMock:
+def mock_session(mocker):
     """Create a mock session for testing.
 
     Returns:
-        MagicMock: A mock session instance
+        Mock: A mock session instance
     """
-    session = MagicMock()
+    session = mocker.Mock()
     session.get.return_value = {}
     session.modified = False
+    # Configure session to support item assignment like a dict
+    session.__setitem__ = mocker.Mock()
+    session.__delitem__ = mocker.Mock()
+    session.__contains__ = mocker.Mock(return_value=True)
+    # Make session behave like a dict for item access
+    session.__getitem__ = mocker.Mock(return_value={})
     return session
 
 
 @pytest.fixture
-def mock_storage_class() -> None:
+def mock_storage_class(mocker) -> None:
     """Patch SessionCartStorage to return a mock instance."""
-    with patch("cart.factory.SessionCartStorage") as mock:
-        mock.return_value = MagicMock(spec=SessionCartStorage)
-        yield mock
+    mock = mocker.patch("cart.factory.SessionCartStorage")
+    mock.return_value = mocker.Mock(spec=SessionCartStorage)
+    return mock
 
 
 @pytest.fixture
-def mock_product_service_class() -> None:
+def mock_product_service_class(mocker) -> None:
     """Patch CartProductService to return a mock instance."""
-    with patch("cart.factory.CartProductService") as mock:
-        mock.return_value = MagicMock(spec=CartProductService)
-        yield mock
+    mock = mocker.patch("cart.factory.CartProductService")
+    mock.return_value = mocker.Mock(spec=CartProductService)
+    return mock
 
 
 @pytest.fixture
-def mock_cart_class() -> None:
+def mock_cart_class(mocker) -> None:
     """Patch Cart to return a mock instance."""
-    with patch("cart.factory.Cart") as mock:
-        mock.return_value = MagicMock(spec=Cart)
-        yield mock
+    mock = mocker.patch("cart.factory.Cart")
+    mock.return_value = mocker.Mock(spec=Cart)
+    return mock
 
 
 @pytest.fixture
-def mock_product() -> MagicMock:
+def mock_product(mocker):
     """Create a mock product for testing.
 
     Returns:
-        MagicMock: A mock product instance
+        Mock: A mock product instance
     """
-    product = MagicMock(spec=Product)
+    product = mocker.Mock(spec=Product)
     product.id = 1
     product.name = "Test Product"
     product.price = Decimal("100.00")
@@ -580,22 +531,22 @@ def mock_product() -> MagicMock:
 
 
 @pytest.fixture
-def mock_product_queryset() -> MagicMock:
+def mock_product_queryset(mocker):
     """Create a mock product queryset for testing.
 
     Returns:
-        MagicMock: A mock queryset instance
+        Mock: A mock queryset instance
     """
-    queryset = MagicMock()
+    queryset = mocker.Mock()
     queryset.filter.return_value = queryset
     return queryset
 
 
 @pytest.fixture
-def mock_product_model() -> None:
+def mock_product_model(mocker) -> None:
     """Patch Product model for testing."""
-    with patch("cart.product_service.Product") as mock:
-        yield mock
+    mock = mocker.patch("cart.product_service.Product")
+    return mock
 
 
 @pytest.fixture
@@ -617,101 +568,13 @@ def sample_cart_data() -> dict[str, dict]:
     }
 
 
-@pytest.fixture
-def mock_cart_detail_view() -> None:
-    """Patch CartDetailView for testing."""
-    with patch("cart.views.CartDetailView") as mock:
-        yield mock
 
 
-@pytest.fixture
-def mock_cart_add_view() -> None:
-    """Patch CartAddView for testing."""
-    with patch("cart.views.CartAddView") as mock:
-        yield mock
 
 
-@pytest.fixture
-def mock_cart_update_view() -> None:
-    """Patch CartUpdateView for testing."""
-    with patch("cart.views.CartUpdateView") as mock:
-        yield mock
 
 
-@pytest.fixture
-def mock_cart_remove_view() -> None:
-    """Patch CartRemoveView for testing."""
-    with patch("cart.views.CartRemoveView") as mock:
-        yield mock
 
-
-@pytest.fixture
-def mock_cart_clear_view() -> None:
-    """Patch CartClearView for testing."""
-    with patch("cart.views.CartClearView") as mock:
-        yield mock
-
-
-@pytest.fixture
-def mock_render() -> None:
-    """Patch render function for testing."""
-    with patch("cart.views.render") as mock:
-        yield mock
-
-
-@pytest.fixture
-def mock_redirect() -> None:
-    """Patch redirect function for testing."""
-    with patch("cart.views.redirect") as mock:
-        yield mock
-
-
-@pytest.fixture
-def mock_get_object_or_404() -> None:
-    """Patch get_object_or_404 function for testing."""
-    with patch("cart.views.get_object_or_404") as mock:
-        yield mock
-
-
-@pytest.fixture
-def order_form_data() -> dict[str, str]:
-    """Create sample order form data
-    
-    Returns:
-        dict: Sample order form data with valid values
-    """
-    return {
-        'phone': '+79001234567',
-        'delivery_address': '123 Main Street, Apt 4B, City, 123456'
-    }
-
-
-@pytest.fixture
-def invalid_order_form_data() -> dict[str, str]:
-    """Create invalid order form data
-    
-    Returns:
-        dict: Sample order form data with invalid values
-    """
-    return {
-        'phone': '123',  # Invalid phone format
-        'delivery_address': 'Short'  # Too short address
-    }
-
-
-@pytest.fixture
-def mock_order_form(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Mock OrderCreateForm for testing
-    
-    Args:
-        monkeypatch: pytest monkeypatch fixture
-    """
-    from order.forms import OrderCreateForm
-    
-    def mock_clean(self):
-        return self.cleaned_data
-    
-    monkeypatch.setattr(OrderCreateForm, 'clean', mock_clean)
 
 
 @pytest.fixture
@@ -733,103 +596,209 @@ def order_item_data() -> dict[str, str | int | Decimal]:
     }
 
 
+
+
+
+
+
+
+@pytest.fixture(autouse=True)
+def patch_product_get(mocker):
+    mock_get = mocker.patch("catalog.models.Product.objects.get")
+    def fake_get(id):
+        product = mocker.Mock()
+        product.id = id
+        product.price = Decimal("100.00") if id == 1 else Decimal("200.00")
+        return product
+    mock_get.side_effect = fake_get
+    return mock_get
+
+# test_promo fixtures
+
 @pytest.fixture
-def order_data(test_user: User, order_item_data: dict[str, str | int | Decimal]) -> dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]:
-    """Create sample order data for testing.
+def mock_promo_request():
+    """Fixture for mocking HTTP request with session"""
+    class MockRequest:
+        def __init__(self):
+            self.session = {}
+    return MockRequest()
+
+@pytest.fixture
+def mock_promo_cart(mocker):
+    """Fixture for mocking cart with default values using pytest-mock"""
+    cart = mocker.Mock()
+    cart.get_total_price.return_value = 800  # Discounted price
+    cart.get_cart_total.return_value = 1000   # Regular price
+    mocker.patch('cart.factory.CartFactory.create_from_session', return_value=cart)
+    return cart
+
+@pytest.fixture
+def valid_promo(mocker):
+    """Fixture for mocking active promo code"""
+    promo = mocker.Mock()
+    promo.name = "TEST10"
+    mocker.patch('promo.models.Promo.objects.get', return_value=promo)
+    return promo
+
+@pytest.fixture
+def invalid_promo(mocker):
+    """Fixture for mocking non-existent promo code"""
+    mocker.patch('promo.models.Promo.objects.get', side_effect=Promo.DoesNotExist)
+    return None
+
+@pytest.fixture
+def active_promo():
+    """Active Promo fixture"""
+    from promo.models import Promo, PromoTypeEnum
+    from datetime import timedelta
+    from django.utils import timezone
     
-    Args:
-        test_user: Test user fixture
-        order_item_data: Order item data fixture
-        
-    Returns:
-        dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]: Sample order data with:
-            - order_id: int
-            - user_email: str
-            - delivery_address: str
-            - phone: str
-            - total_price: Decimal
-            - time_created: str
-            - items: list[dict[str, str | int | Decimal]]
-    """
+    now = timezone.now()
+    return Promo.objects.create(
+        id=1,
+        name="ACTIVE1",
+        promo_type=PromoTypeEnum.TOTAL_CART.value,
+        description="Test description",
+        is_active=True,
+        date_start=now - timedelta(days=10),
+        date_end=now + timedelta(days=10),
+        min_cart_total=Decimal('100.00'),
+        discount=Decimal('10.00')
+    )
+
+@pytest.fixture
+def inactive_promo():
+    """Inactive Promo fixture"""
+    from promo.models import Promo, PromoTypeEnum
+    from datetime import timedelta
+    from django.utils import timezone
+    
+    now = timezone.now()
+    return Promo.objects.create(
+        id=2,
+        name="INACTIVE1",
+        promo_type=PromoTypeEnum.FREE_PRODUCT.value,
+        description="Test description",
+        is_active=False,
+        date_start=now - timedelta(days=10),
+        date_end=now - timedelta(days=5),
+        min_cart_total=Decimal('50.00'),
+        discount=Decimal('5.00')
+    )
+
+# Удалить фикстуру promo_type полностью
+
+@pytest.fixture
+def promo_form_data(active_promo):
+    """Valid form data"""
+    return {'active_promos': active_promo.id}
+
+
+@pytest.fixture
+def base_promo_mock(mocker):
+    """Fixture using pytest-mock"""
+    # Create mock using pytest-mock
+    mock_promo = mocker.Mock(
+        spec=BasePromo,
+        # Set return values for abstract methods
+        apply_promo=Decimal('100'),
+        valid_cart=True
+    )
+
+    # For non-functional methods use original implementation
+    mock_promo.is_valid_period = mocker.Mock(side_effect=BasePromo.is_valid_period)
+    mock_promo.is_valid_id = mocker.Mock(side_effect=BasePromo.is_valid_id)
+    mock_promo.valid_promo = mocker.Mock(side_effect=BasePromo.valid_promo)
+
+    return mock_promo
+
+# Добавляем новые фикстуры для order после существующих order фикстур
+@pytest.fixture
+def mock_cart_for_order(mocker):
+    """Create a mock cart for order testing."""
+    cart = mocker.Mock()
+    # Configure the mock to support iteration
+    cart_items = [
+        {
+            'product': mocker.Mock(id=1, name='Test Product', price=Decimal('100.00')),
+            'quantity': 2,
+            'price': Decimal('100.00'),
+            'total_price': Decimal('200.00')
+        }
+    ]
+    cart.__iter__ = mocker.Mock(return_value=iter(cart_items))
+    cart.get_total_price.return_value = Decimal('200.00')
+    cart.clear = mocker.Mock()
+    return cart
+
+@pytest.fixture
+def mock_form_data():
+    """Create mock form data for order testing."""
     return {
-        'order_id': 1,
-        'user_email': test_user.email,
-        'delivery_address': '123 Main Street',
-        'phone': '+79001234567',
-        'total_price': Decimal('200.00'),
-        'time_created': '2024-03-20 12:00:00',
-        'items': [order_item_data]
+        'delivery_address': '123 Main Street, Apt 4B',
+        'phone': '+79001234567'
     }
 
+@pytest.fixture
+def mock_applied_promo_id():
+    """Create mock applied promo ID for order testing."""
+    return 1
 
 @pytest.fixture
-def mock_order_service(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Mock OrderService for testing.
-    
-    Args:
-        monkeypatch: pytest monkeypatch fixture
-    """
+def mock_promo_context():
+    """Create mock promo context for order testing."""
+    return {
+        'applied_promo_name': 'TEST10',
+        'applied_promo_status': True
+    }
+
+# Обновляем существующие фикстуры
+@pytest.fixture
+def mock_order_service(mocker):
+    """Mock OrderService for testing with new signature."""
     from order.services import OrderService
     
-    def mock_create_order(self, user: User, items: list[dict[str, str | int | Decimal]], total_price: Decimal, delivery_address: str, phone: str) -> dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]:
-        """Mock implementation of create_order.
-        
-        Args:
-            user: User creating the order
-            items: List of items in the order
-            total_price: Total price of the order
-            delivery_address: Delivery address
-            phone: Customer phone number
-            
-        Returns:
-            dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]: Mock order data
-        """
+    def mock_create_order(self, user, cart, form_data, applied_promo_id):
+        """Mock implementation of create_order with new signature."""
         return {
             'order_id': 1,
             'user_email': user.email,
-            'delivery_address': delivery_address,
-            'phone': phone,
-            'total_price': total_price,
+            'delivery_address': form_data['delivery_address'],
+            'phone': form_data['phone'],
+            'total_price': Decimal('200.00'),
             'time_created': '2024-03-20 12:00:00',
-            'items': items
+            'items': [
+                {
+                    'product_id': 1,
+                    'product_name': 'Test Product',
+                    'quantity': 2,
+                    'price': Decimal('100.00')
+                }
+            ],
+            'applied_promo_name': 'TEST10',
+            'applied_promo_status': True
         }
     
-    monkeypatch.setattr(OrderService, 'create_order', mock_create_order)
-
+    mocker.patch.object(OrderService, 'create_order', mock_create_order)
 
 @pytest.fixture
-def mock_order_notification(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Mock OrderNotification for testing
-    
-    Args:
-        monkeypatch: pytest monkeypatch fixture
-    """
+def mock_order_notification(mocker):
+    """Mock OrderNotification for testing with new signature."""
     from order.services import EmailOrderNotification
     
-    def mock_send_notification(self, order):
+    def mock_send_notification(self, order_id):
+        """Mock implementation with new signature."""
         pass
     
-    monkeypatch.setattr(EmailOrderNotification, 'send_order_notification', mock_send_notification)
-
+    mocker.patch.object(EmailOrderNotification, 'send_order_notification', mock_send_notification)
 
 @pytest.fixture
-def mock_order_repository(monkeypatch: pytest.MonkeyPatch) -> None:
-    """Mock OrderRepository for testing.
-    
-    Args:
-        monkeypatch: pytest monkeypatch fixture
-    """
+def mock_order_repository(mocker):
+    """Mock OrderRepository for testing with new signature."""
     from order.services import DatabaseOrderRepository
     
-    def mock_save_order(self, order_data: dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]) -> dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]:
-        """Mock implementation of save_order.
-        
-        Args:
-            order_data: Order data to save
-            
-        Returns:
-            dict[str, str | int | Decimal | list[dict[str, str | int | Decimal]]]: Saved order data
-        """
+    def mock_save_order(self, order_data):
+        """Mock implementation of save_order with new signature."""
         # Add order_id if not present
         if 'order_id' not in order_data:
             order_data = order_data.copy()
@@ -840,4 +809,21 @@ def mock_order_repository(monkeypatch: pytest.MonkeyPatch) -> None:
             order_data['time_created'] = '2024-03-20 12:00:00'
         return order_data
     
-    monkeypatch.setattr(DatabaseOrderRepository, 'save_order', mock_save_order)
+    mocker.patch.object(DatabaseOrderRepository, 'save_order', mock_save_order)
+
+
+@pytest.fixture
+def mock_render(mocker):
+    """Mock render function for cart view testing."""
+    return mocker.patch('cart.views.render')
+
+@pytest.fixture
+def mock_get_object_or_404(mocker):
+    """Mock get_object_or_404 function for cart view testing."""
+    return mocker.patch('cart.views.get_object_or_404')
+
+@pytest.fixture
+def mock_redirect(mocker):
+    """Mock redirect function for cart view testing."""
+    return mocker.patch('cart.views.redirect')
+

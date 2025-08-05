@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import builtins
 
-from django_filters import FilterSet, filters
-
 from catalog.models import Product, ProductManufacture, ProductRegion, ProductSort, ProductType
+from django_filters import FilterSet, filters
 
 
 class ProductFilter(FilterSet):
