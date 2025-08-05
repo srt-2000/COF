@@ -1,26 +1,16 @@
-"""Tests for cart views.
-
-This module contains tests for cart views including:
-- Tests for cart detail view
-- Tests for cart add/update/remove/clear views
-- Tests for view responses and redirects
 """
+Tests for cart views.
+"""
+
 from __future__ import annotations
 
-from typing import TypedDict
-from unittest.mock import MagicMock, patch
-
 import pytest
+from django.http import HttpRequest
+from django.test import Client
+
 from cart.factory import CartFactory
-from cart.views import (
-    CartAddView,
-    CartClearView,
-    CartDetailView,
-    CartRemoveView,
-    CartUpdateView,
-)
+from cart.views import CartAddView, CartClearView, CartDetailView, CartRemoveView, CartUpdateView
 from catalog.models import Product
-from django.http import HttpRequest, HttpResponse
 
 
 class TestCartDetailView:
@@ -30,9 +20,9 @@ class TestCartDetailView:
         self,
         mock_request: HttpRequest,
         mock_cart_factory: None,
-        mock_render: MagicMock,
+        mock_render,
     ) -> None:
-        """Test GET request to cart detail view.
+        """Test GET request for cart details.
 
         Args:
             mock_request: Mocked HTTP request
@@ -42,10 +32,11 @@ class TestCartDetailView:
         view = CartDetailView()
         response = view.get(mock_request)
 
-        CartFactory.create_from_request.assert_called_once_with(mock_request)
-        mock_render.assert_called_once_with(
-            mock_request, "cart_detail.html", {"cart": CartFactory.create_from_request.return_value}
-        )
+        mock_render.assert_called_once()
+        args, kwargs = mock_render.call_args
+        assert args[0] == mock_request
+        assert args[1] == "cart_detail.html"
+        assert "promo_form" in args[2]
         assert response == mock_render.return_value
 
 
@@ -64,8 +55,8 @@ class TestCartAddView:
         self,
         mock_request: HttpRequest,
         mock_cart_factory: None,
-        mock_get_object_or_404: MagicMock,
-        mock_redirect: MagicMock,
+        mock_get_object_or_404,
+        mock_redirect,
         product_object_tea: Product,
         quantity: int,
         override_quantity: bool,
@@ -89,10 +80,10 @@ class TestCartAddView:
         view = CartAddView()
         response = view.post(mock_request, product_object_tea.id)
 
-        CartFactory.create_from_request.assert_called_once_with(mock_request)
+        CartFactory.create_from_session.assert_called_once_with(mock_request.session)
         mock_get_object_or_404.assert_called_once_with(Product, id=product_object_tea.id)
 
-        cart = CartFactory.create_from_request.return_value
+        cart = CartFactory.create_from_session.return_value
         cart.add.assert_called_once_with(product_object_tea.id, quantity)
 
         mock_redirect.assert_called_once_with("/test/")
@@ -110,8 +101,8 @@ class TestCartUpdateView:
         self,
         mock_request: HttpRequest,
         mock_cart_factory: None,
-        mock_get_object_or_404: MagicMock,
-        mock_redirect: MagicMock,
+        mock_get_object_or_404,
+        mock_redirect,
         product_object_tea: Product,
         quantity: int,
     ) -> None:
@@ -131,10 +122,10 @@ class TestCartUpdateView:
         view = CartUpdateView()
         response = view.post(mock_request, product_object_tea.id)
 
-        CartFactory.create_from_request.assert_called_once_with(mock_request)
+        CartFactory.create_from_session.assert_called_once_with(mock_request.session)
         mock_get_object_or_404.assert_called_once_with(Product, id=product_object_tea.id)
 
-        cart = CartFactory.create_from_request.return_value
+        cart = CartFactory.create_from_session.return_value
         cart.add.assert_called_once_with(product_object_tea.id, quantity, override_quantity=True)
 
         mock_redirect.assert_called_once_with("cart_detail")
@@ -148,8 +139,8 @@ class TestCartRemoveView:
         self,
         mock_request: HttpRequest,
         mock_cart_factory: None,
-        mock_get_object_or_404: MagicMock,
-        mock_redirect: MagicMock,
+        mock_get_object_or_404,
+        mock_redirect,
         product_object_tea: Product,
     ) -> None:
         """Test POST request to remove product from cart.
@@ -166,10 +157,10 @@ class TestCartRemoveView:
         view = CartRemoveView()
         response = view.post(mock_request, product_object_tea.id)
 
-        CartFactory.create_from_request.assert_called_once_with(mock_request)
+        CartFactory.create_from_session.assert_called_once_with(mock_request.session)
         mock_get_object_or_404.assert_called_once_with(Product, id=product_object_tea.id)
 
-        cart = CartFactory.create_from_request.return_value
+        cart = CartFactory.create_from_session.return_value
         cart.remove.assert_called_once_with(product_object_tea.id)
 
         mock_redirect.assert_called_once_with("cart_detail")
@@ -183,7 +174,7 @@ class TestCartClearView:
         self,
         mock_request: HttpRequest,
         mock_cart_factory: None,
-        mock_redirect: MagicMock,
+        mock_redirect,
     ) -> None:
         """Test POST request to clear cart.
 
@@ -195,9 +186,9 @@ class TestCartClearView:
         view = CartClearView()
         response = view.post(mock_request)
 
-        CartFactory.create_from_request.assert_called_once_with(mock_request)
+        CartFactory.create_from_session.assert_called_once_with(mock_request.session)
 
-        cart = CartFactory.create_from_request.return_value
+        cart = CartFactory.create_from_session.return_value
         cart.clear.assert_called_once()
 
         mock_redirect.assert_called_once_with("cart_detail")

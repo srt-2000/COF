@@ -1,50 +1,27 @@
 """
-Interface for a shopping cart.
-
-Defines the required methods for any cart implementation, including
-adding, removing, clearing items, iterating over cart contents,
-getting the total price, and retrieving a specific item.
+Interfaces for the shopping cart and related services.
 """
 
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from collections.abc import Iterator
+from collections.abc import Generator
 from decimal import Decimal
-from typing import Optional, TypedDict
+from typing import Optional
 
+from cart.domains import CartData, CartItemServiceData
 from catalog.models import Product
-
-
-class CartItemTypedDict(TypedDict):
-    product: object
-    quantity: int
-    price: Decimal
-    total_price: Decimal
-
-
-class CartDataTypedDict(TypedDict):
-    quantity: int
-    price: float | None
-
-
-class CartItemServiceTypedDict(TypedDict):
-    product: Product
-    quantity: int
-    price: Decimal
-    total_price: Decimal
 
 
 class ICart(ABC):
     """
-    Abstract base class for a shopping cart.
+    Abstract base class for a shopping cart implementation.
     """
 
     @abstractmethod
     def add(self, product_id: int, quantity: int = 1, override_quantity: bool = False) -> None:
         """
         Add a product to the cart or update its quantity.
-
         Args:
             product_id (int): The ID of the product to add.
             quantity (int, optional): The quantity to add. Defaults to 1.
@@ -56,7 +33,6 @@ class ICart(ABC):
     def remove(self, product_id: int) -> None:
         """
         Remove a product from the cart.
-
         Args:
             product_id (int): The ID of the product to remove.
         """
@@ -70,12 +46,11 @@ class ICart(ABC):
         pass
 
     @abstractmethod
-    def __iter__(self) -> Iterator[CartItemTypedDict]:
+    def __iter__(self) -> Generator[CartItemServiceData, None, None]:
         """
         Iterate over items in the cart.
-
         Returns:
-            Iterator[CartItemTypedDict]: An iterator over cart items.
+            Generator[CartItemServiceData, None, None]: An iterator over cart items.
         """
         pass
 
@@ -83,108 +58,117 @@ class ICart(ABC):
     def __len__(self) -> int:
         """
         Get the total number of items in the cart.
-
         Returns:
             int: The total quantity of all items.
         """
         pass
 
     @abstractmethod
-    def get_total_price(self) -> Decimal:
+    def get_cart_total(self) -> Decimal:
         """
-        Calculate the total price of all items in the cart.
-
+        Get the total price of all items in the cart (without PROMO).
         Returns:
             Decimal: The total price.
         """
         pass
 
     @abstractmethod
-    def get_item(self, product_id: int) -> CartItemTypedDict | None:
+    def get_total_price(self, promo_id: int | None = None) -> Decimal:
+        """
+        Calculate the total price of all items in the cart with applying PROMO.
+        Returns:
+            Decimal: The total price.
+        """
+        pass
+
+    @abstractmethod
+    def get_discount_sum(self, promo_id: int | None = None) -> Decimal:
+        """
+        Calculate the discount sum.
+        Returns:
+            Decimal: The discount sum.
+        """
+        pass
+
+    @abstractmethod
+    def get_item(self, product_id: int) -> CartItemServiceData | None:
         """
         Retrieve a specific item from the cart.
-
         Args:
             product_id (int): The ID of the product.
-
         Returns:
-            Optional[CartItemTypedDict]: The cart item if found, else None.
+            Optional[CartItemServiceData]: The cart item if found, else None.
         """
         pass
 
 
 class IStorage(ABC):
-    """Abstract base class for cart storage implementations.
-
-    This interface defines methods for persisting cart data between requests.
-    Implementations can use different storage backends (session, database, etc).
+    """
+    Abstract base class for cart storage implementations.
     """
 
     @abstractmethod
-    def load(self) -> dict[str, CartDataTypedDict]:
-        """Load cart data from storage.
-
+    def load(self) -> dict[str, CartData]:
+        """
+        Load cart data from storage.
         Returns:
-            dict[str, CartDataTypedDict]: Dictionary mapping product IDs to cart data.
+            dict[str, CartData]: Dictionary mapping product IDs to cart data.
         """
         pass
 
     @abstractmethod
-    def save(self, cart_data: dict[str, CartDataTypedDict]) -> None:
-        """Save cart data to storage.
-
+    def save(self, cart_data: dict[str, CartData]) -> None:
+        """
+        Save cart data to storage.
         Args:
-            cart_data (dict[str, CartDataTypedDict]): Dictionary mapping product IDs to cart data.
+            cart_data (dict[str, CartData]): Dictionary mapping product IDs to cart data.
         """
         pass
 
     @abstractmethod
     def clear(self) -> None:
-        """Remove all cart data from storage."""
+        """
+        Remove all cart data from storage.
+        """
         pass
 
 
 class ICartProductService(ABC):
-    """Abstract base class for cart product service implementations.
-
-    This interface defines methods for retrieving product information
-    and preparing cart items with proper pricing calculations.
+    """
+    Abstract base class for cart product service implementations.
     """
 
     @abstractmethod
     def get_products(self, product_ids: list[int]) -> dict[int, Product]:
-        """Retrieve products by their IDs.
-
+        """
+        Retrieve products by their IDs.
         Args:
             product_ids (list[int]): List of product IDs to retrieve.
-
         Returns:
             dict[int, Product]: Dictionary mapping product IDs to Product instances.
         """
         pass
 
     @abstractmethod
-    def calculate_item_total(self, price: Decimal, quantity: int) -> Decimal:
-        """Calculate total price for a cart item.
-
+    def calculate_item_total(self, price: float, quantity: int) -> float:
+        """
+        Calculate total price for a cart item.
         Args:
-            price (Decimal): Unit price of the product.
+            price (float): Unit price of the product.
             quantity (int): Quantity of the product.
-
         Returns:
-            Decimal: Total price (price * quantity).
+            float: Total price (price * quantity).
         """
         pass
 
     @abstractmethod
-    def prepare_item(self, product: Product, quantity: int) -> CartItemServiceTypedDict:
-        """Prepare a cart item from a product.
-
+    def prepare_item(self, product: Product, quantity: int) -> CartItemServiceData:
+        """
+        Prepare a cart item from a product.
         Args:
             product (Product): Product instance.
             quantity (int): Quantity of the product.
-
         Returns:
-            CartItemServiceTypedDict: Dictionary containing product info and calculated prices.
+            CartItemServiceData: Dictionary containing product info and calculated prices.
         """
         pass

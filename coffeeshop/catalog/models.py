@@ -54,7 +54,12 @@ class Product(models.Model):
         "ProductRegion", on_delete=models.SET_NULL, default=None, blank=True, null=True, related_name="regions"
     )
     manufacture = models.ForeignKey(
-        "ProductManufacture", on_delete=models.SET_NULL, default=None, blank=True, null=True, related_name="manufacturers"
+        "ProductManufacture",
+        on_delete=models.SET_NULL,
+        default=None,
+        blank=True,
+        null=True,
+        related_name="manufacturers",
     )
 
     class Meta:
@@ -63,7 +68,7 @@ class Product(models.Model):
         ordering = ("name",)
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
 
 class ProductCategory(models.Model):
@@ -93,7 +98,7 @@ class ProductCategory(models.Model):
         verbose_name_plural = "Product categories"
 
     def __str__(self) -> str:
-        return self.name
+        return str(self.name)
 
 
 class AuxFieldModel(models.Model):
@@ -101,14 +106,15 @@ class AuxFieldModel(models.Model):
 
     Contains common fields for auxiliary models like Sort, Type, Region, Manufacture.
     """
+
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255, unique=True)
 
     class Meta:
         abstract = True
 
-    def __str__(self):
-        return self.name
+    def __str__(self) -> str:
+        return str(self.name)
 
 
 class ProductSort(AuxFieldModel):

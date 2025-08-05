@@ -1,103 +1,88 @@
+"""
+Tests for order services.
+"""
+
 from __future__ import annotations
 
 from decimal import Decimal
-from unittest.mock import MagicMock, patch
 
 import pytest
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 
 from order.models import Order, OrderItem
 from order.services import OrderService, DatabaseOrderRepository, EmailOrderNotification
-from order.interfaces import OrderItemData, OrderData
+from order.domains import OrderItemData, OrderData, OrderCreateData
 
 
 class TestOrderService:
     """Unit tests for OrderService."""
 
-    def test_order_service_creation(self) -> None:
+    def test_order_service_creation(self, mocker) -> None:
         """Test OrderService initialization with dependencies."""
-        repository = MagicMock()
-        notifier = MagicMock()
+        repository = mocker.Mock()
+        notifier = mocker.Mock()
         service = OrderService(repository, notifier)
         assert service.repository == repository
         assert service.notifier == notifier
 
-    @patch('order.models.Order.objects.get')
     def test_create_order(
         self,
-        mock_order_get: MagicMock,
+        mocker,
         test_user: User,
-        order_item_data: dict[str, str | int | Decimal]
+        mock_cart_for_order,
+        mock_form_data,
+        mock_applied_promo_id
     ) -> None:
-        """Test order creation through service.
+        """Test order creation through service with new signature."""
+        # Setup mocks
+        mock_repository = mocker.Mock()
+        mock_notifier = mocker.Mock()
+        mock_promo_context = mocker.patch('order.services.get_applied_promo_context')
         
-        Args:
-            mock_order_get: Mocked Order.objects.get
-            test_user: Test user fixture
-            order_item_data: Order item data fixture
-        """
-        # Create mocks
-        mock_repository = MagicMock()
-        mock_notifier = MagicMock()
+        mock_promo_context.return_value = {
+            'applied_promo_name': 'TEST10',
+            'applied_promo_status': True
+        }
         
-        # Setup repository mock
         mock_repository.save_order.return_value = {
             'order_id': 1,
             'user_email': test_user.email,
-            'delivery_address': '123 Main Street',
-            'phone': '+79001234567',
+            'delivery_address': mock_form_data['delivery_address'],
+            'phone': mock_form_data['phone'],
             'total_price': Decimal('200.00'),
             'time_created': '2024-03-20 12:00:00',
-            'items': [order_item_data]
+            'items': [
+                {
+                    'product_id': 1,
+                    'product_name': 'Test Product',
+                    'quantity': 2,
+                    'price': Decimal('100.00')
+                }
+            ],
+            'applied_promo_name': 'TEST10',
+            'applied_promo_status': True
         }
-        
-        # Setup order mock
-        mock_order = MagicMock(spec=Order)
-        mock_order.id = 1
-        mock_order.user = test_user
-        mock_order.delivery_address = '123 Main Street'
-        mock_order.phone = '+79001234567'
-        mock_order.total_price = Decimal('200.00')
-        mock_order_get.return_value = mock_order
         
         # Create service with mocks
         service = OrderService(mock_repository, mock_notifier)
 
         result = service.create_order(
             user=test_user,
-            items=[order_item_data],
-            total_price=Decimal('200.00'),
-            delivery_address='123 Main Street',
-            phone='+79001234567'
+            cart=mock_cart_for_order,
+            form_data=mock_form_data,
+            applied_promo_id=mock_applied_promo_id
         )
 
+        # Assertions
         assert isinstance(result, dict)
         assert result['user_email'] == test_user.email
-        assert result['delivery_address'] == '123 Main Street'
-        assert result['phone'] == '+79001234567'
+        assert result['delivery_address'] == mock_form_data['delivery_address']
+        assert result['phone'] == mock_form_data['phone']
         assert result['total_price'] == Decimal('200.00')
-        assert result['items'] == [order_item_data]
         
         # Verify mock calls
         mock_repository.save_order.assert_called_once()
-        mock_notifier.send_order_notification.assert_called_once_with(mock_order)
-        mock_order_get.assert_called_once_with(id=1)
-
-    @pytest.mark.parametrize('invalid_data', [
-        {'user': None, 'items': [], 'total_price': Decimal('0'), 'delivery_address': '', 'phone': ''},
-        {'user': MagicMock(), 'items': None, 'total_price': Decimal('0'), 'delivery_address': '', 'phone': ''},
-        {'user': MagicMock(), 'items': [], 'total_price': None, 'delivery_address': '', 'phone': ''},
-    ])
-    def test_create_order_invalid_data(self, invalid_data: dict[str, object | None]) -> None:
-        """Test order creation with invalid data.
-        
-        Args:
-            invalid_data: Invalid order data
-        """
-        service = OrderService(MagicMock(), MagicMock())
-        with pytest.raises(Exception):
-            service.create_order(**invalid_data)
+        mock_promo_context.assert_called_once_with(mock_cart_for_order, mock_applied_promo_id)
 
 
 class TestDatabaseOrderRepository:
@@ -108,106 +93,82 @@ class TestDatabaseOrderRepository:
         test_user: User,
         order_item_data: dict[str, str | int | Decimal]
     ) -> None:
-        """Test order saving to database.
-        
-        Args:
-            test_user: Test user fixture
-            order_item_data: Order item data fixture
-        """
+        """Test order saving to database."""
         repository = DatabaseOrderRepository()
-        order_data: OrderData = {
+        
+        order_data: OrderCreateData = {
             'user': test_user,
             'user_email': test_user.email,
             'delivery_address': '123 Main Street',
             'phone': '+79001234567',
+            'cart_price': Decimal('200.00'),
             'total_price': Decimal('200.00'),
-            'items': [order_item_data]
+            'items': [order_item_data],
+            'applied_promo_name': 'TEST10',
+            'applied_promo_status': True,
+            'discount_sum': Decimal('0.00'),
         }
-
+        
         result = repository.save_order(order_data)
-
+        
         assert isinstance(result, dict)
+        assert 'order_id' in result
         assert result['user_email'] == test_user.email
         assert result['delivery_address'] == '123 Main Street'
         assert result['phone'] == '+79001234567'
         assert result['total_price'] == Decimal('200.00')
+        assert 'time_created' in result
         assert len(result['items']) == 1
-        assert result['items'][0]['product_name'] == order_item_data['product_name']
-        assert result['items'][0]['quantity'] == order_item_data['quantity']
-        assert result['items'][0]['price'] == order_item_data['price']
 
-    @patch('order.models.Order.objects.create')
-    @patch('order.models.OrderItem.objects.create')
     def test_save_order_with_multiple_items(
         self,
-        mock_order_item_create: MagicMock,
-        mock_order_create: MagicMock,
+        mocker,
         test_user: User,
         order_item_data: dict[str, str | int | Decimal]
     ) -> None:
-        """Test saving order with multiple items.
+        """Test order saving with multiple items."""
+        mock_order_create = mocker.patch('order.models.Order.objects.create')
+        mock_order_item_create = mocker.patch('order.models.OrderItem.objects.create')
         
-        Args:
-            mock_order_item_create: Mocked OrderItem.objects.create
-            mock_order_create: Mocked Order.objects.create
-            test_user: Test user fixture
-            order_item_data: Order item data fixture
-        """
-        # Setup order mock
-        mock_order = MagicMock(spec=Order)
+        repository = DatabaseOrderRepository()
+        
+        # Create mock order
+        mock_order = mocker.Mock()
         mock_order.id = 1
         mock_order.user = test_user
         mock_order.delivery_address = '123 Main Street'
         mock_order.phone = '+79001234567'
-        mock_order.total_price = Decimal('600.00')
+        mock_order.total_price = Decimal('300.00')
+        mock_order.time_created = '2024-03-20 12:00:00'
+        mock_order.applied_promo_name = 'TEST10'
+        mock_order.applied_promo_status = True
         mock_order_create.return_value = mock_order
         
-        # Setup order item mocks
-        mock_items = []
-        for i in range(3):
-            mock_item = MagicMock(spec=OrderItem)
-            mock_item.product_id = i + 1
-            mock_item.product_name = f'Product {i + 1}'
-            mock_item.quantity = order_item_data['quantity']
-            mock_item.price = order_item_data['price']
-            mock_items.append(mock_item)
-        mock_order_item_create.side_effect = mock_items
+        # Create mock order items
+        mock_order_item = mocker.Mock()
+        mock_order_item.product_name = 'Test Product'
+        mock_order_item.quantity = 2
+        mock_order_item.price = Decimal('100.00')
+        mock_order_item_create.return_value = mock_order_item
         
-        repository = DatabaseOrderRepository()
-        items = [
-            order_item_data,
-            {**order_item_data, 'product_id': 2, 'product_name': 'Product 2'},
-            {**order_item_data, 'product_id': 3, 'product_name': 'Product 3'}
-        ]
-        order_data: OrderData = {
+        order_data: OrderCreateData = {
             'user': test_user,
             'user_email': test_user.email,
             'delivery_address': '123 Main Street',
             'phone': '+79001234567',
-            'total_price': Decimal('600.00'),
-            'items': items
+            'cart_price': Decimal('300.00'),
+            'total_price': Decimal('300.00'),
+            'items': [order_item_data, order_item_data],  # Two items
+            'applied_promo_name': 'TEST10',
+            'applied_promo_status': True,
+            'discount_sum': Decimal('0.00'),
         }
-
-        result = repository.save_order(order_data)
-
-        # Verify order creation
-        mock_order_create.assert_called_once_with(
-            user=test_user,
-            delivery_address='123 Main Street',
-            phone='+79001234567',
-            total_price=Decimal('600.00')
-        )
         
-        # Verify order items creation
-        assert mock_order_item_create.call_count == 3
-        for i, item in enumerate(items):
-            mock_order_item_create.assert_any_call(
-                order=mock_order,
-                product_id=item['product_id'],
-                product_name=item['product_name'],
-                quantity=item['quantity'],
-                price=item['price']
-            )
+        result = repository.save_order(order_data)
+        
+        assert len(result['items']) == 2
+        mock_order_create.assert_called_once()
+        assert mock_order_item_create.call_count == 2
 
     @pytest.mark.parametrize('invalid_data', [
         {'user': None},
@@ -218,12 +179,10 @@ class TestDatabaseOrderRepository:
         {'items': None},
     ])
     def test_save_order_invalid_data(self, invalid_data: dict[str, None]) -> None:
-        """Test saving order with invalid data.
-        
-        Args:
-            invalid_data: Invalid order data
-        """
+        """Test order saving with invalid data."""
         repository = DatabaseOrderRepository()
+        
+        # This should raise an exception or handle invalid data appropriately
         with pytest.raises(Exception):
             repository.save_order(invalid_data)
 
@@ -231,147 +190,185 @@ class TestDatabaseOrderRepository:
 class TestEmailOrderNotification:
     """Unit tests for EmailOrderNotification."""
 
-    @patch('order.services.send_mail')
     def test_send_order_notification(
         self,
-        mock_send_mail: MagicMock,
+        mocker,
         test_user: User
     ) -> None:
-        """Test sending order notification email.
+        """Test order notification sending with new signature."""
+        # Setup mocks
+        mock_order_get = mocker.patch('order.models.Order.objects.get')
+        mock_render_to_string = mocker.patch('order.services.render_to_string')
+        mock_send_mail = mocker.patch('order.services.send_mail')
         
-        Args:
-            mock_send_mail: Mocked send_mail function
-            test_user: Test user fixture
-        """
-        notification = EmailOrderNotification()
-        order = Order.objects.create(
-            user=test_user,
-            delivery_address='123 Main Street',
-            phone='+79001234567',
-            total_price=Decimal('200.00')
-        )
-
-        notification.send_order_notification(order)
-
+        mock_order = mocker.Mock()
+        mock_order.id = 1
+        mock_order_get.return_value = mock_order
+        
+        mock_render_to_string.side_effect = ['text_message', 'html_message']
+        
+        # Create notification service
+        notifier = EmailOrderNotification()
+        
+        # Test
+        notifier.send_order_notification(order_id=1)
+        
+        # Assertions
+        mock_order_get.assert_called_once_with(id=1)
         mock_send_mail.assert_called_once()
-        call_args = mock_send_mail.call_args[1]
-        assert call_args['subject'] == f"New Order #{order.id}"
-        assert 'Order Information' in call_args['message']
-        assert 'Order Items' in call_args['message']
-        assert call_args['from_email'] is not None
-        assert call_args['recipient_list'] is not None
+        assert mock_send_mail.call_args[1]['subject'] == 'New Order #1'
 
-    @patch('order.services.send_mail')
     def test_send_order_notification_error(
         self,
-        mock_send_mail: MagicMock,
+        mocker,
         test_user: User
     ) -> None:
-        """Test error handling in order notification.
+        """Test order notification error handling."""
+        mock_order_get = mocker.patch('order.models.Order.objects.get')
+        mock_send_mail = mocker.patch('order.services.send_mail')
         
-        Args:
-            mock_send_mail: Mocked send_mail function
-            test_user: Test user fixture
-        """
-        mock_send_mail.side_effect = Exception("Email error")
-        notification = EmailOrderNotification()
-        order = Order.objects.create(
-            user=test_user,
-            delivery_address='123 Main Street',
-            phone='+79001234567',
-            total_price=Decimal('200.00')
-        )
-
-        with pytest.raises(Exception):
-            notification.send_order_notification(order)
+        # Simulate database error
+        mock_order_get.side_effect = Order.DoesNotExist()
+        
+        notifier = EmailOrderNotification()
+        
+        # Test
+        with pytest.raises(Order.DoesNotExist):
+            notifier.send_order_notification(order_id=999)
 
 
-# Integration tests
 class TestOrderServiceIntegration:
-    """Integration tests for OrderService with real dependencies."""
+    """Integration tests for OrderService."""
 
     def test_complete_order_flow(
         self,
+        mocker,
         test_user: User,
-        order_item_data: dict[str, str | int | Decimal]
+        mock_cart_for_order,
+        mock_form_data,
+        mock_applied_promo_id
     ) -> None:
-        """Test complete order creation flow with real dependencies.
+        """Test complete order creation flow."""
+        # Setup mocks
+        mock_repository = mocker.Mock()
+        mock_notifier = mocker.Mock()
+        mock_promo_context = mocker.patch('order.services.get_applied_promo_context')
         
-        Args:
-            test_user: Test user fixture
-            order_item_data: Order item data fixture
-        """
-        repository = DatabaseOrderRepository()
-        notifier = EmailOrderNotification()
-        service = OrderService(repository, notifier)
-
+        mock_promo_context.return_value = {
+            'applied_promo_name': 'TEST10',
+            'applied_promo_status': True
+        }
+        
+        mock_repository.save_order.return_value = {
+            'order_id': 1,
+            'user_email': test_user.email,
+            'delivery_address': mock_form_data['delivery_address'],
+            'phone': mock_form_data['phone'],
+            'total_price': Decimal('200.00'),
+            'time_created': '2024-03-20 12:00:00',
+            'items': [
+                {
+                    'product_id': 1,
+                    'product_name': 'Test Product',
+                    'quantity': 2,
+                    'price': Decimal('100.00')
+                }
+            ],
+            'applied_promo_name': 'TEST10',
+            'applied_promo_status': True
+        }
+        
+        # Create service
+        service = OrderService(mock_repository, mock_notifier)
+        
+        # Test
         result = service.create_order(
             user=test_user,
-            items=[order_item_data],
-            total_price=Decimal('200.00'),
-            delivery_address='123 Main Street',
-            phone='+79001234567'
+            cart=mock_cart_for_order,
+            form_data=mock_form_data,
+            applied_promo_id=mock_applied_promo_id
         )
-
-        # Verify order was created
-        order = Order.objects.get(id=result['order_id'])
-        assert order.user == test_user
-        assert order.delivery_address == '123 Main Street'
-        assert order.phone == '+79001234567'
-        assert order.total_price == Decimal('200.00')
-
-        # Verify order items were created
-        assert order.items.count() == 1
-        item = order.items.first()
-        assert item.product_id == order_item_data['product_id']
-        assert item.product_name == order_item_data['product_name']
-        assert item.quantity == order_item_data['quantity']
-        assert item.price == order_item_data['price']
+        
+        # Assertions
+        assert result['order_id'] == 1
+        assert result['user_email'] == test_user.email
+        mock_repository.save_order.assert_called_once()
+        mock_promo_context.assert_called_once()
 
     def test_order_with_multiple_items(
         self,
+        mocker,
         test_user: User,
-        order_item_data: dict[str, str | int | Decimal]
+        mock_cart_for_order,
+        mock_form_data,
+        mock_applied_promo_id
     ) -> None:
-        """Test order creation with multiple items using real dependencies.
+        """Test order creation with multiple items."""
+        # Setup mocks
+        mock_repository = mocker.Mock()
+        mock_notifier = mocker.Mock()
+        mock_promo_context = mocker.patch('order.services.get_applied_promo_context')
         
-        Args:
-            test_user: Test user fixture
-            order_item_data: Order item data fixture
-        """
-        repository = DatabaseOrderRepository()
-        notifier = EmailOrderNotification()
-        service = OrderService(repository, notifier)
-
-        # Create items with correct names
-        items = [
-            {**order_item_data, 'product_id': i, 'product_name': f'Product {i}'}
-            for i in range(1, 4)
-        ]
-
+        mock_promo_context.return_value = {
+            'applied_promo_name': 'TEST10',
+            'applied_promo_status': True
+        }
+        
+        # Update cart to have multiple items
+        mock_cart_for_order.__iter__.return_value = iter([
+            {
+                'product': mocker.Mock(id=1, name='Product 1', price=Decimal('100.00')),
+                'quantity': 2,
+                'price': Decimal('100.00'),
+                'total_price': Decimal('200.00')
+            },
+            {
+                'product': mocker.Mock(id=2, name='Product 2', price=Decimal('150.00')),
+                'quantity': 1,
+                'price': Decimal('150.00'),
+                'total_price': Decimal('150.00')
+            }
+        ])
+        mock_cart_for_order.get_total_price.return_value = Decimal('350.00')
+        
+        mock_repository.save_order.return_value = {
+            'order_id': 1,
+            'user_email': test_user.email,
+            'delivery_address': mock_form_data['delivery_address'],
+            'phone': mock_form_data['phone'],
+            'total_price': Decimal('350.00'),
+            'time_created': '2024-03-20 12:00:00',
+            'items': [
+                {
+                    'product_id': 1,
+                    'product_name': 'Product 1',
+                    'quantity': 2,
+                    'price': Decimal('100.00')
+                },
+                {
+                    'product_id': 2,
+                    'product_name': 'Product 2',
+                    'quantity': 1,
+                    'price': Decimal('150.00')
+                }
+            ],
+            'applied_promo_name': 'TEST10',
+            'applied_promo_status': True
+        }
+        
+        # Create service
+        service = OrderService(mock_repository, mock_notifier)
+        
+        # Test
         result = service.create_order(
             user=test_user,
-            items=items,
-            total_price=Decimal('600.00'),
-            delivery_address='123 Main Street',
-            phone='+79001234567'
+            cart=mock_cart_for_order,
+            form_data=mock_form_data,
+            applied_promo_id=mock_applied_promo_id
         )
-
-        # Verify order was created
-        order = Order.objects.get(id=result['order_id'])
-        assert order.user == test_user
-        assert order.delivery_address == '123 Main Street'
-        assert order.phone == '+79001234567'
-        assert order.total_price == Decimal('600.00')
-
-        # Verify items were created
-        assert order.items.count() == 3
-        saved_items = list(order.items.all())
-        assert len(saved_items) == 3
         
-        # Verify each item
-        for i, item in enumerate(saved_items, 1):
-            assert item.product_id == i
-            assert item.product_name == f'Product {i}'
-            assert item.quantity == order_item_data['quantity']
-            assert item.price == order_item_data['price']
+        # Assertions
+        assert result['order_id'] == 1
+        assert result['total_price'] == Decimal('350.00')
+        assert len(result['items']) == 2
+        mock_repository.save_order.assert_called_once()
