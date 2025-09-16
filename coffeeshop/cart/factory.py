@@ -4,11 +4,10 @@ Factory for creating cart instances.
 
 from __future__ import annotations
 
-from django.contrib.sessions.backends.base import SessionBase
-
 from cart.cart import Cart
 from cart.product_service import CartProductService
 from cart.storage import SessionCartStorage
+from django.contrib.sessions.backends.base import SessionBase
 
 
 class CartFactory:

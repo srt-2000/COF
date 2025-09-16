@@ -1,6 +1,7 @@
 """
 Factory for creating promo logic objects based on promo type.
 """
+
 from __future__ import annotations
 
 from promo.models import Promo, PromoTypeEnum

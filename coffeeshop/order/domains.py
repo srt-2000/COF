@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from decimal import Decimal
-from typing import TypedDict, NotRequired
+from typing import NotRequired, TypedDict
 
 from django.contrib.auth.models import User
 
@@ -19,7 +19,6 @@ class OrderCreateData(TypedDict):
     discount_sum: Decimal
     total_price: Decimal
     items: list[OrderItemData]
-
 
 
 class OrderItemData(TypedDict):

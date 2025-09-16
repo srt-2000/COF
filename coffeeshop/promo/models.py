@@ -14,8 +14,10 @@ class PromoTypeEnum(IntEnum):
     """
     Enum for promo types.
     """
+
     TOTAL_CART = 1
     FREE_PRODUCT = 2
+
 
 class Promo(models.Model):
     """
@@ -44,4 +46,3 @@ class Promo(models.Model):
 
     def __str__(self) -> str:
         return self.name
-

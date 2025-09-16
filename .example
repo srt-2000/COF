@@ -1,0 +1,24 @@
+#ATTENTION - after settings complete you have to rename file into .env
+
+# django settings secrets
+SECRET_KEY= #set your django secret key
+ALLOWED_HOSTS=#set allowed hosts use spaces: xxx.x.x.x xxxxxxx
+DEBUG=#set your debug status True or False
+
+
+# email settings
+EMAIL_PORT=#port number for your e-mail hosting
+EMAIL_USE_TLS=#True or False
+EMAIL_HOST=#host server example smtp.xxxx.com
+GMAIL_HOST_USER=#e-mail example xxx@xxx.com
+GMAIL_APP_PASSWORD=#email pass
+ADMIN_EMAIL=#set admin email
+
+
+#data base settings
+DATABASE_ENGINE=#set django db backend example "django.db.backends.xxxxxx"
+DATABASE_NAME=#set db name
+DATABASE_USERNAME=#set user db name
+DATABASE_PASSWORD=#set db pass
+DATABASE_HOST=#set db host
+DATABASE_PORT=#set db port

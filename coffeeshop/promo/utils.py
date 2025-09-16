@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 from cart.interfaces import ICart
 from promo.domains import PromoStatusContext
 from promo.models import Promo

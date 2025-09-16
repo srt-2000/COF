@@ -56,7 +56,7 @@ class CartAddView(View):
         cart: Cart = CartFactory.create_from_session(request.session)
         product: Product = get_object_or_404(Product, id=product_id)
         quantity: int = int(request.POST.get("quantity", 1))
-        cart.add(product.id, quantity) 
+        cart.add(product.id, quantity)
 
         request.session.pop("applied_promo_id", None)
 

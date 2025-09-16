@@ -1,0 +1,86 @@
+name: COF-test
+
+x-coffeeshop-app: &coffeeshop-app
+  build:
+    context: .
+    dockerfile: Dockerfile
+    args:
+      INSTALL_DEV_DEPS: "true"
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: cof_db
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    networks:
+      - dbnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  coffeeshop-migrations:
+    <<: *coffeeshop-app
+    env_file:
+      - .env
+    working_dir: /app/coffeeshop
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+    networks:
+      - dbnet
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: python manage.py migrate
+
+  coffeeshop-lint:
+    <<: *coffeeshop-app
+    env_file:
+      - .env
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+    networks:
+      - dbnet
+    depends_on:
+      postgres:
+        condition: service_healthy
+      coffeeshop-migrations:
+        condition: service_completed_successfully
+    command: sh -c "ruff format && ruff check"
+
+  coffeeshop-test:
+    <<: *coffeeshop-app
+    env_file:
+      - .env
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+    volumes:
+      - ./tests:/app/tests
+      - ./pytest.ini:/app/pytest.ini
+    networks:
+      - dbnet
+    depends_on:
+      postgres:
+        condition: service_healthy
+      coffeeshop-migrations:
+        condition: service_completed_successfully
+    command: pytest -v
+
+
+networks:
+  dbnet:
+    driver: bridge
+
+
+volumes:
+  postgres_test_data:

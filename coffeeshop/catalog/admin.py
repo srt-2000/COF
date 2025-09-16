@@ -1,7 +1,7 @@
-from django.contrib import admin
+from __future__ import annotations
 
 from catalog.models import Product, ProductCategory
-
+from django.contrib import admin
 
 admin.site.site_header = "Coffeeshop website administration panel"
 admin.site.index_title = "Coffeeshop administration panel"
@@ -17,6 +17,6 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProductCategory)
-class ProductAdmin(admin.ModelAdmin):
+class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = ("name",)
     prepopulated_fields = {"slug": ("name",)}

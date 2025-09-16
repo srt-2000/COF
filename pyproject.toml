@@ -1,31 +1,29 @@
-[project]
+[tool.poetry]
 name = "cof"
 version = "0.1.0"
 description = ""
-authors = [
-    {name = "srt-2000",email = "srt2000888@gmail.ru"}
-]
+authors = ["srt-2000 <srt2000888@gmail.ru>"]
 readme = "README.md"
-requires-python = ">=3.11,<4"
-dependencies = [
-    "django (==5.2.4)",
-    "pillow (>=11.2.0,<12.0.0)",
-    "django-extensions (==4.1)",
-    "django-filter (>=25.1,<26.0)",
-    "pytest-django (>=4.11.1,<5.0.0)",
-    "pytest-mock (>=3.14.0,<4.0.0)",
-    "django-environ (==0.12.0)",
-    "asgiref (==3.9.1)",
-]
 
+[tool.poetry.dependencies]
+python = ">=3.11,<4"
+django = "^5.0"
+pillow = "^11.2.0"
+django-extensions = "4.1"
+django-filter = "^25.1"
+asgiref = "3.9.1"
+dotenv = "^0.9.9"
+psycopg2-binary = "^2.9.10"
+gunicorn = "^23.0.0"
+gevent = "^25.8.2"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-#[tool.pytest.ini_options]
-#DJANGO_SETTINGS_MODULE = "config.settings"
 [tool.poetry.group.dev.dependencies]
+pytest-django = "^4.11.1"
+pytest-mock = "^3.14.0"
 ruff = "^0.11.7"
 
 [tool.ruff]
@@ -35,14 +33,13 @@ target-version = "py311"  # Minimum Python version (replace with yours: py37, py
 
 [tool.ruff.lint]
 # Ignore specific directories and files
-extend-exclude = [
+exclude = [
     "**/migrations/",  # Ignore Django migrations
     "**/tests/",       # Ignore tests
     "**/static/",      # Ignore static files
     "*.pyi",           # Ignore stub files
 ]
 
-[tool.ruff.lint.rules]
 # Rules that cannot be automatically fixed
 unfixable = []
 
@@ -75,8 +72,3 @@ required-imports = ["from __future__ import annotations"]  # Automatically add i
 docstring-code-format = true  # Format code in docstrings
 quote-style = "double"       # Single or double quotes ("double" or "single")
 
-# For working with .env
-[tool.poetry.dependencies]
-python = ">=3.11,<4"
-django = "^5.0"
-#django-environ = "^0.12.0"  # Version supporting Python 3.12

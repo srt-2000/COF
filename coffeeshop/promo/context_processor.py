@@ -4,9 +4,8 @@ Context processor for promo status. Provides applied promo name and status to te
 
 from __future__ import annotations
 
-from django.http import HttpRequest
-
 from cart.factory import CartFactory
+from django.http import HttpRequest
 from promo.domains import PromoStatusContext
 from promo.utils import get_applied_promo_context
 

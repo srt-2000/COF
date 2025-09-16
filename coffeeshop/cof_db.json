@@ -1,0 +1,3123 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-04-05T11:38:03.780Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "3",
+    "object_repr": "Yodeling",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Name\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-04-05T11:38:19.312Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "3",
+    "object_repr": "Yodeling",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2025-04-05T11:43:13.248Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "4",
+    "object_repr": "Margadzip",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2025-04-05T11:44:34.560Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "5",
+    "object_repr": "Ethiopia Mocceaux",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2025-04-05T11:45:22.932Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "6",
+    "object_repr": "Excels",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2025-04-05T11:48:29.423Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "7",
+    "object_repr": "Tea Filter Bags",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2025-04-05T11:49:37.224Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "8",
+    "object_repr": "TS Tea Strainer",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2025-04-05T11:51:21.474Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "9",
+    "object_repr": "Coffee Bar Organizer",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2025-04-05T11:54:31.068Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "10",
+    "object_repr": "Dedica Style",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2025-04-05T11:56:01.843Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "11",
+    "object_repr": "LM9012/60",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2025-04-05T11:56:56.920Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "12",
+    "object_repr": "Profitec GO",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2025-04-10T17:06:12.894Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "1",
+    "object_repr": "Dancing Crane Karigane",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2025-04-10T17:41:51.661Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "1",
+    "object_repr": "Dancing Crane Karigane",
+    "action_flag": 2,
+    "change_message": "[]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2025-04-10T17:42:59.115Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "2",
+    "object_repr": "Dragon Pixin",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2025-04-10T17:44:29.621Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "3",
+    "object_repr": "Yodeling",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2025-04-10T17:45:19.281Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "4",
+    "object_repr": "Margadzip",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2025-04-10T17:46:00.045Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "5",
+    "object_repr": "Ethiopia Mocceaux",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2025-04-10T17:47:08.313Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "6",
+    "object_repr": "Excels",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2025-04-10T17:50:26.708Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "7",
+    "object_repr": "Tea Filter Bags",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2025-04-10T17:51:28.721Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "8",
+    "object_repr": "TS Tea Strainer",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2025-04-10T17:52:15.704Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "9",
+    "object_repr": "Coffee Bar Organizer",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2025-04-10T17:53:08.469Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "10",
+    "object_repr": "Dedica Style",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2025-04-10T17:53:51.811Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "11",
+    "object_repr": "LM9012/60",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2025-04-10T17:54:34.870Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "12",
+    "object_repr": "Profitec GO",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Image\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2025-05-01T16:43:28.397Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "2",
+    "object_repr": "testuser",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2025-06-26T17:26:43.968Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "2 coffee  + 1 free",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2025-06-26T17:27:08.322Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "2 coffee  + 1 free",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2025-06-26T17:31:31.631Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "1",
+    "object_repr": "10000 cart total",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2025-06-26T17:31:48.785Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "2 coffee  + 1 free",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Date end\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2025-07-04T18:46:42.826Z",
+    "user": 1,
+    "content_type": 16,
+    "object_id": "1",
+    "object_repr": "2 coffee  + 1 free",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2025-07-04T18:46:51.684Z",
+    "user": 1,
+    "content_type": 15,
+    "object_id": "1",
+    "object_repr": "10000 cart total",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2025-07-04T19:02:36.377Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "1",
+    "object_repr": "discount for Cart total",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2025-07-04T19:03:12.943Z",
+    "user": 1,
+    "content_type": 17,
+    "object_id": "2",
+    "object_repr": "free promo product",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2025-07-04T19:07:48.997Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "1",
+    "object_repr": "10 000 cart total discount 3%",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 35,
+  "fields": {
+    "action_time": "2025-07-04T19:12:32.605Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "2",
+    "object_repr": "2 coffee  + 1 free",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 36,
+  "fields": {
+    "action_time": "2025-07-04T19:13:08.855Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "1",
+    "object_repr": "10 000 cart total discount 3%",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is active\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 37,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "41",
+    "object_repr": "Order #41 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 38,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "40",
+    "object_repr": "Order #40 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 39,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "39",
+    "object_repr": "Order #39 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 40,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "38",
+    "object_repr": "Order #38 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 41,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "37",
+    "object_repr": "Order #37 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 42,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "36",
+    "object_repr": "Order #36 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 43,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "35",
+    "object_repr": "Order #35 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 44,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "34",
+    "object_repr": "Order #34 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 45,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "33",
+    "object_repr": "Order #33 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 46,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "32",
+    "object_repr": "Order #32 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 47,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "31",
+    "object_repr": "Order #31 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 48,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "30",
+    "object_repr": "Order #30 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 49,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "29",
+    "object_repr": "Order #29 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 50,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "28",
+    "object_repr": "Order #28 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 51,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "27",
+    "object_repr": "Order #27 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 52,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "26",
+    "object_repr": "Order #26 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 53,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "25",
+    "object_repr": "Order #25 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 54,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "24",
+    "object_repr": "Order #24 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 55,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "23",
+    "object_repr": "Order #23 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 56,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "22",
+    "object_repr": "Order #22 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 57,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "21",
+    "object_repr": "Order #21 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 58,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "20",
+    "object_repr": "Order #20 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 59,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "19",
+    "object_repr": "Order #19 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 60,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "18",
+    "object_repr": "Order #18 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 61,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "17",
+    "object_repr": "Order #17 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 62,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "16",
+    "object_repr": "Order #16 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 63,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "15",
+    "object_repr": "Order #15 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 64,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "14",
+    "object_repr": "Order #14 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 65,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "13",
+    "object_repr": "Order #13 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 66,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "12",
+    "object_repr": "Order #12 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 67,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "11",
+    "object_repr": "Order #11 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 68,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "10",
+    "object_repr": "Order #10 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 69,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "9",
+    "object_repr": "Order #9 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 70,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "8",
+    "object_repr": "Order #8 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 71,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "7",
+    "object_repr": "Order #7 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 72,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "6",
+    "object_repr": "Order #6 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 73,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "5",
+    "object_repr": "Order #5 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 74,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "4",
+    "object_repr": "Order #4 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 75,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "3",
+    "object_repr": "Order #3 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 76,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "2",
+    "object_repr": "Order #2 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 77,
+  "fields": {
+    "action_time": "2025-07-18T19:17:32.996Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "1",
+    "object_repr": "Order #1 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 78,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "21",
+    "object_repr": "Order #21 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 79,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "20",
+    "object_repr": "Order #20 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 80,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "19",
+    "object_repr": "Order #19 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 81,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "18",
+    "object_repr": "Order #18 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 82,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "17",
+    "object_repr": "Order #17 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 83,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "16",
+    "object_repr": "Order #16 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 84,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "15",
+    "object_repr": "Order #15 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 85,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "14",
+    "object_repr": "Order #14 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 86,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "13",
+    "object_repr": "Order #13 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 87,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "12",
+    "object_repr": "Order #12 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 88,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "11",
+    "object_repr": "Order #11 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 89,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "10",
+    "object_repr": "Order #10 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 90,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "9",
+    "object_repr": "Order #9 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 91,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "8",
+    "object_repr": "Order #8 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 92,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "7",
+    "object_repr": "Order #7 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 93,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "6",
+    "object_repr": "Order #6 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 94,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "5",
+    "object_repr": "Order #5 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 95,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "4",
+    "object_repr": "Order #4 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 96,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "3",
+    "object_repr": "Order #3 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 97,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "2",
+    "object_repr": "Order #2 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 98,
+  "fields": {
+    "action_time": "2025-08-02T14:13:14.218Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "1",
+    "object_repr": "Order #1 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 99,
+  "fields": {
+    "action_time": "2025-08-02T16:22:54.877Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "2",
+    "object_repr": "2 coffee  + 1 free",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 100,
+  "fields": {
+    "action_time": "2025-08-02T16:22:54.877Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "1",
+    "object_repr": "10 000 cart total discount 3%",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 101,
+  "fields": {
+    "action_time": "2025-08-02T18:09:59.249Z",
+    "user": 1,
+    "content_type": 13,
+    "object_id": "22",
+    "object_repr": "Order #22 from root@coffeeshop.com",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 102,
+  "fields": {
+    "action_time": "2025-09-03T12:54:33.971Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "2",
+    "object_repr": "2 coffee  + 1 free",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Date end\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 103,
+  "fields": {
+    "action_time": "2025-09-03T12:54:48.003Z",
+    "user": 1,
+    "content_type": 18,
+    "object_id": "1",
+    "object_repr": "10 000 cart total discount 3%",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Date end\"]}}]"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 2,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 2,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 2,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 2,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 3,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 3,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 3,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 3,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 4,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 4,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 4,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 4,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 5,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 5,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 5,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 5,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 6,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 6,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 6,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 6,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add product",
+    "content_type": 7,
+    "codename": "add_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change product",
+    "content_type": 7,
+    "codename": "change_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete product",
+    "content_type": 7,
+    "codename": "delete_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view product",
+    "content_type": 7,
+    "codename": "view_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add category",
+    "content_type": 8,
+    "codename": "add_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change category",
+    "content_type": 8,
+    "codename": "change_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete category",
+    "content_type": 8,
+    "codename": "delete_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view category",
+    "content_type": 8,
+    "codename": "view_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add manufacture",
+    "content_type": 9,
+    "codename": "add_manufacture"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change manufacture",
+    "content_type": 9,
+    "codename": "change_manufacture"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete manufacture",
+    "content_type": 9,
+    "codename": "delete_manufacture"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view manufacture",
+    "content_type": 9,
+    "codename": "view_manufacture"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add region",
+    "content_type": 10,
+    "codename": "add_region"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change region",
+    "content_type": 10,
+    "codename": "change_region"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete region",
+    "content_type": 10,
+    "codename": "delete_region"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view region",
+    "content_type": 10,
+    "codename": "view_region"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add sort",
+    "content_type": 11,
+    "codename": "add_sort"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change sort",
+    "content_type": 11,
+    "codename": "change_sort"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete sort",
+    "content_type": 11,
+    "codename": "delete_sort"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view sort",
+    "content_type": 11,
+    "codename": "view_sort"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add type",
+    "content_type": 12,
+    "codename": "add_type"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change type",
+    "content_type": 12,
+    "codename": "change_type"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete type",
+    "content_type": 12,
+    "codename": "delete_type"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view type",
+    "content_type": 12,
+    "codename": "view_type"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add product category",
+    "content_type": 8,
+    "codename": "add_productcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change product category",
+    "content_type": 8,
+    "codename": "change_productcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete product category",
+    "content_type": 8,
+    "codename": "delete_productcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view product category",
+    "content_type": 8,
+    "codename": "view_productcategory"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add product manufacture",
+    "content_type": 9,
+    "codename": "add_productmanufacture"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change product manufacture",
+    "content_type": 9,
+    "codename": "change_productmanufacture"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete product manufacture",
+    "content_type": 9,
+    "codename": "delete_productmanufacture"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view product manufacture",
+    "content_type": 9,
+    "codename": "view_productmanufacture"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add product region",
+    "content_type": 10,
+    "codename": "add_productregion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change product region",
+    "content_type": 10,
+    "codename": "change_productregion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete product region",
+    "content_type": 10,
+    "codename": "delete_productregion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view product region",
+    "content_type": 10,
+    "codename": "view_productregion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 61,
+  "fields": {
+    "name": "Can add product sort",
+    "content_type": 11,
+    "codename": "add_productsort"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 62,
+  "fields": {
+    "name": "Can change product sort",
+    "content_type": 11,
+    "codename": "change_productsort"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete product sort",
+    "content_type": 11,
+    "codename": "delete_productsort"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view product sort",
+    "content_type": 11,
+    "codename": "view_productsort"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 65,
+  "fields": {
+    "name": "Can add product type",
+    "content_type": 12,
+    "codename": "add_producttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 66,
+  "fields": {
+    "name": "Can change product type",
+    "content_type": 12,
+    "codename": "change_producttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 67,
+  "fields": {
+    "name": "Can delete product type",
+    "content_type": 12,
+    "codename": "delete_producttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 68,
+  "fields": {
+    "name": "Can view product type",
+    "content_type": 12,
+    "codename": "view_producttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 69,
+  "fields": {
+    "name": "Can add Заказ",
+    "content_type": 13,
+    "codename": "add_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 70,
+  "fields": {
+    "name": "Can change Заказ",
+    "content_type": 13,
+    "codename": "change_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 71,
+  "fields": {
+    "name": "Can delete Заказ",
+    "content_type": 13,
+    "codename": "delete_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 72,
+  "fields": {
+    "name": "Can view Заказ",
+    "content_type": 13,
+    "codename": "view_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 73,
+  "fields": {
+    "name": "Can add Элемент заказа",
+    "content_type": 14,
+    "codename": "add_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 74,
+  "fields": {
+    "name": "Can change Элемент заказа",
+    "content_type": 14,
+    "codename": "change_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 75,
+  "fields": {
+    "name": "Can delete Элемент заказа",
+    "content_type": 14,
+    "codename": "delete_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 76,
+  "fields": {
+    "name": "Can view Элемент заказа",
+    "content_type": 14,
+    "codename": "view_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 77,
+  "fields": {
+    "name": "Can add Cart Total Discount Promo",
+    "content_type": 15,
+    "codename": "add_carttotaldiscount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 78,
+  "fields": {
+    "name": "Can change Cart Total Discount Promo",
+    "content_type": 15,
+    "codename": "change_carttotaldiscount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 79,
+  "fields": {
+    "name": "Can delete Cart Total Discount Promo",
+    "content_type": 15,
+    "codename": "delete_carttotaldiscount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 80,
+  "fields": {
+    "name": "Can view Cart Total Discount Promo",
+    "content_type": 15,
+    "codename": "view_carttotaldiscount"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 81,
+  "fields": {
+    "name": "Can add Cart Free Product Promo",
+    "content_type": 16,
+    "codename": "add_freeproductpromo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 82,
+  "fields": {
+    "name": "Can change Cart Free Product Promo",
+    "content_type": 16,
+    "codename": "change_freeproductpromo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 83,
+  "fields": {
+    "name": "Can delete Cart Free Product Promo",
+    "content_type": 16,
+    "codename": "delete_freeproductpromo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 84,
+  "fields": {
+    "name": "Can view Cart Free Product Promo",
+    "content_type": 16,
+    "codename": "view_freeproductpromo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 85,
+  "fields": {
+    "name": "Can add promo type",
+    "content_type": 17,
+    "codename": "add_promotype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 86,
+  "fields": {
+    "name": "Can change promo type",
+    "content_type": 17,
+    "codename": "change_promotype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 87,
+  "fields": {
+    "name": "Can delete promo type",
+    "content_type": 17,
+    "codename": "delete_promotype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 88,
+  "fields": {
+    "name": "Can view promo type",
+    "content_type": 17,
+    "codename": "view_promotype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 89,
+  "fields": {
+    "name": "Can add Cart Promo",
+    "content_type": 18,
+    "codename": "add_promo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 90,
+  "fields": {
+    "name": "Can change Cart Promo",
+    "content_type": 18,
+    "codename": "change_promo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 91,
+  "fields": {
+    "name": "Can delete Cart Promo",
+    "content_type": 18,
+    "codename": "delete_promo"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 92,
+  "fields": {
+    "name": "Can view Cart Promo",
+    "content_type": 18,
+    "codename": "view_promo"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$ohMRWQlb4UgnrI4CYmZn9d$ZyXX04cIjvG+CaU5xG+TcdwpmkIDWwlcXczyCbW47hQ=",
+    "last_login": "2025-09-03T13:10:12.971Z",
+    "is_superuser": true,
+    "username": "root",
+    "first_name": "",
+    "last_name": "",
+    "email": "root@coffeeshop.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-04-05T10:18:28.233Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "catalog",
+    "model": "product"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "catalog",
+    "model": "productcategory"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "catalog",
+    "model": "productmanufacture"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "catalog",
+    "model": "productregion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "catalog",
+    "model": "productsort"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "catalog",
+    "model": "producttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "order",
+    "model": "order"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "order",
+    "model": "orderitem"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "promo",
+    "model": "carttotaldiscount"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "promo",
+    "model": "freeproductpromo"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 17,
+  "fields": {
+    "app_label": "promo",
+    "model": "promotype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 18,
+  "fields": {
+    "app_label": "promo",
+    "model": "promo"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "21z330kf3gdsq6hk96k1efir3g34024s",
+  "fields": {
+    "session_data": ".eJxVjLtygzAURP_l1oxG4mWgTJ9vYO5LRomDiBCFx8O_GzxuvMUWu2f3AYwpw_AA507_33DOId9hcAUsKbDC0LTWWmP3vQBclltQGZcU_-IY5IWNuOVp3FZNrwQcfGSE_KvzWcgPztdoOM45BTInYt7tar6j6O3rzX4cTLhOx9r3XemJqWvEuqqSQ1r3FxXbOHauQpbac9sJ1WWpvkUlL40yt3VPSAT7E70UTrM:1uoa1F:fkjtkBeopSXxadOdJWb0I3YjnX25e0_00WCFI5HDMbw",
+    "expire_date": "2025-09-03T04:01:49.814Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "b5tweu9pwxal0vyycug79tbnqvlpwgyp",
+  "fields": {
+    "session_data": ".eJxVjE0OwiAYRO_C2pBCoYJL956BfH_YqoGktCvj3W2TLnSW897MWyVYlzGtTeY0sbooo06_HQI9peyAH1DuVVMtyzyh3hV90KZvleV1Pdy_gxHauK1zDDYjYfDcmb7nLeLiWbjzhozpgdhlGgKjs1byAIKZvRANLiIgqs8XFrA52Q:1uHnMQ:_0qTt3jw8SgfzZbrJO3WN1nxKTqItcIpHAe7qlCQml8",
+    "expire_date": "2025-06-04T17:36:10.260Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "mvp7ybo9qzl68aek176jdqjdjizrt6pw",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2pAZSnBw6d4zkAEGqRqalHbVeHdt0oVu_3vvbyrwutSwdpnDmNVFoTr9bpHTU9oO8oPbfdJpass8Rr0r-qBd36Ysr-vh_h1U7vVbG_IW0BQRx8gukXcpIRpf2A6UbZEzAjg7ROMlE3ERQjCRDHEEEPX-ANPtN5o:1u10c0:bpVrG6XRcfSZQ6LtthhJFvwC2YBxQJC8DdEit56ggQw",
+    "expire_date": "2025-04-19T10:18:52.393Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "u0hk8fewsrblt5x6d04o6jr28tsdk7yc",
+  "fields": {
+    "session_data": ".eJxVjksOgjAYhO_StWkolFpcuucMzf-qoEgbHivj3QXDQmc5881kXirAunRhnWUKPauLMur06yHQQ8Y94DuMt6QpjcvUo94RfaSzbhPLcD3Yv4EO5m5rx8aXEQl9zYWpKt4ktjkLF7UhYyogtpGcZ7RlKdGBYORaiJxtEBC3Uch56IVDntIzfc-a9wcmM0FL:1uiHvf:DFj5vb0tMetjUBMwMt4zwKUc9kKy0nDA71OSofDeTM4",
+    "expire_date": "2025-08-16T19:30:03.954Z"
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 1,
+  "fields": {
+    "name": "Dancing Crane Karigane",
+    "slug": "dancing-crane-karigane",
+    "image": "photos/2025/04/10/DancingKarigane.jpg",
+    "description": "Comprised of both leaf and stalk from shade-grown tea only. The dry leaf is an attractive color contrast and the cup is gentle and bright with fresh vegetal flavors.",
+    "price": "3000.00",
+    "category": 1,
+    "sort": 8,
+    "product_type": null,
+    "region": 8,
+    "manufacture": null
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 2,
+  "fields": {
+    "name": "Dragon Pixin",
+    "slug": "dragon-pixin",
+    "image": "photos/2025/04/10/dragonpixin.jpg",
+    "description": "White tea is known to be one of the most delicate tea varieties because it is so minimally processed. White tea is harvested before the tea plant's leaves open fully, when the young buds are still covered by fine white hairs, hence the name “white” tea.",
+    "price": "2000.00",
+    "category": 1,
+    "sort": 6,
+    "product_type": null,
+    "region": 5,
+    "manufacture": null
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 3,
+  "fields": {
+    "name": "Yodeling",
+    "slug": "yodeling",
+    "image": "photos/2025/04/10/yodeling.jpg",
+    "description": "A rich and visceral cup singing the songs of its mountain home. Soft, feathery fields of grain in body and texture. The aromatics hit the high notes and refine the edges of its rugged character.",
+    "price": "4000.00",
+    "category": 1,
+    "sort": 5,
+    "product_type": null,
+    "region": 6,
+    "manufacture": null
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 4,
+  "fields": {
+    "name": "Margadzip",
+    "slug": "margadzip",
+    "image": "photos/2025/04/10/maragodzhip.jpg",
+    "description": "Coffee based on “elephant grain” (the nickname is explained by the fact that the size of the fruit is almost three times greater than usual Arabica), presented in our online store: Maragogjep Nicaragua and Maraggiup Mexico is characterized by a rich smell and sweet chocolate taste, as well as a thicker consistency.",
+    "price": "3500.00",
+    "category": 3,
+    "sort": 1,
+    "product_type": null,
+    "region": 2,
+    "manufacture": null
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 5,
+  "fields": {
+    "name": "Ethiopia Mocceaux",
+    "slug": "ethiopia-mocceaux",
+    "image": "photos/2025/04/10/Ethiopian.jpg",
+    "description": "Premium varietal category, the value of which gourmets explain the pleasant fruit-wine taste. Coffee trees have preserved the traditional properties characteristic of the original varieties, which determines the delicacy and balance of the aroma. One of the most popular varieties is Arabica Sidoma. Which is also presented in our online store: Coffee Santa Fe \"Ethiopia Sidoma\" or Coffee Santa Fe \"Sidide Gold of Ethiopia\".",
+    "price": "4500.00",
+    "category": 3,
+    "sort": 1,
+    "product_type": null,
+    "region": 2,
+    "manufacture": null
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 6,
+  "fields": {
+    "name": "Excels",
+    "slug": "excels",
+    "image": "photos/2025/04/10/excels.jpg",
+    "description": "Another representative of the South American country, classified as Arabic for washing, and growing 1.2 km above sea level. The taste of the drink is initially identified as a combination of citrus and cocoa, and in the aftertaste - shows the atrocity of spices and prunes. Recommended for the preparation of cocktails on a milk basis.",
+    "price": "2500.00",
+    "category": 3,
+    "sort": 3,
+    "product_type": null,
+    "region": 4,
+    "manufacture": null
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 7,
+  "fields": {
+    "name": "Tea Filter Bags",
+    "slug": "tea-filter-bags",
+    "image": "photos/2025/04/10/teabag.jpg",
+    "description": "Tea Filter Bags for Loose Tea, 200pcs Disposable Empty Loose Leaf Tea Bags (2.76 x 3.54 inch, 3.15 x 3.94 inch)",
+    "price": "500.00",
+    "category": 2,
+    "sort": null,
+    "product_type": 2,
+    "region": null,
+    "manufacture": 1
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 8,
+  "fields": {
+    "name": "TS Tea Strainer",
+    "slug": "ts-tea-strainer",
+    "image": "photos/2025/04/10/teastrainer.jpg",
+    "description": "Shin-Etsu Works TS Tea Strainer, Made in Japan, Stainless Steel, Commercial Use, Wooden Handle, Deep Type, II",
+    "price": "1700.00",
+    "category": 2,
+    "sort": null,
+    "product_type": 1,
+    "region": null,
+    "manufacture": 5
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 9,
+  "fields": {
+    "name": "Coffee Bar Organizer",
+    "slug": "coffee-bar-organizer",
+    "image": "photos/2025/04/10/coffeeorganaser.jpg",
+    "description": "Mind Reader Coffee, Tea or Condiment Station, Countertop Organizer, Coffee Bar, Acrylic, 7.75\"L x 7.75\"W x 3.5\"H, Clear",
+    "price": "800.00",
+    "category": 2,
+    "sort": null,
+    "product_type": 1,
+    "region": null,
+    "manufacture": null
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 10,
+  "fields": {
+    "name": "Dedica Style",
+    "slug": "dedica-style",
+    "image": "photos/2025/04/10/dedicastyle.jpg",
+    "description": "De'Longhi Dedica Style, Traditional Pump Espresso Machine, Coffee and Cappuccino Maker, EC685M, Silver",
+    "price": "35000.00",
+    "category": 4,
+    "sort": null,
+    "product_type": 4,
+    "region": null,
+    "manufacture": 3
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 11,
+  "fields": {
+    "name": "LM9012/60",
+    "slug": "lm9012-60",
+    "image": "photos/2025/04/10/philips.jpg",
+    "description": "Versuni PHILIPS L'OR Barista Sublime Capsule Coffee Machine, Double Shot, 1 or 2 Cups, Full Coffee Menu, Black (LM9012/60)",
+    "price": "56000.00",
+    "category": 4,
+    "sort": null,
+    "product_type": 4,
+    "region": null,
+    "manufacture": 4
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 12,
+  "fields": {
+    "name": "Profitec GO",
+    "slug": "profitec-go",
+    "image": "photos/2025/04/10/profitec.jpg",
+    "description": "Looking to keep your mornings moving when you’re on the go? Look no further than the Profitec GO. This sleek single boiler espresso machine has best-in-class features like PID temperature control and a fast heat-up time.",
+    "price": "155000.00",
+    "category": 4,
+    "sort": null,
+    "product_type": 5,
+    "region": null,
+    "manufacture": 2
+  }
+},
+{
+  "model": "catalog.productcategory",
+  "pk": 1,
+  "fields": {
+    "name": "TEA",
+    "slug": "tea"
+  }
+},
+{
+  "model": "catalog.productcategory",
+  "pk": 2,
+  "fields": {
+    "name": "ACCESSORIES",
+    "slug": "accessories"
+  }
+},
+{
+  "model": "catalog.productcategory",
+  "pk": 3,
+  "fields": {
+    "name": "COFFEE",
+    "slug": "coffee"
+  }
+},
+{
+  "model": "catalog.productcategory",
+  "pk": 4,
+  "fields": {
+    "name": "COFFEE-MAKERS",
+    "slug": "coffee-makers"
+  }
+},
+{
+  "model": "catalog.productsort",
+  "pk": 1,
+  "fields": {
+    "name": "Arabica",
+    "slug": "arabica"
+  }
+},
+{
+  "model": "catalog.productsort",
+  "pk": 2,
+  "fields": {
+    "name": "Blended",
+    "slug": "blended"
+  }
+},
+{
+  "model": "catalog.productsort",
+  "pk": 3,
+  "fields": {
+    "name": "Robusta",
+    "slug": "robusta"
+  }
+},
+{
+  "model": "catalog.productsort",
+  "pk": 4,
+  "fields": {
+    "name": "Black",
+    "slug": "black"
+  }
+},
+{
+  "model": "catalog.productsort",
+  "pk": 5,
+  "fields": {
+    "name": "Red",
+    "slug": "red"
+  }
+},
+{
+  "model": "catalog.productsort",
+  "pk": 6,
+  "fields": {
+    "name": "White",
+    "slug": "white"
+  }
+},
+{
+  "model": "catalog.productsort",
+  "pk": 7,
+  "fields": {
+    "name": "Yellow",
+    "slug": "yellow"
+  }
+},
+{
+  "model": "catalog.productsort",
+  "pk": 8,
+  "fields": {
+    "name": "Green",
+    "slug": "green"
+  }
+},
+{
+  "model": "catalog.producttype",
+  "pk": 1,
+  "fields": {
+    "name": "Dishes",
+    "slug": "dishes"
+  }
+},
+{
+  "model": "catalog.producttype",
+  "pk": 2,
+  "fields": {
+    "name": "Tea ceremony",
+    "slug": "tea-ceremony"
+  }
+},
+{
+  "model": "catalog.producttype",
+  "pk": 3,
+  "fields": {
+    "name": "Programmable espresso",
+    "slug": "programmable-espresso"
+  }
+},
+{
+  "model": "catalog.producttype",
+  "pk": 4,
+  "fields": {
+    "name": "Manual espresso",
+    "slug": "manual-espresso"
+  }
+},
+{
+  "model": "catalog.producttype",
+  "pk": 5,
+  "fields": {
+    "name": "Filter coffee",
+    "slug": "filter-coffee"
+  }
+},
+{
+  "model": "catalog.productregion",
+  "pk": 1,
+  "fields": {
+    "name": "Darjeeling",
+    "slug": "darjeeling"
+  }
+},
+{
+  "model": "catalog.productregion",
+  "pk": 2,
+  "fields": {
+    "name": "Ethiopia",
+    "slug": "ethiopia"
+  }
+},
+{
+  "model": "catalog.productregion",
+  "pk": 3,
+  "fields": {
+    "name": "Brazil",
+    "slug": "brazil"
+  }
+},
+{
+  "model": "catalog.productregion",
+  "pk": 4,
+  "fields": {
+    "name": "Sumatra",
+    "slug": "sumatra"
+  }
+},
+{
+  "model": "catalog.productregion",
+  "pk": 5,
+  "fields": {
+    "name": "Jiangbei",
+    "slug": "jiangbei"
+  }
+},
+{
+  "model": "catalog.productregion",
+  "pk": 6,
+  "fields": {
+    "name": "Jiangnan",
+    "slug": "jiangnan"
+  }
+},
+{
+  "model": "catalog.productregion",
+  "pk": 7,
+  "fields": {
+    "name": "Linglan",
+    "slug": "linglan"
+  }
+},
+{
+  "model": "catalog.productregion",
+  "pk": 8,
+  "fields": {
+    "name": "Otsuka",
+    "slug": "otsuka"
+  }
+},
+{
+  "model": "catalog.productmanufacture",
+  "pk": 1,
+  "fields": {
+    "name": "Nagao",
+    "slug": "nagao"
+  }
+},
+{
+  "model": "catalog.productmanufacture",
+  "pk": 2,
+  "fields": {
+    "name": "Bosch",
+    "slug": "bosch"
+  }
+},
+{
+  "model": "catalog.productmanufacture",
+  "pk": 3,
+  "fields": {
+    "name": "Technivorm Moccamaster",
+    "slug": "technivorm-moccamaster"
+  }
+},
+{
+  "model": "catalog.productmanufacture",
+  "pk": 4,
+  "fields": {
+    "name": "Philips",
+    "slug": "philips"
+  }
+},
+{
+  "model": "catalog.productmanufacture",
+  "pk": 5,
+  "fields": {
+    "name": "OXO",
+    "slug": "oxo"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "delivery_address": "tfrcdrt  d  weslfkj ojwijf",
+    "phone": "+98000998989",
+    "cart_price": "56000.00",
+    "applied_promo_name": "10 000 cart total discount 3%",
+    "applied_promo_status": true,
+    "discount_sum": "1680.00",
+    "total_price": "54320.00",
+    "time_created": "2025-08-02T19:16:25.734Z",
+    "is_paid": false
+  }
+},
+{
+  "model": "order.order",
+  "pk": 2,
+  "fields": {
+    "user": 1,
+    "delivery_address": "qwfjiolk woei j wwoi j",
+    "phone": "+78889994567",
+    "cart_price": "159500.00",
+    "applied_promo_name": "10 000 cart total discount 3%",
+    "applied_promo_status": true,
+    "discount_sum": "4785.00",
+    "total_price": "154715.00",
+    "time_created": "2025-08-02T19:18:30.923Z",
+    "is_paid": false
+  }
+},
+{
+  "model": "order.order",
+  "pk": 3,
+  "fields": {
+    "user": 1,
+    "delivery_address": "lkjokli woesig wetog wfoi",
+    "phone": "+98000998989",
+    "cart_price": "10500.00",
+    "applied_promo_name": "2 coffee  + 1 free",
+    "applied_promo_status": true,
+    "discount_sum": "2500.00",
+    "total_price": "8000.00",
+    "time_created": "2025-08-02T19:19:43.668Z",
+    "is_paid": false
+  }
+},
+{
+  "model": "order.order",
+  "pk": 4,
+  "fields": {
+    "user": 1,
+    "delivery_address": "sdfvj wo efjw weo jr",
+    "phone": "+98000998989",
+    "cart_price": "12000.00",
+    "applied_promo_name": "10 000 cart total discount 3%",
+    "applied_promo_status": true,
+    "discount_sum": "360.00",
+    "total_price": "11640.00",
+    "time_created": "2025-08-02T19:30:02.609Z",
+    "is_paid": false
+  }
+},
+{
+  "model": "order.order",
+  "pk": 5,
+  "fields": {
+    "user": 1,
+    "delivery_address": "<b>dfgfgd</b>segdrg drhdr jfhjft",
+    "phone": "+98000998989",
+    "cart_price": "56000.00",
+    "applied_promo_name": "10 000 cart total discount 3%",
+    "applied_promo_status": true,
+    "discount_sum": "1680.00",
+    "total_price": "54320.00",
+    "time_created": "2025-08-20T04:02:57.626Z",
+    "is_paid": false
+  }
+},
+{
+  "model": "order.order",
+  "pk": 6,
+  "fields": {
+    "user": 1,
+    "delivery_address": "wef[ eow we [p",
+    "phone": "+98000998989",
+    "cart_price": "10500.00",
+    "applied_promo_name": "2 coffee  + 1 free",
+    "applied_promo_status": true,
+    "discount_sum": "2500.00",
+    "total_price": "8000.00",
+    "time_created": "2025-09-03T12:56:08.412Z",
+    "is_paid": false
+  }
+},
+{
+  "model": "order.order",
+  "pk": 7,
+  "fields": {
+    "user": 1,
+    "delivery_address": "hlh pj  pjij p",
+    "phone": "+56789004567",
+    "cart_price": "30000.00",
+    "applied_promo_name": "10 000 cart total discount 3%",
+    "applied_promo_status": true,
+    "discount_sum": "900.00",
+    "total_price": "29100.00",
+    "time_created": "2025-09-03T13:10:24.977Z",
+    "is_paid": false
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 111,
+  "fields": {
+    "order": 1,
+    "product_id": 11,
+    "product_name": "LM9012/60",
+    "quantity": 1,
+    "price": "56000.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 112,
+  "fields": {
+    "order": 2,
+    "product_id": 12,
+    "product_name": "Profitec GO",
+    "quantity": 1,
+    "price": "155000.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 113,
+  "fields": {
+    "order": 2,
+    "product_id": 5,
+    "product_name": "Ethiopia Mocceaux",
+    "quantity": 1,
+    "price": "4500.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 114,
+  "fields": {
+    "order": 3,
+    "product_id": 5,
+    "product_name": "Ethiopia Mocceaux",
+    "quantity": 1,
+    "price": "4500.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 115,
+  "fields": {
+    "order": 3,
+    "product_id": 6,
+    "product_name": "Excels",
+    "quantity": 1,
+    "price": "2500.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 116,
+  "fields": {
+    "order": 3,
+    "product_id": 4,
+    "product_name": "Margadzip",
+    "quantity": 1,
+    "price": "3500.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 117,
+  "fields": {
+    "order": 4,
+    "product_id": 9,
+    "product_name": "Coffee Bar Organizer",
+    "quantity": 1,
+    "price": "800.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 118,
+  "fields": {
+    "order": 4,
+    "product_id": 8,
+    "product_name": "TS Tea Strainer",
+    "quantity": 1,
+    "price": "1700.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 119,
+  "fields": {
+    "order": 4,
+    "product_id": 7,
+    "product_name": "Tea Filter Bags",
+    "quantity": 1,
+    "price": "500.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 120,
+  "fields": {
+    "order": 4,
+    "product_id": 1,
+    "product_name": "Dancing Crane Karigane",
+    "quantity": 3,
+    "price": "3000.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 121,
+  "fields": {
+    "order": 5,
+    "product_id": 11,
+    "product_name": "LM9012/60",
+    "quantity": 1,
+    "price": "56000.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 122,
+  "fields": {
+    "order": 6,
+    "product_id": 5,
+    "product_name": "Ethiopia Mocceaux",
+    "quantity": 1,
+    "price": "4500.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 123,
+  "fields": {
+    "order": 6,
+    "product_id": 6,
+    "product_name": "Excels",
+    "quantity": 1,
+    "price": "2500.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 124,
+  "fields": {
+    "order": 6,
+    "product_id": 4,
+    "product_name": "Margadzip",
+    "quantity": 1,
+    "price": "3500.00"
+  }
+},
+{
+  "model": "order.orderitem",
+  "pk": 125,
+  "fields": {
+    "order": 7,
+    "product_id": 1,
+    "product_name": "Dancing Crane Karigane",
+    "quantity": 10,
+    "price": "3000.00"
+  }
+},
+{
+  "model": "promo.promo",
+  "pk": 1,
+  "fields": {
+    "name": "10 000 cart total discount 3%",
+    "promo_type": 1,
+    "description": "If User has a total Cart sum >== 10000 , User can apply discount",
+    "is_active": true,
+    "date_start": "2025-07-04T19:06:07Z",
+    "date_end": "2030-09-01T19:06:15Z",
+    "min_cart_total": "10000.00",
+    "required_products_quantity": 0,
+    "free_promo_products": 0,
+    "discount": "3.00",
+    "promo_products": [
+      9,
+      1,
+      10,
+      2,
+      5,
+      6,
+      11,
+      4,
+      12,
+      8,
+      7,
+      3
+    ]
+  }
+},
+{
+  "model": "promo.promo",
+  "pk": 2,
+  "fields": {
+    "name": "2 coffee  + 1 free",
+    "promo_type": 2,
+    "description": "Take 3 coffee in the Cart and get one of them free",
+    "is_active": true,
+    "date_start": "2025-07-04T19:11:51Z",
+    "date_end": "2030-09-01T19:11:55Z",
+    "min_cart_total": "0.01",
+    "required_products_quantity": 3,
+    "free_promo_products": 1,
+    "discount": "0.00",
+    "promo_products": [
+      5,
+      6,
+      4
+    ]
+  }
+}
+]

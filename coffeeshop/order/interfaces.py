@@ -6,9 +6,8 @@ from __future__ import annotations
 
 from typing import Protocol
 
-from django.contrib.auth.models import User
-
 from cart.interfaces import ICart
+from django.contrib.auth.models import User
 from order.domains import OrderCreateData, OrderData
 
 

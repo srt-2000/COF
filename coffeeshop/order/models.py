@@ -24,13 +24,23 @@ class Order(models.Model):
     delivery_address: str = models.TextField(verbose_name="Delivery Address")
     phone: str = models.CharField(max_length=20, verbose_name="Phone")
     cart_price: Decimal = models.DecimalField(
-        max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal("0.01"))], verbose_name="Cart Total", null=False
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal("0.01"))],
+        verbose_name="Cart Total",
+        null=False,
     )
     applied_promo_name: str = models.CharField(max_length=255, null=True, blank=True, verbose_name="Applied promo")
     applied_promo_status: bool = models.BooleanField(default=False, verbose_name="Applied promo status Y/N")
-    discount_sum: Decimal = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name="Discount SUM")
+    discount_sum: Decimal = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00, verbose_name="Discount SUM"
+    )
     total_price: Decimal = models.DecimalField(
-        max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal("0.01"))], verbose_name="Total Amount", null=False
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal("0.01"))],
+        verbose_name="Total Amount",
+        null=False,
     )
     time_created: str = models.DateTimeField(auto_now_add=True, verbose_name="Creation Date")
     is_paid: bool = models.BooleanField(default=False, verbose_name="Paid")

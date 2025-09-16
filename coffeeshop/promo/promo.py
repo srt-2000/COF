@@ -1,6 +1,7 @@
 """
 Promo logic implementations for different promo types.
 """
+
 from __future__ import annotations
 
 from decimal import ROUND_HALF_UP, Decimal
@@ -41,7 +42,7 @@ class BasePromo(IPromo):
         Returns:
             bool: True if ids match, False otherwise.
         """
-        return session_promo_id == self.promo.id
+        return session_promo_id == self.promo.pk
 
     def valid_promo(self, session_promo_id: int) -> bool:
         """

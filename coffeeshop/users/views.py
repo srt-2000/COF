@@ -6,7 +6,6 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Model, QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
-
 from users.forms import LoginUserForm, ProfileUserForm, RegisterUserForm
 
 

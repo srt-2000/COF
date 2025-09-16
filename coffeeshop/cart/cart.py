@@ -13,7 +13,6 @@ from decimal import ROUND_HALF_UP, Decimal
 from cart.domains import CartData, CartItemServiceData
 from cart.interfaces import ICart, ICartProductService, IStorage
 from catalog.models import Product
-
 from promo.models import Promo
 from promo.promo_factory import PromoFactory
 
