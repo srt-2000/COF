@@ -24,6 +24,16 @@ DEBUG = environ.get("DEBUG", "False").lower() == "true"
 # without .env we use list or tuple ['xxx.x.x.x', 'xxxxxxx',]
 ALLOWED_HOSTS = environ.get("ALLOWED_HOSTS").split()
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://srt-tester.ru',
+    'https://www.srt-tester.ru',
+]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
