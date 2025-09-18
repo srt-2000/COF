@@ -20,6 +20,9 @@
                 <a href="{% url m.url_name %}">{{ m.title }}</a>
             </li>
             {% endfor %}
+                <li>
+                    <b>TEST</b>
+                </li>
             {% if user.is_authenticated %}
             <li class="last">
                 <form method="post" action="{% url 'logout' %}">
