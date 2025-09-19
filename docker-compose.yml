@@ -78,8 +78,6 @@ services:
       - dbnet
     ports:
       - "8000:8000"
-    volumes:
-      - ./coffeeshop:/app/coffeeshop
     depends_on:
       postgres:
         condition: service_healthy
