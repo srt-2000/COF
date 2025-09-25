@@ -4,6 +4,10 @@ x-coffeeshop-app: &coffeeshop-app
   build:
     context: .
     dockerfile: Dockerfile
+  volumes:
+    - ./coffeeshop:/app/coffeeshop
+    - pyproject.toml:/app/pyproject.toml
+    - poetry.lock:/app/poetry.lock
 
 services:
   postgres:
