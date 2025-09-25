@@ -1,6 +1,6 @@
 name: COF-test
 
-x-coffeeshop-app: &coffeeshop-app
+x-test-coffeeshop-app: &test-coffeeshop-app
   build:
     context: .
     dockerfile: Dockerfile
@@ -8,9 +8,12 @@ x-coffeeshop-app: &coffeeshop-app
       INSTALL_DEV_DEPS: "true"
 
 services:
-  postgres:
+  test-postgres:
     image: postgres:17-alpine
-    container_name: cof_db
+    container_name: test_cof_db
+    restart: always
+    ports:
+      - "8397:5432"
     volumes:
       - postgres_test_data:/var/lib/postgresql/data
     environment:
@@ -18,7 +21,7 @@ services:
       - POSTGRES_USER=${DATABASE_USERNAME}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     networks:
-      - dbnet
+      - test_dbnet
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}"]
       interval: 5s
@@ -26,59 +29,59 @@ services:
       retries: 10
       start_period: 10s
 
-  coffeeshop-migrations:
-    <<: *coffeeshop-app
+  test-coffeeshop-migrations:
+    <<: *test-coffeeshop-app
     env_file:
       - .env
     working_dir: /app/coffeeshop
     environment:
-      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_HOST=${TEST_DATABASE_HOST}
       - DATABASE_PORT=${DATABASE_PORT}
     networks:
-      - dbnet
+      - test_dbnet
     depends_on:
-      postgres:
+      test-postgres:
         condition: service_healthy
     command: python manage.py migrate
 
-  coffeeshop-lint:
-    <<: *coffeeshop-app
+  test-coffeeshop-lint:
+    <<: *test-coffeeshop-app
     env_file:
       - .env
     environment:
-      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_HOST=${TEST_DATABASE_HOST}
       - DATABASE_PORT=${DATABASE_PORT}
     networks:
-      - dbnet
+      - test_dbnet
     depends_on:
-      postgres:
+      test-postgres:
         condition: service_healthy
-      coffeeshop-migrations:
+      test-coffeeshop-migrations:
         condition: service_completed_successfully
     command: sh -c "ruff format && ruff check"
 
-  coffeeshop-test:
-    <<: *coffeeshop-app
+  test-coffeeshop:
+    <<: *test-coffeeshop-app
     env_file:
       - .env
     environment:
-      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_HOST=${TEST_DATABASE_HOST}
       - DATABASE_PORT=${DATABASE_PORT}
     volumes:
       - ./tests:/app/tests
       - ./pytest.ini:/app/pytest.ini
     networks:
-      - dbnet
+      - test_dbnet
     depends_on:
-      postgres:
+      test-postgres:
         condition: service_healthy
-      coffeeshop-migrations:
+      test-coffeeshop-migrations:
         condition: service_completed_successfully
     command: pytest -v
 
 
 networks:
-  dbnet:
+  test_dbnet:
     driver: bridge
 
 
