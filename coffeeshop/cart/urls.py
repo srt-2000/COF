@@ -4,11 +4,11 @@ URL configuration for the cart application.
 This module defines the URL patterns for the cart application, including
 cart detail, add, remove, clear, and update views.
 """
+
 from __future__ import annotations
 
-from django.urls import path
-
 from cart.views import CartAddView, CartClearView, CartDetailView, CartRemoveView, CartUpdateView
+from django.urls import path
 
 urlpatterns = [
     path("", CartDetailView.as_view(), name="cart_detail"),
@@ -16,4 +16,4 @@ urlpatterns = [
     path("remove/<int:product_id>/", CartRemoveView.as_view(), name="cart_remove"),
     path("clear/", CartClearView.as_view(), name="cart_clear"),
     path("update/<int:product_id>/", CartUpdateView.as_view(), name="cart_update"),
-    ]
+]

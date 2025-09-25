@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from django.urls import path
-
 from catalog import views
+from django.urls import path
 
 urlpatterns = [
     path("", views.CoffeShopHome.as_view(), name="home"),

@@ -1,0 +1,130 @@
+name: COF-site
+
+x-coffeeshop-app: &coffeeshop-app
+  build:
+    context: .
+    dockerfile: Dockerfile
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: cof_db
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    networks:
+      - dbnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+#It ambitious because we are collect static before MR
+#  coffeeshop-collect-static:
+#    <<: *coffeeshop-app
+#    env_file:
+#      - .env
+#    working_dir: /app/coffeeshop
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+#    command: python manage.py collectstatic --noinput --clear
+
+  coffeeshop-migrations:
+    <<: *coffeeshop-app
+    env_file:
+      - .env
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+    working_dir: /app/coffeeshop
+    networks:
+      - dbnet
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: python manage.py migrate
+
+#will use it with special manage.py command
+#  coffeeshop-load-test-data:
+#    <<: *coffeeshop-app
+#    env_file:
+#      - .env
+#    environment:
+#      - DATABASE_HOST=${DATABASE_HOST}
+#      - DATABASE_PORT=${DATABASE_PORT}
+#    working_dir: /app/coffeeshop
+#    networks:
+#      - dbnet
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+#      coffeeshop-migrations:
+#        condition: service_completed_successfully
+#    command: python manage.py loaddata cof_db.json
+
+  coffeeshop:
+    <<: *coffeeshop-app
+    env_file:
+      - .env
+    environment:
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+    working_dir: /app/coffeeshop
+    networks:
+      - dbnet
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      coffeeshop-migrations:
+        condition: service_completed_successfully
+#      coffeeshop-load-test-data:
+#        condition: service_completed_successfully
+    command: gunicorn -c gunicorn.py config.wsgi
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-server
+    restart: always
+    networks:
+      - dbnet
+    expose:
+      - 8088
+    ports:
+      - "80:8088"
+      - "443:443"
+    volumes:
+      - ./coffeeshop/static:/app/www/coffeeshop/static
+      - ./coffeeshop/media:/app/www/coffeeshop/media
+      - ./coffeeshop/logs:/app/www/coffeeshop/logs
+      - ./nginx:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - coffeeshop
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot --webroot-path=/var/www/certbot/ --email srt2000888tester@gmail.com --agree-tos --no-eff-email -d srt-tester.ru
+    depends_on:
+      - nginx
+
+
+networks:
+  dbnet:
+    driver: bridge
+
+
+volumes:
+  postgres_data:

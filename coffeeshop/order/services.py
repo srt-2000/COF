@@ -6,13 +6,12 @@ from __future__ import annotations
 
 from typing import cast
 
+from cart.interfaces import ICart
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.db import transaction
 from django.template.loader import render_to_string
-
-from cart.interfaces import ICart
 from order.domains import OrderCreateData, OrderData, OrderItemData
 from order.interfaces import IOrderNotification, IOrderRepository, IOrderService
 from order.models import Order, OrderItem
@@ -78,7 +77,6 @@ class OrderService(IOrderService):
             "discount_sum": cart.get_discount_sum(applied_promo_id),
             "total_price": cart.get_total_price(applied_promo_id),
             "items": items,
-
         }
 
         return self.repository.save_order(order_data)
@@ -107,7 +105,6 @@ class DatabaseOrderRepository(IOrderRepository):
                 applied_promo_status=order_data["applied_promo_status"],
                 discount_sum=order_data["discount_sum"],
                 total_price=order_data["total_price"],
-
             )
 
             order_items: list[dict[str, object]] = [
@@ -137,7 +134,6 @@ class DatabaseOrderRepository(IOrderRepository):
                 "total_price": order.total_price,
                 "time_created": order.time_created,
                 "items": order_items,
-
             }
 
 
@@ -146,9 +142,10 @@ class EmailOrderNotification(IOrderNotification):
     Email notification service: sends email to administrator about new order, uses templates for email generation.
     """
 
-    def send_order_notification(self,
-                                order_id: int,
-                                ) -> None:
+    def send_order_notification(
+        self,
+        order_id: int,
+    ) -> None:
         """
         Send email notification about new order.
         Args:

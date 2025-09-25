@@ -1,6 +1,7 @@
 """
 Views for promo listing and promo application.
 """
+
 from __future__ import annotations
 
 from django.http import HttpRequest, HttpResponse

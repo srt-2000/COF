@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 from catalog.domains import MenuItem
 from catalog.models import ProductCategory
 from catalog.utils import main_menu

@@ -2,9 +2,7 @@ from __future__ import annotations
 
 from django.contrib.auth.views import LogoutView, PasswordChangeDoneView, PasswordChangeView
 from django.urls import path
-
 from users import views
-
 
 # Authentication URL patterns
 urlpatterns = [
