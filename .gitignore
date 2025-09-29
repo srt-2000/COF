@@ -8,3 +8,6 @@
 .cursorrules
 .cursor/
 db.sqlite3
+coffeeshop/logs/
+*.log
+
