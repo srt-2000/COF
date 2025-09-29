@@ -1,95 +1,93 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="alert alert-success">
-    <h4 class="alert-heading">Order #{{ order.id }} has been placed!</h4>
-    <p>We have sent a notification to the administrator. You will be contacted for confirmation.</p>
-  </div>
-  
-  <div class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">Order Details</h5>
-      
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <p><strong>Delivery Address:</strong><br>{{ order.delivery_address }}</p>
+<div class="auth-section">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Order #{{ order.id }} Confirmed!</h1>
+                <p>We have sent a notification to the administrator. You will be contacted for confirmation.</p>
+            </div>
+            
+            <div class="order-details">
+                <h3>Order Details</h3>
+                
+                <div class="order-info">
+                    <div class="info-row">
+                        <strong>Delivery Address:</strong>
+                        <span>{{ order.delivery_address }}</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Phone:</strong>
+                        <span>{{ order.phone }}</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Date:</strong>
+                        <span>{{ order.time_created|date:"d.m.Y H:i" }}</span>
+                    </div>
+                </div>
+                
+                <h4>Order Items:</h4>
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="2"><strong>Total Items:</strong></td>
+                            <td><strong>{{ order.get_total_items }}</strong></td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2"><strong>Cart Total:</strong></td>
+                            <td><strong>${{ order.cart_price }}</strong></td>
+                        </tr>
+                        
+                        {% if order.applied_promo_name %}
+                            {% if order.applied_promo_status %}
+                            <tr class="total-row promo-applied">
+                                <td colspan="2">Applied promo: {{ order.applied_promo_name }}</td>
+                                <td>-${{ order.discount_sum }}</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="2"><strong>TOTAL with discount:</strong></td>
+                                <td><strong>${{ order.total_price }}</strong></td>
+                            </tr>
+                            {% else %}
+                            <tr class="total-row promo-error">
+                                <td colspan="2">Cannot apply promo: {{ order.applied_promo_name }}</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="2"><strong>Total Amount:</strong></td>
+                                <td><strong>${{ order.total_price }}</strong></td>
+                            </tr>
+                            {% endif %}
+                        {% else %}
+                            <tr class="total-row">
+                                <td colspan="2"><strong>Total Amount:</strong></td>
+                                <td><strong>${{ order.total_price }}</strong></td>
+                            </tr>
+                        {% endif %}
+                    </tfoot>
+                </table>
+            </div>
+            
+            <div class="auth-links">
+                <a href="{% url 'catalog' %}" class="btn-primary">Return to Shop</a>
+            </div>
         </div>
-        <div class="col-md-6">
-          <p><strong>Phone:</strong> {{ order.phone }}</p>
-          <p><strong>Date:</strong> {{ order.time_created|date:"d.m.Y H:i" }}</p>
-        </div>
-      </div>
-      
-      <h6 class="mb-3">Order Items:</h6>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th class="text-center">Quantity</th>
-            <th class="text-right">Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in order.items.all %}
-            <tr>
-              <td>{{ item.product_name }}</td>
-              <td class="text-center">{{ item.quantity }}</td>
-              <td class="text-right">{{ item.price }} ₽</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-        <tfoot>
-
-          <tr>
-            <th colspan="2">Total Items</th>
-            <th class="text-right">{{ order.get_total_items }}</th>
-          </tr>
-          <tr class="total">
-            <td colspan="4">Cart Total:</td>
-            <td class="num">{{ order.cart_price }}</td>
-          </tr>
-          <tr>
-            <td colspan="4"><br></td>
-          </tr>
-          {% if order.applied_promo_name %}
-            {% if order.applied_promo_status %}
-            <tr class="total">
-              <td colspan="4">Applied promo: {{ order.applied_promo_name }}</td>
-            </tr>
-            <tr class="total">
-              <td colspan="4">YOUR discount:</td>
-              <td class="num">{{ order.discount_sum }}</td>
-            </tr>
-            <tr class="total">
-              <td colspan="4">TOTAL amount with discount:</td>
-              <td class="num"><b>{{ order.total_price }}</b></td>
-            </tr>
-            {% else %}
-            <tr class="total">
-              <td colspan="4">No promo applied</td>
-            </tr>
-            <tr>
-              <th colspan="2">Total Amount</th>
-              <th class="text-right">{{ order.total_price }} ₽</th>
-            </tr>
-            {% endif %}
-
-          {% else %}
-            <tr class="total">
-              <td colspan="4">No promo applied</td>
-            </tr>
-            <tr>
-              <th colspan="2">Total Amount</th>
-              <th class="text-right">{{ order.total_price }} ₽</th>
-            </tr>
-          {% endif %}
-
-        </tfoot>
-      </table>
     </div>
-  </div>
-  
-  <a href="{% url 'home' %}" class="btn btn-outline-secondary">
-    Return to Home
-  </a>
+</div>
 {% endblock %}

@@ -25,17 +25,6 @@ services:
       retries: 10
       start_period: 10s
 
-#It ambitious because we are collect static before MR
-#  coffeeshop-collect-static:
-#    <<: *coffeeshop-app
-#    env_file:
-#      - .env
-#    working_dir: /app/coffeeshop
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
-#    command: python manage.py collectstatic --noinput --clear
-
   coffeeshop-migrations:
     <<: *coffeeshop-app
     env_file:
@@ -50,24 +39,6 @@ services:
       postgres:
         condition: service_healthy
     command: python manage.py migrate
-
-#will use it with special manage.py command
-#  coffeeshop-load-test-data:
-#    <<: *coffeeshop-app
-#    env_file:
-#      - .env
-#    environment:
-#      - DATABASE_HOST=${DATABASE_HOST}
-#      - DATABASE_PORT=${DATABASE_PORT}
-#    working_dir: /app/coffeeshop
-#    networks:
-#      - dbnet
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
-#      coffeeshop-migrations:
-#        condition: service_completed_successfully
-#    command: python manage.py loaddata cof_db.json
 
   coffeeshop:
     <<: *coffeeshop-app
@@ -86,8 +57,6 @@ services:
         condition: service_healthy
       coffeeshop-migrations:
         condition: service_completed_successfully
-#      coffeeshop-load-test-data:
-#        condition: service_completed_successfully
     command: gunicorn -c gunicorn.py config.wsgi
 
   nginx:

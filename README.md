@@ -1,95 +1,290 @@
-# COF
+# COF - Coffee & Tea Internet Shop
 
-#TEA and COFFEE internet shop
+[![Django](https://img.shields.io/badge/Django-5.2.4-green.svg)](https://djangoproject.com/)
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://docker.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue.svg)](https://postgresql.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-==========================================================
+Modern coffee and tea internet shop built with Django following backend development best practices.
 
-## Getting started
+## 🚀 Features
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- **Modern Architecture**: Django 5.2+ with type hints and comprehensive docstrings
+- **Microservice Structure**: Modular applications (catalog, cart, order, promo, users)
+- **Containerization**: Full Docker configuration with PostgreSQL and Nginx
+- **Security**: CSRF protection, data validation, secure cookies
+- **Performance**: Gunicorn with gevent, optimized database queries
+- **Testing**: Comprehensive test coverage with pytest
+- **Code Quality**: Ruff for linting and formatting
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## ��️ Architecture
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/srt-2000/cof.git
-git branch -M main
-git push -uf origin main
+coffeeshop/
+├── catalog/          # Product catalog
+├── cart/            # Shopping cart
+├── order/           # Order processing
+├── promo/           # Promo codes and discounts
+├── users/           # User authentication
+└── config/          # Django settings
 ```
 
-## Integrate with your tools
+## 🛠️ Tech Stack
 
-- [ ] [Set up project integrations](https://gitlab.com/srt-2000/cof/-/settings/integrations)
+### Backend
+- **Django 5.2.4** - web framework
+- **Python 3.11+** - programming language
+- **PostgreSQL 17** - database
+- **Gunicorn + Gevent** - WSGI server
+- **Nginx** - web server and proxy
 
-## Collaborate with your team
+### Development Tools
+- **Poetry** - dependency management
+- **Docker & Docker Compose** - containerization
+- **pytest** - testing framework
+- **Ruff** - linting and formatting
+- **Django Extensions** - additional commands
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+## 📋 Requirements
 
-## Test and Deploy
+- Python 3.11+
+- Docker & Docker Compose
+- Poetry (optional)
 
-Use the built-in continuous integration in GitLab.
+## 🚀 Quick Start
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### With Docker (Recommended)
 
-***
+1. **Clone the repository:**
+```bash
+git clone https://gitlab.com/srt-2000/cof.git
+cd cof
+```
 
-# Editing this README
+2. **Configure environment variables:**
+```bash
+# Edit the .example file with your configuration values
+nano .example
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+# After editing, rename the file to .env
+mv .example .env
+```
 
-## Suggestions for a good README
+3. **For local development, configure the following:**
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+**In `.env` file:**
+```env
+ALLOWED_HOSTS=127.0.0.1 localhost [::1]
+DEBUG=True
+```
 
-## Name
-Choose a self-explaining name for your project.
+**In `nginx/coffeeshop_nginx.conf`, comment out lines 8, 9, 10, 18, 19, 20:**
+```nginx
+# location /.well-known/acme-challenge/ {
+#     root /var/www/certbot;
+# }
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+# server {
+#     listen 443 ssl;
+#     ssl_certificate /etc/letsencrypt/live/srt-tester.ru/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/srt-tester.ru/privkey.pem;
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+**In `docker-compose.yml`, comment out lines 83-90:**
+```yaml
+# certbot:
+#   image: certbot/certbot
+#   volumes:
+#     - ./certbot/conf:/etc/letsencrypt
+#     - ./certbot/www:/var/www/certbot
+#   command: certonly --webroot --webroot-path=/var/www/certbot/ --email srt2000888tester@gmail.com --agree-tos --no-eff-email -d srt-tester.ru
+#   depends_on:
+#     - nginx
+```
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+4. **Start the application:**
+```bash
+docker-compose up -d
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+5. **Load test data:**
+```bash
+docker-compose exec coffeeshop python manage.py loadtestdata
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+The application will be available at: http://localhost
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### Local Development
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+1. **Install dependencies:**
+```bash
+poetry install
+poetry shell
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+2. **Set up database:**
+```bash
+# Create PostgreSQL database
+createdb cof_db
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+# Run migrations
+python manage.py migrate
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+# Load test data
+python manage.py loadtestdata
+```
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+3. **Start development server:**
+```bash
+python manage.py runserver
+```
 
-## License
-For open source projects, say how it is licensed.
+## 🔧 Configuration
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### Environment Variables
+
+The project includes a `.example` file with all required environment variables. You need to:
+
+1. **Edit the `.example` file** with your configuration values
+2. **Rename it to `.env`** after configuration
+
+Example configuration:
+```env
+# Django
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=127.0.0.1 localhost [::1]
+
+# Database
+DATABASE_ENGINE=django.db.backends.postgresql
+DATABASE_NAME=cof_db
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=your-password
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+
+# Email
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+GMAIL_HOST_USER=your-email@gmail.com
+GMAIL_APP_PASSWORD=your-app-password
+ADMIN_EMAIL=admin@example.com
+```
+
+## 🧪 Testing & Code Quality
+
+### Running Tests
+```bash
+# Run tests with Docker
+docker-compose -f docker-compose.test.yml up test-coffeeshop
+
+# Run tests locally
+pytest
+
+# Run tests with coverage
+pytest --cov=coffeeshop
+```
+
+### Code Linting
+```bash
+# Run linting with Docker
+docker-compose -f docker-compose.test.yml up test-coffeeshop-lint
+
+# Run linting locally
+ruff check .
+ruff format .
+```
+
+## 📊 Database Structure
+
+### Core Models
+
+- **Product** - products with categories, types, regions
+- **Order** - orders with item details
+- **Promo** - promo codes and discounts
+- **User** - users with extended authentication
+
+### Relationships
+- Products linked to categories, types, regions, manufacturers
+- Orders contain item details
+- Promo codes can be applied to cart or products
+
+## 🚀 Deployment
+
+### Production Settings
+
+1. **Configure environment variables for production**
+2. **Start the application:**
+```bash
+docker-compose up -d
+```
+
+3. **Configure SSL certificates (optional):**
+```bash
+# Uncomment certbot in docker-compose.yml
+docker-compose up -d nginx
+docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot/ -d your-domain.com
+```
+
+## 📁 Project Structure
+
+```
+coffeeshop/
+├── catalog/                 # Product catalog
+│   ├── models.py           # Product models
+│   ├── views.py            # Catalog views
+│   ├── filters.py          # Product filters
+│   └── management/         # Django commands
+├── cart/                   # Shopping cart
+│   ├── cart.py            # Cart logic
+│   ├── storage.py         # Cart storage
+│   └── product_service.py  # Product service
+├── order/                  # Orders
+│   ├── models.py          # Order models
+│   ├── services.py       # Business logic
+│   └── forms.py           # Order forms
+├── promo/                  # Promo codes
+│   ├── models.py          # Promo models
+│   ├── promo.py           # Promo logic
+│   └── promo_factory.py   # Promo factory
+├── users/                  # Users
+│   ├── authentication.py  # Custom authentication
+│   └── forms.py           # User forms
+└── config/                # Django settings
+    ├── settings.py        # Main settings
+    ├── urls.py           # URL routes
+    └── wsgi.py           # WSGI configuration
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
+
+### Code Standards
+
+- Use type hints for all functions
+- Add docstrings for all classes and methods
+- Follow PEP 8 and Ruff configuration
+- Cover new code with tests
+- Use meaningful variable and function names
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**srt-2000** - [srt2000888@gmail.ru](mailto:srt2000888@gmail.ru)
+
+## 🔗 Useful Links
+
+- [Django Documentation](https://docs.djangoproject.com/)
+- [Docker Documentation](https://docs.docker.com/)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [pytest Documentation](https://docs.pytest.org/)
