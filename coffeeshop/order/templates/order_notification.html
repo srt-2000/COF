@@ -4,20 +4,73 @@
     <meta charset="UTF-8">
     <title>New Order #{{ order.id }}</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
-        .order-info { margin-bottom: 20px; }
-        .order-items { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .order-items th, .order-items td { padding: 10px; border: 1px solid #ddd; }
-        .order-items th { background: #f8f9fa; }
-        .total { font-weight: bold; }
+        body { 
+            font-family: 'Arial', sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            background-color: #f8f9fa;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header { 
+            background: linear-gradient(135deg, #532d6d 0%, #6b3a8a 100%);
+            color: white;
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            text-align: center;
+        }
+        .order-info { 
+            margin-bottom: 20px; 
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #532d6d;
+        }
+        .order-items { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 20px; 
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .order-items th, .order-items td { 
+            padding: 12px; 
+            border: 1px solid #e0e0e0; 
+            text-align: left;
+        }
+        .order-items th { 
+            background: #532d6d; 
+            color: white;
+            font-weight: 600;
+        }
+        .order-items tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .total { 
+            font-weight: bold; 
+            background-color: #f8f9fa;
+        }
+        .promo-applied {
+            color: #28a745;
+        }
+        .promo-error {
+            color: #dc3545;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h2>New Order #{{ order.id }}</h2>
+            <p>COF Shop - Coffee & Tea Store</p>
         </div>
 
         <div class="order-info">
@@ -42,55 +95,45 @@
                 <tr>
                     <td>{{ item.product_name }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td>{{ item.price }} ₽</td>
+                    <td>${{ item.price }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
-                <tr>
-                    <td colspan="2" class="total">Total Items:</td>
-                    <td class="total">{{ order.get_total_items }}</td>
+                <tr class="total">
+                    <td colspan="2"><strong>Total Items:</strong></td>
+                    <td><strong>{{ order.get_total_items }}</strong></td>
                 </tr>
                 <tr class="total">
-                  <td colspan="4">Cart Total:</td>
-                  <td class="num">{{ order.cart_price }}</td>
+                    <td colspan="2"><strong>Cart Total:</strong></td>
+                    <td><strong>${{ order.cart_price }}</strong></td>
                 </tr>
-                <tr>
-                  <td colspan="4"><br></td>
-                </tr>
+                
                 {% if order.applied_promo_name %}
-                  {% if order.applied_promo_status %}
-                  <tr class="total">
-                    <td colspan="4">Applied promo: {{ order.applied_promo_name }}</td>
-                  </tr>
-                  <tr class="total">
-                    <td colspan="4">YOUR discount:</td>
-                    <td class="num">{{ order.discount_sum }}</td>
-                  </tr>
-                  <tr class="total">
-                    <td colspan="4">TOTAL amount with discount:</td>
-                    <td class="num"><b>{{ order.total_price }}</b></td>
-                  </tr>
-                  {% else %}
-                  <tr class="total">
-                    <td colspan="4">No promo applied</td>
-                  </tr>
-                  <tr>
-                    <th colspan="2">Total Amount</th>
-                    <th class="text-right">{{ order.total_price }} ₽</th>
-                  </tr>
-                  {% endif %}
-
+                    {% if order.applied_promo_status %}
+                    <tr class="total promo-applied">
+                        <td colspan="2">Applied promo: {{ order.applied_promo_name }}</td>
+                        <td>-${{ order.discount_sum }}</td>
+                    </tr>
+                    <tr class="total">
+                        <td colspan="2"><strong>TOTAL with discount:</strong></td>
+                        <td><strong>${{ order.total_price }}</strong></td>
+                    </tr>
+                    {% else %}
+                    <tr class="total promo-error">
+                        <td colspan="2">Cannot apply promo: {{ order.applied_promo_name }}</td>
+                    </tr>
+                    <tr class="total">
+                        <td colspan="2"><strong>Total Amount:</strong></td>
+                        <td><strong>${{ order.total_price }}</strong></td>
+                    </tr>
+                    {% endif %}
                 {% else %}
-                  <tr class="total">
-                    <td colspan="4">No promo applied</td>
-                  </tr>
-                  <tr>
-                    <th colspan="2">Total Amount</th>
-                    <th class="text-right">{{ order.total_price }} ₽</th>
-                  </tr>
+                    <tr class="total">
+                        <td colspan="2"><strong>Total Amount:</strong></td>
+                        <td><strong>${{ order.total_price }}</strong></td>
+                    </tr>
                 {% endif %}
-
             </tfoot>
         </table>
     </div>

@@ -1,25 +1,47 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-{% for p in promo_list %}
-<p>
-    Promo name: {{p.name}}
-</p>
-<p>
-    Promo description: {{p.description}}
-</p>
-<p>
-    Promo valid until: {{p.date_end}}
-</p>
-<p>
-    Min cart total: {{p.min_cart_total}}
-</p>
-<p>
-    Discount percent: {{p.discount}}
-</p>
-
-
-{% endfor %}
-
+<div class="promo-section">
+    <h1>Available Promotions</h1>
+    <p>Take advantage of our special offers!</p>
+    
+    <div class="promo-grid">
+        {% for p in promo_list %}
+        <div class="promo-card">
+            <div class="promo-header">
+                <h3>{{ p.name }}</h3>
+                <div class="promo-discount">{{ p.discount }}% OFF</div>
+            </div>
+            
+            <div class="promo-content">
+                <p class="promo-description">{{ p.description }}</p>
+                
+                <div class="promo-details">
+                    <div class="detail-row">
+                        <strong>Valid until:</strong>
+                        <span>{{ p.date_end|date:"d.m.Y" }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <strong>Minimum cart total:</strong>
+                        <span>${{ p.min_cart_total }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <strong>Discount:</strong>
+                        <span>{{ p.discount }}%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-promo">
+            <h3>No promotions available</h3>
+            <p>Check back later for special offers!</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="promo-actions">
+        <a href="{% url 'catalog' %}" class="btn-primary">Continue Shopping</a>
+    </div>
+</div>
 {% endblock %}

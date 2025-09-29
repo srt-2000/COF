@@ -1,55 +1,82 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{item.name}}</h1>
-
-<div>
-    <p>
-        {{item.category.name}} | {{item.name}} |
-        {% if item.region %}
-        region: {{item.region}}
-        {% endif %}
-        {% if item.manufacture %}
-        manufacture: {{item.manufacture}}
-        {% endif %}
-    </p>
-    {% if item.image %}
-    <p>
-        <img width=300px height=auto src="{{item.image.url}}">
-    </p>
-    {% endif %}
-    <p>
-        {{item.description}}
-    </p>
-    {% if item.sort %}
-    <p>
-        sort: {{item.sort}}
-    </p>
-    {% endif %}
-    {% if item.type %}
-    <p>
-        type: {{item.product_type}}
-    </p>
-    {% endif %}
-    <p>
-        {% if item.category.slug == 'tea' %}
-        Price per 1000 g: {{item.price}}
-        {% endif %}
-        {% if item.category.slug == 'coffee' %}
-        Price per 1000 g: {{item.price}}
-        {% endif %}
-        {% if item.category.slug == 'accessories' %}
-        Price per 1 psc: {{item.price}}
-        {% endif %}
-        {% if item.category.slug == 'coffee-makers' %}
-        Price per 1 psc: {{item.price}}
-        {% endif %}
-    <form action="{% url 'cart_add' item.id %}" method="post">
-        {% csrf_token %}
-        <input type="number" name="quantity" value="1" min="1" max="20">
-        <button type="submit"><b>add to cart</b></button>
-    </form>
-
+<div class="product-detail-section">
+    <div class="product-detail-layout">
+        <!-- Product Image -->
+        <div class="product-image-section">
+            {% if item.image %}
+            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="product-main-image">
+            {% else %}
+            <div class="product-image-placeholder">
+                <span>No Image Available</span>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Product Info -->
+        <div class="product-detail-info">
+            <div class="product-breadcrumb">
+                <a href="{% url 'catalog' %}">Products</a> / 
+                <a href="{% url 'catalog' %}?category={{ item.category.slug }}">{{ item.category.name }}</a> / 
+                <span>{{ item.name }}</span>
+            </div>
+            
+            <h1 class="product-detail-title">{{ item.name }}</h1>
+            
+            <div class="product-meta">
+                <span class="product-category">{{ item.category.name }}</span>
+                
+                {% if item.region %}
+                <span class="product-meta-item">Region: {{ item.region }}</span>
+                {% endif %}
+                
+                {% if item.manufacture %}
+                <span class="product-meta-item">Manufacture: {{ item.manufacture }}</span>
+                {% endif %}
+                
+                {% if item.sort %}
+                <span class="product-meta-item">Sort: {{ item.sort }}</span>
+                {% endif %}
+                
+                {% if item.product_type %}
+                <span class="product-meta-item">Type: {{ item.product_type }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="product-description">
+                <h3>Description</h3>
+                <p>{{ item.description }}</p>
+            </div>
+            
+            <div class="product-pricing">
+                <div class="price">
+                    {% if item.category.slug == 'tea' or item.category.slug == 'coffee' %}
+                        <span class="price-label">Price per 1000g:</span>
+                        <span class="price-value">${{ item.price }}</span>
+                    {% else %}
+                        <span class="price-label">Price per 1 pcs:</span>
+                        <span class="price-value">${{ item.price }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="product-actions">
+                <form action="{% url 'cart_add' item.id %}" method="post" class="add-to-cart-form">
+                    {% csrf_token %}
+                    <div class="quantity-selector">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" name="quantity" id="quantity" value="1" min="1" max="20" class="quantity-input">
+                    </div>
+                    <button type="submit" class="btn-primary btn-large">Add to Cart</button>
+                </form>
+                
+                <div class="product-links">
+                    <a href="{% url 'catalog' %}" class="btn-secondary">Back to Products</a>
+                    <a href="{% url 'cart_detail' %}" class="btn-secondary">View Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
 {% endblock %}

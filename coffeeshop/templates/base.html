@@ -1,79 +1,136 @@
 {% load static %}
 {% load catalog_tags %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>{{ title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#532d6d">
+    <title>{{ title }} | COF Shop</title>
     <link type="text/css" href="{% static 'css/base_styles.css' %}" rel="stylesheet"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<table class="table-page" border=0 cellpadding="0" cellspacing="0">
-    <tr>
-        <td valign=top>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <a href="{% url 'catalog' %}">
+                        <h1>COF Shop</h1>
+                    </a>
+                </div>
 
-            {% block mainmenu %}
-            {% get_main_menu as menu %}
-		    <div class="header">
-			<ul id="mainmenu" class="mainmenu">
-            {% for m in menu %}
-	        <li>
-                <a href="{% url m.url_name %}">{{ m.title }}</a>
-            </li>
-            {% endfor %}
-            {% if user.is_authenticated %}
-            <li class="last">
-                <form method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit">logout</button>
-                </form>
-            </li>
-			<li class="last">
-                <a href="{% url 'profile' %}">{{ user.username }} profile</a>
-            </li>
-            {% else %}
-            <li class="last">
-                <a href="{% url 'cart_detail' %}">my cart</a> | <a href="{% url 'login' %}">enter</a> | <a href="{% url 'registration' %}">registration</a>
-            </li>
-            {% endif %}
-			</ul>
-            {% endblock mainmenu %}
+                <!-- Navigation -->
+                <nav class="main-nav">
+                    {% get_main_menu as menu %}
+                    <ul class="nav-menu">
+                        {% for m in menu %}
+                        <li><a href="{% url m.url_name %}" class="nav-link">{{ m.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </nav>
 
+                <!-- User Actions -->
+                <div class="user-actions">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="user-link">{{ user.username }}</a>
+                        <form method="post" action="{% url 'logout' %}" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-logout">Logout</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="user-link">Sign In</a>
+                        <a href="{% url 'registration' %}" class="user-link">Register</a>
+                    {% endif %}
+                    
+                    <!-- Cart -->
+                    <a href="{% url 'cart_detail' %}" class="cart-link">
+                        <span class="cart-icon">🛒</span>
+                        {% with total_items=cart|length %}
+                        <span class="cart-count">{{ total_items }}</span>
+                        {% endwith %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
 
-            <table class="table-content" border=0 cellpadding="0" cellspacing="0">
-                <tr>
-                    <!-- Sidebar слева -->
-
-                    <td valign="top" class="left-chapters">
-                        <ul>
-                            <li><a href="{% url 'catalog' %}">ALL PRODUCTS</a></li>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-layout">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-content">
+                        <h3>Categories</h3>
+                        <ul class="category-list">
+                            <li><a href="{% url 'catalog' %}" class="category-link">All Products</a></li>
                             {% show_categories %}
-
-                            <li>
-                                {% with total_items=cart|length %}
-                                {% if total_items > 0 %}
-                                CART: <a href="{% url 'cart_detail' %}">{{ total_items }} items</a>
-                                {% else %}
-                                CART is empty
-                                {% endif %}
-                                {% endwith %}
-                            </li>
                         </ul>
-                    </td>
-                    <!-- Конец Sidebar'а -->
-                    <td valign="top" class="content">
-                        <h1>{{title}}</h1>
-                        <!-- Блок контента -->
-                        <div class="content-text">
-                            {% block content %}
-                            {% endblock %}
-                            {% block navigation %}
-                            {% endblock %}
+                        
+                        <div class="cart-summary">
+                            {% with total_items=cart|length %}
+                            {% if total_items > 0 %}
+                                <p>Cart: <a href="{% url 'cart_detail' %}">{{ total_items }} items</a></p>
+                            {% else %}
+                                <p>Cart is empty</p>
+                            {% endif %}
+                            {% endwith %}
                         </div>
-                        <!-- Конец блока контента -->
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+                    </div>
+                </aside>
+
+                <!-- Content Area -->
+                <div class="content-area">
+                    <div class="page-header">
+                        <h1 class="page-title">{{ title }}</h1>
+                    </div>
+                    
+                    <div class="content-body">
+                        {% block content %}
+                        {% endblock %}
+                        
+                        {% block navigation %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <p>Premium coffee and tea from around the world</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'catalog' %}">Products</a></li>
+                        <li><a href="{% url 'cart_detail' %}">Cart</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: info@cofshop.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 COF Shop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
+</html>

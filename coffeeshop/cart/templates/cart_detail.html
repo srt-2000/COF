@@ -1,106 +1,139 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>Your Cart</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Remove</th>
-            <th>Price 1 psc</th>
-            <th>Total items price</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in cart %}
-            {% with product=item.product %}
-            <tr>
-                <td>{{ product.name }}</td>
-                <td>
-                    <form action="{% url 'cart_update' product.id %}" method="post">
-                        {% csrf_token %}
-                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                        <button type="submit">Update</button>
-                    </form>
-                </td>
-                <td>
-                    <form action="{% url 'cart_remove' product.id %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">Remove</button>
-                    </form>
-                </td>
-                <td class="num">{{ item.price }}</td>
-                <td class="num">{{ item.total_price }}</td>
-            </tr>
-            {% endwith %}
-        {% empty %}
-            <tr>
-                <td colspan="5">Your cart is empty</td>
-            </tr>
-        {% endfor %}
-        {% if total_price %}
-            <tr class="total">
-                <td colspan="4">Total items quantity:</td>
-                <td class="num">{{ cart|length }}</td>
-            </tr>
-            <tr class="total">
-                <td colspan="4">Total:</td>
-                <td class="num">{{ total_cart_price }}</td>
-            </tr>
-            <tr>
-                <td colspan="4"><br></td>
-            </tr>
-
-            {% if applied_promo_name %}
-                {% if applied_promo_status %}
-                <tr class="total">
-                    <td colspan="4">Applied promo: {{ applied_promo_name }}</td>
-                </tr>
-                <tr class="total">
-                    <td colspan="4">YOUR discount:</td>
-                    <td class="num">{{ discount_sum }}</td>
-                </tr>
-                <tr class="total">
-                    <td colspan="4">TOTAL cart price with discount:</td>
-                    <td class="num"><b>{{ total_price }}</b></td>
-                </tr>
-                {% else %}
-                <tr class="total">
-                    <td colspan="4">CAN'T apply promo: {{ applied_promo_name }} to your current CART</td>
-                </tr>
-                {% endif %}
-            {% endif %}
-
-            {% if not applied_promo_name %}
-            <tr class="total">
-                <td colspan="4">No promo applied</td>
-            </tr>
-            <tr class="total">
-                <td>
-                    <form action="{% url 'promo_apply' %}" method="post">
-                    {% csrf_token %}
-                    {{ promo_form.as_p }}
-                    <button type="submit" class="button">Apply promo</button>
-                    </form>
-                </td>
-            </tr>
-            {% endif %}
-
+<div class="cart-section">
+    <div class="cart-header">
+        <h1>Your Shopping Cart</h1>
+        {% if cart.get_total_price %}
+        <p class="cart-summary-text">{{ cart|length }} item(s) in your cart</p>
         {% endif %}
-    </tbody>
-</table>
+    </div>
 
-<form action="{% url 'cart_clear' %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="button">Clear cart</button>
-</form>
-
-<p class="text-right">
-    <a href="{% url 'catalog' %}" class="button light">GO shopping</a>
-    <br>
-    {% if cart.get_total_price %}
-    <a href="{% url 'order_create' %}" class="button">Make order</a>
+    {% if cart %}
+    <div class="cart-content">
+        <div class="cart-items">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        {% with product=item.product %}
+                        <tr>
+                            <td>
+                                <div class="cart-item-info">
+                                    {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="cart-item-image">
+                                    {% endif %}
+                                    <div class="cart-item-details">
+                                        <h3 class="cart-item-name">{{ product.name }}</h3>
+                                        <p class="cart-item-category">{{ product.category.name }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <form action="{% url 'cart_update' product.id %}" method="post" class="quantity-form">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="20" class="quantity-input">
+                                    <button type="submit" class="btn-update">Update</button>
+                                </form>
+                            </td>
+                            <td>
+                                <span class="price">${{ item.price }}</span>
+                            </td>
+                            <td>
+                                <span class="total-price">${{ item.total_price }}</span>
+                            </td>
+                            <td>
+                                <form action="{% url 'cart_remove' product.id %}" method="post" class="remove-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-remove">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endwith %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="cart-summary">
+            <div class="summary-card">
+                <h3>Order Summary</h3>
+                
+                <div class="summary-row">
+                    <span>Items ({{ cart|length }}):</span>
+                    <span>${{ total_cart_price }}</span>
+                </div>
+                
+                {% if applied_promo_name %}
+                    {% if applied_promo_status %}
+                    <div class="summary-row promo-applied">
+                        <span>Promo "{{ applied_promo_name }}" applied:</span>
+                        <span>-${{ discount_sum }}</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span><strong>Total with discount:</strong></span>
+                        <span><strong>${{ total_price }}</strong></span>
+                    </div>
+                    {% else %}
+                    <div class="summary-row promo-error">
+                        <span>Cannot apply promo "{{ applied_promo_name }}"</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span><strong>Total:</strong></span>
+                        <span><strong>${{ total_cart_price }}</strong></span>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="summary-row">
+                        <span>No promo applied</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span><strong>Total:</strong></span>
+                        <span><strong>${{ total_cart_price }}</strong></span>
+                    </div>
+                {% endif %}
+                
+                {% if not applied_promo_name %}
+                <div class="promo-section">
+                    <h4>Apply Promo Code</h4>
+                    <form action="{% url 'promo_apply' %}" method="post" class="promo-form">
+                        {% csrf_token %}
+                        {{ promo_form.as_p }}
+                        <button type="submit" class="btn-primary">Apply Promo</button>
+                    </form>
+                </div>
+                {% endif %}
+                
+                <div class="cart-actions">
+                    <a href="{% url 'catalog' %}" class="btn-secondary">Continue Shopping</a>
+                    {% if cart.get_total_price %}
+                    <a href="{% url 'order_create' %}" class="btn-primary">Proceed to Checkout</a>
+                    {% endif %}
+                </div>
+                
+                <form action="{% url 'cart_clear' %}" method="post" class="clear-cart-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-clear">Clear Cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-cart">
+        <div class="empty-cart-content">
+            <h2>Your cart is empty</h2>
+            <p>Looks like you haven't added any items to your cart yet.</p>
+            <a href="{% url 'catalog' %}" class="btn-primary">Start Shopping</a>
+        </div>
+    </div>
     {% endif %}
-</p>
+</div>
 {% endblock %}
