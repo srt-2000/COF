@@ -8,8 +8,7 @@
 ## Description
 
 This e-commerce project was created while learning how to work with the Django framework.
-
-##
+#
 By examining the project code, you'll understand the principles of authentication, authorization, shopping cart, 
 pagination, templates and views, order processing, using promo, and email notifications.
 
