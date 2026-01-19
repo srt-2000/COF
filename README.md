@@ -4,9 +4,14 @@
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://docker.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue.svg)](https://postgresql.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Modern coffee and tea internet shop built with Django following backend development best practices.
+## Description
+
+This e-commerce project was created while learning how to work with the Django framework.
+
+##
+By examining the project code, you'll understand the principles of authentication, authorization, shopping cart, 
+pagination, templates and views, order processing, using promo, and email notifications.
 
 ## 🚀 Features
 
@@ -17,18 +22,6 @@ Modern coffee and tea internet shop built with Django following backend developm
 - **Performance**: Gunicorn with gevent, optimized database queries
 - **Testing**: Comprehensive test coverage with pytest
 - **Code Quality**: Ruff for linting and formatting
-
-## ��️ Architecture
-
-```
-coffeeshop/
-├── catalog/          # Product catalog
-├── cart/            # Shopping cart
-├── order/           # Order processing
-├── promo/           # Promo codes and discounts
-├── users/           # User authentication
-└── config/          # Django settings
-```
 
 ## 🛠️ Tech Stack
 
@@ -257,26 +250,6 @@ coffeeshop/
     ├── urls.py           # URL routes
     └── wsgi.py           # WSGI configuration
 ```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-### Code Standards
-
-- Use type hints for all functions
-- Add docstrings for all classes and methods
-- Follow PEP 8 and Ruff configuration
-- Cover new code with tests
-- Use meaningful variable and function names
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 Author
 
