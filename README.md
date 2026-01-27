@@ -7,6 +7,8 @@
 
 ## Description
 
+Hi, everyone! It's my first large PET-project.
+
 This e-commerce project was created while learning how to work with the Django framework.
 By examining the project code, you'll understand the principles of authentication, authorization, shopping cart, 
 pagination, templates and views, order processing, using promo, and email notifications.
@@ -55,11 +57,11 @@ cd cof
 
 2. **Configure environment variables:**
 ```bash
-# Edit the .example file with your configuration values
+# Edit the .env.example file with your configuration values
 nano .example
 
 # After editing, rename the file to .env
-mv .example .env
+mv .env.example .env
 ```
 
 3. **For local development, configure the following:**
@@ -99,49 +101,26 @@ DEBUG=True
 docker-compose up -d
 ```
 
-5. **Load test data:**
+5. I've created a custom command for loading test data.
+   After it - we can start with no empty database - **Load test data:** 
 ```bash
 docker-compose exec coffeeshop python manage.py loadtestdata
 ```
 
 The application will be available at: http://localhost
 
-### Local Development
-
-1. **Install dependencies:**
-```bash
-poetry install
-poetry shell
-```
-
-2. **Set up database:**
-```bash
-# Create PostgreSQL database
-createdb cof_db
-
-# Run migrations
-python manage.py migrate
-
-# Load test data
-python manage.py loadtestdata
-```
-
-3. **Start development server:**
-```bash
-python manage.py runserver
-```
-
 ## 🔧 Configuration
 
 ### Environment Variables
 
-The project includes a `.example` file with all required environment variables. You need to:
+The project includes a `.env.example` file with all required environment variables. 
+You need to:
 
-1. **Edit the `.example` file** with your configuration values
+1. **Edit the `.env.example` file** with your configuration values
 2. **Rename it to `.env`** after configuration
 
 Example configuration:
-```env
+```.env
 # Django
 SECRET_KEY=your-secret-key-here
 DEBUG=True
@@ -171,11 +150,8 @@ ADMIN_EMAIL=admin@example.com
 # Run tests with Docker
 docker-compose -f docker-compose.test.yml up test-coffeeshop
 
-# Run tests locally
+# Or you can run tests locally
 pytest
-
-# Run tests with coverage
-pytest --cov=coffeeshop
 ```
 
 ### Code Linting
@@ -183,24 +159,129 @@ pytest --cov=coffeeshop
 # Run linting with Docker
 docker-compose -f docker-compose.test.yml up test-coffeeshop-lint
 
-# Run linting locally
+# Or you can run linting locally
 ruff check .
 ruff format .
 ```
 
 ## 📊 Database Structure
 
-### Core Models
+The database structure consists of core entities for products, orders, promotions, and users. The following ERM diagram illustrates the relationships between all database models:
 
-- **Product** - products with categories, types, regions
-- **Order** - orders with item details
-- **Promo** - promo codes and discounts
-- **User** - users with extended authentication
+```mermaid
+erDiagram
+    auth_user ||--o{ order_order : "has"
+    order_order ||--|{ order_orderitem : "contains"
+    catalog_productcategory ||--o{ catalog_product : "categorizes"
+    catalog_productsort ||--o{ catalog_product : "sorts"
+    catalog_producttype ||--o{ catalog_product : "types"
+    catalog_productregion ||--o{ catalog_product : "originates"
+    catalog_productmanufacture ||--o{ catalog_product : "manufactures"
+    catalog_product }o--o{ promo_promo : "promoted_by"
+    
+    auth_user {
+        int id PK
+        string username
+        string email
+        string first_name
+        string last_name
+        boolean is_active
+        datetime date_joined
+    }
+    
+    catalog_product {
+        int id PK
+        string name
+        string slug UK
+        string image
+        text description
+        decimal price
+        int category_id FK
+        int sort_id FK "nullable"
+        int product_type_id FK "nullable"
+        int region_id FK "nullable"
+        int manufacture_id FK "nullable"
+    }
+    
+    catalog_productcategory {
+        int id PK
+        string name
+        string slug UK
+    }
+    
+    catalog_productsort {
+        int id PK
+        string name
+        string slug UK
+    }
+    
+    catalog_producttype {
+        int id PK
+        string name
+        string slug UK
+    }
+    
+    catalog_productregion {
+        int id PK
+        string name
+        string slug UK
+    }
+    
+    catalog_productmanufacture {
+        int id PK
+        string name
+        string slug UK
+    }
+    
+    order_order {
+        int id PK
+        int user_id FK
+        text delivery_address
+        string phone
+        decimal cart_price
+        string applied_promo_name "nullable"
+        boolean applied_promo_status
+        decimal discount_sum
+        decimal total_price
+        datetime time_created
+        boolean is_paid
+    }
+    
+    order_orderitem {
+        int id PK
+        int order_id FK
+        int product_id
+        string product_name
+        int quantity
+        decimal price
+    }
+    
+    promo_promo {
+        int id PK
+        string name
+        int promo_type
+        text description
+        boolean is_active
+        datetime date_start
+        datetime date_end
+        decimal min_cart_total
+        int required_products_quantity
+        int free_promo_products
+        decimal discount
+    }
+```
 
-### Relationships
-- Products linked to categories, types, regions, manufacturers
-- Orders contain item details
-- Promo codes can be applied to cart or products
+### Entity Relationships
+
+- **auth_user → order_order** (One-to-Many): A user can have multiple orders. Orders are deleted when a user is deleted (CASCADE).
+
+- **order_order → order_orderitem** (One-to-Many): An order contains multiple order items. Order items store a snapshot of product data (product_id, product_name, price) at the time of order creation.
+
+- **catalog_productcategory → catalog_product** (One-to-Many): Each product belongs to a category. Categories are protected from deletion if products exist (PROTECT).
+
+- **catalog_productsort/producttype/productregion/productmanufacture → catalog_product** (One-to-Many, Optional): Products can optionally have sort, type, region, and manufacturer attributes. These relationships allow NULL values (SET_NULL).
+
+- **catalog_product ↔ promo_promo** (Many-to-Many): Promo codes can be associated with multiple products, and products can have multiple promo codes. Promos support two types: TOTAL_CART (discount on entire cart) and FREE_PRODUCT (free products promotion).
 
 ## 🚀 Deployment
 
