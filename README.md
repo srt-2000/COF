@@ -7,7 +7,7 @@
 
 ## Description
 
-Hi, everyone! It's my first large PET-project.
+Hi, everyone! It's my first PET-project.
 
 This e-commerce project was created while learning how to work with the Django framework.
 By examining the project code, you'll understand the principles of authentication, authorization, shopping cart, 
@@ -16,9 +16,8 @@ pagination, templates and views, order processing, using promo, and email notifi
 ## 🚀 Features
 
 - **Modern Architecture**: Django 5.2+ with type hints and comprehensive docstrings
-- **Microservice Structure**: Modular applications (catalog, cart, order, promo, users)
+- **Modular Apps**: Separate Django apps (catalog, cart, order, promo, users)
 - **Containerization**: Full Docker configuration with PostgreSQL and Nginx
-- **Security**: CSRF protection, data validation, secure cookies
 - **Performance**: Gunicorn with gevent, optimized database queries
 - **Testing**: Comprehensive test coverage with pytest
 - **Code Quality**: Ruff for linting and formatting
@@ -27,13 +26,13 @@ pagination, templates and views, order processing, using promo, and email notifi
 
 ### Backend
 - **Django 5.2.4** - web framework
-- **Python 3.11+** - programming language
+- **Python 3.11+** (3.12 in Docker image) - programming language
 - **PostgreSQL 17** - database
 - **Gunicorn + Gevent** - WSGI server
 - **Nginx** - web server and proxy
 
 ### Development Tools
-- **Poetry** - dependency management
+- **uv** + **uv.lock** - dependency management and reproducible installs
 - **Docker & Docker Compose** - containerization
 - **pytest** - testing framework
 - **Ruff** - linting and formatting
@@ -43,7 +42,18 @@ pagination, templates and views, order processing, using promo, and email notifi
 
 - Python 3.11+
 - Docker & Docker Compose
-- Poetry (optional)
+- uv (optional, for local development without Docker)
+
+### Local Development (without Docker)
+
+```bash
+uv sync
+cp .env.example .env
+# Set DATABASE_HOST=localhost and ensure PostgreSQL is running
+cd coffeeshop
+python manage.py migrate
+python manage.py runserver
+```
 
 ## 🚀 Quick Start
 
@@ -57,54 +67,18 @@ cd cof
 
 2. **Configure environment variables:**
 ```bash
-# Edit the .env.example file with your configuration values
-nano .example
-
-# After editing, rename the file to .env
-mv .env.example .env
+cp .env.example .env
+# Edit .env if needed (email settings, passwords)
 ```
 
-3. **For local development, configure the following:**
-
-**In `.env` file:**
-```env
-ALLOWED_HOSTS=127.0.0.1 localhost [::1]
-DEBUG=True
-```
-
-**In `nginx/coffeeshop_nginx.conf`, comment out lines 8, 9, 10, 18, 19, 20:**
-```nginx
-# location /.well-known/acme-challenge/ {
-#     root /var/www/certbot;
-# }
-
-# server {
-#     listen 443 ssl;
-#     ssl_certificate /etc/letsencrypt/live/srt-tester.ru/fullchain.pem;
-#     ssl_certificate_key /etc/letsencrypt/live/srt-tester.ru/privkey.pem;
-```
-
-**In `docker-compose.yml`, comment out lines 83-90:**
-```yaml
-# certbot:
-#   image: certbot/certbot
-#   volumes:
-#     - ./certbot/conf:/etc/letsencrypt
-#     - ./certbot/www:/var/www/certbot
-#   command: certonly --webroot --webroot-path=/var/www/certbot/ --email srt2000888tester@gmail.com --agree-tos --no-eff-email -d srt-tester.ru
-#   depends_on:
-#     - nginx
-```
-
-4. **Start the application:**
+3. **Start the application:**
 ```bash
-docker-compose up -d
+docker compose up --build
 ```
 
-5. I've created a custom command for loading test data.
-   After it - we can start with no empty database - **Load test data:** 
+4. **Load test data (optional):**
 ```bash
-docker-compose exec coffeeshop python manage.py loadtestdata
+docker compose exec coffeeshop python manage.py loadtestdata
 ```
 
 The application will be available at: http://localhost
@@ -113,26 +87,30 @@ The application will be available at: http://localhost
 
 ### Environment Variables
 
-The project includes a `.env.example` file with all required environment variables. 
-You need to:
+Copy the example file and edit your local `.env` (do not commit it):
 
-1. **Edit the `.env.example` file** with your configuration values
-2. **Rename it to `.env`** after configuration
+```bash
+cp .env.example .env
+```
 
-Example configuration:
-```.env
+Required variables are documented in `.env.example`. Example:
+
+```env
 # Django
 SECRET_KEY=your-secret-key-here
 DEBUG=True
 ALLOWED_HOSTS=127.0.0.1 localhost [::1]
 
-# Database
+# Database (use service name "postgres" for Docker Compose)
 DATABASE_ENGINE=django.db.backends.postgresql
 DATABASE_NAME=cof_db
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=your-password
-DATABASE_HOST=localhost
+DATABASE_HOST=postgres
 DATABASE_PORT=5432
+
+# Tests (docker-compose.test.yml service name)
+TEST_DATABASE_HOST=test-postgres
 
 # Email
 EMAIL_HOST=smtp.gmail.com
@@ -143,161 +121,45 @@ GMAIL_APP_PASSWORD=your-app-password
 ADMIN_EMAIL=admin@example.com
 ```
 
+With Docker Compose, database migrations run automatically via the `coffeeshop-migrations` one-shot service before the app starts.
+
 ## 🧪 Testing & Code Quality
 
-### Running Tests
-```bash
-# Run tests with Docker
-docker-compose -f docker-compose.test.yml up test-coffeeshop
+### Running Tests (Docker, recommended)
 
-# Or you can run tests locally
+Runs format check, lint, migrations, and pytest against an isolated test database:
+
+```bash
+docker compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from test test
+```
+
+`Aborting on container exit...` and container stop messages are expected when using `--abort-on-container-exit`.
+
+### Running Tests Locally
+
+Requires PostgreSQL and a configured `.env` (same variables as for the app; point `DATABASE_HOST` to your DB host, e.g. `localhost`):
+
+```bash
+uv sync --group dev
+cd coffeeshop && python manage.py migrate && cd ..
 pytest
 ```
 
-### Code Linting
-```bash
-# Run linting with Docker
-docker-compose -f docker-compose.test.yml up test-coffeeshop-lint
+### Code Linting & Formatting
 
-# Or you can run linting locally
+Match the Docker test pipeline locally:
+
+```bash
+uv sync --group dev
+ruff format --check .
 ruff check .
+```
+
+Auto-fix:
+
+```bash
 ruff format .
-```
-
-## 📊 Database Structure
-
-The database structure consists of core entities for products, orders, promotions, and users. The following ERM diagram illustrates the relationships between all database models:
-
-```mermaid
-erDiagram
-    auth_user ||--o{ order_order : "has"
-    order_order ||--|{ order_orderitem : "contains"
-    catalog_productcategory ||--o{ catalog_product : "categorizes"
-    catalog_productsort ||--o{ catalog_product : "sorts"
-    catalog_producttype ||--o{ catalog_product : "types"
-    catalog_productregion ||--o{ catalog_product : "originates"
-    catalog_productmanufacture ||--o{ catalog_product : "manufactures"
-    catalog_product }o--o{ promo_promo : "promoted_by"
-    
-    auth_user {
-        int id PK
-        string username
-        string email
-        string first_name
-        string last_name
-        boolean is_active
-        datetime date_joined
-    }
-    
-    catalog_product {
-        int id PK
-        string name
-        string slug UK
-        string image
-        text description
-        decimal price
-        int category_id FK
-        int sort_id FK "nullable"
-        int product_type_id FK "nullable"
-        int region_id FK "nullable"
-        int manufacture_id FK "nullable"
-    }
-    
-    catalog_productcategory {
-        int id PK
-        string name
-        string slug UK
-    }
-    
-    catalog_productsort {
-        int id PK
-        string name
-        string slug UK
-    }
-    
-    catalog_producttype {
-        int id PK
-        string name
-        string slug UK
-    }
-    
-    catalog_productregion {
-        int id PK
-        string name
-        string slug UK
-    }
-    
-    catalog_productmanufacture {
-        int id PK
-        string name
-        string slug UK
-    }
-    
-    order_order {
-        int id PK
-        int user_id FK
-        text delivery_address
-        string phone
-        decimal cart_price
-        string applied_promo_name "nullable"
-        boolean applied_promo_status
-        decimal discount_sum
-        decimal total_price
-        datetime time_created
-        boolean is_paid
-    }
-    
-    order_orderitem {
-        int id PK
-        int order_id FK
-        int product_id
-        string product_name
-        int quantity
-        decimal price
-    }
-    
-    promo_promo {
-        int id PK
-        string name
-        int promo_type
-        text description
-        boolean is_active
-        datetime date_start
-        datetime date_end
-        decimal min_cart_total
-        int required_products_quantity
-        int free_promo_products
-        decimal discount
-    }
-```
-
-### Entity Relationships
-
-- **auth_user → order_order** (One-to-Many): A user can have multiple orders. Orders are deleted when a user is deleted (CASCADE).
-
-- **order_order → order_orderitem** (One-to-Many): An order contains multiple order items. Order items store a snapshot of product data (product_id, product_name, price) at the time of order creation.
-
-- **catalog_productcategory → catalog_product** (One-to-Many): Each product belongs to a category. Categories are protected from deletion if products exist (PROTECT).
-
-- **catalog_productsort/producttype/productregion/productmanufacture → catalog_product** (One-to-Many, Optional): Products can optionally have sort, type, region, and manufacturer attributes. These relationships allow NULL values (SET_NULL).
-
-- **catalog_product ↔ promo_promo** (Many-to-Many): Promo codes can be associated with multiple products, and products can have multiple promo codes. Promos support two types: TOTAL_CART (discount on entire cart) and FREE_PRODUCT (free products promotion).
-
-## 🚀 Deployment
-
-### Production Settings
-
-1. **Configure environment variables for production**
-2. **Start the application:**
-```bash
-docker-compose up -d
-```
-
-3. **Configure SSL certificates (optional):**
-```bash
-# Uncomment certbot in docker-compose.yml
-docker-compose up -d nginx
-docker-compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot/ -d your-domain.com
+ruff check --fix .
 ```
 
 ## 📁 Project Structure

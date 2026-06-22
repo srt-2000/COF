@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections.abc import Generator
 from decimal import ROUND_HALF_UP, Decimal
+from typing import Literal
 
 from cart.domains import CartData, CartItemServiceData
 from cart.interfaces import ICart, ICartProductService, IStorage
@@ -107,7 +108,7 @@ class Cart(ICart):
         Returns:
             Decimal: The total price.
         """
-        cart_total: float = sum(
+        cart_total: Decimal | Literal[0] = sum(
             Decimal(item["price"]) * item["quantity"] for item in self._cart.values() if item["price"] is not None
         )
         return Decimal(cart_total).quantize(Decimal("1.00"), ROUND_HALF_UP)

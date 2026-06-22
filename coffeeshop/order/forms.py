@@ -22,7 +22,8 @@ class OrderCreateForm(forms.ModelForm):
         label="Phone",
         validators=[
             RegexValidator(
-                regex=r"^\+?[0-9\s]{10,15}$", message="Phone number must be in format: '+9999999999'. Quantity of digits min 10 max 15."
+                regex=r"^\+?[0-9\s]{10,15}$",
+                message="Phone number must be in format: '+9999999999'. Quantity of digits min 10 max 15.",
             )
         ],
     )

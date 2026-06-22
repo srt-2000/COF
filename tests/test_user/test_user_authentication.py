@@ -127,21 +127,25 @@ def test_authenticate_parameters(
     result = backend.authenticate(None, username=email, password=password)
     assert (result is not None) == expected
 
+
 def test_get_user_existing(backend: EmailAuthBackend, user_with_email: User) -> None:
     """Test getting existing user."""
     result = backend.get_user(user_with_email.id)
     assert result is not None
     assert result == user_with_email
 
+
 def test_get_user_nonexistent(backend: EmailAuthBackend) -> None:
     """Test getting non-existent user."""
     result = backend.get_user(999)
     assert result is None
 
+
 def test_get_user_none(backend: EmailAuthBackend) -> None:
     """Test getting user with None ID."""
     result = backend.get_user(None)
     assert result is None
+
 
 def test_get_user_string_id(backend: EmailAuthBackend) -> None:
     """Test getting user with string ID."""

@@ -233,15 +233,12 @@ class TestOrderIntegration:
             total_price=Decimal("300.00"),
         )
 
-        # Create multiple order items
-        items = [
-            OrderItem.objects.create(
-                order=order, product_id=1, product_name="Product 1", quantity=2, price=Decimal("50.00")
-            ),
-            OrderItem.objects.create(
-                order=order, product_id=2, product_name="Product 2", quantity=1, price=Decimal("200.00")
-            ),
-        ]
+        OrderItem.objects.create(
+            order=order, product_id=1, product_name="Product 1", quantity=2, price=Decimal("50.00")
+        )
+        OrderItem.objects.create(
+            order=order, product_id=2, product_name="Product 2", quantity=1, price=Decimal("200.00")
+        )
 
         assert order.items.count() == 2
         assert order.get_total_items() == 3  # 2 + 1 = 3

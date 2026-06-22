@@ -4,13 +4,12 @@ Tests for order services.
 
 from __future__ import annotations
 
-from django.db import IntegrityError
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from decimal import Decimal
 
 import pytest
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.db import IntegrityError
 from order.domains import OrderCreateData, OrderData, OrderItemData
 from order.models import Order, OrderItem
 from order.services import DatabaseOrderRepository, EmailOrderNotification, OrderService
@@ -146,6 +145,7 @@ class TestDatabaseOrderRepository:
         assert len(result["items"]) == 2
         mock_order_create.assert_called_once()
         assert mock_order_item_create.call_count == 2
+
 
 class TestEmailOrderNotification:
     """Unit tests for EmailOrderNotification."""

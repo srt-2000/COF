@@ -25,13 +25,12 @@ DEBUG = environ.get("DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = environ.get("ALLOWED_HOSTS").split()
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://srt-tester.ru',
-    'https://www.srt-tester.ru',
+    "http://localhost",
+    "http://127.0.0.1",
 ]
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
 
 
 # Application definition

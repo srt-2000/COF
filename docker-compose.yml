@@ -50,8 +50,6 @@ services:
     working_dir: /app/coffeeshop
     networks:
       - dbnet
-    ports:
-      - "8000:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -60,34 +58,20 @@ services:
     command: gunicorn -c gunicorn.py config.wsgi
 
   nginx:
-    image: nginx:latest
+    image: nginx:1.27-alpine
     container_name: nginx-server
     restart: always
     networks:
       - dbnet
-    expose:
-      - 8088
     ports:
       - "80:8088"
-      - "443:443"
     volumes:
       - ./coffeeshop/static:/app/www/coffeeshop/static
       - ./coffeeshop/media:/app/www/coffeeshop/media
       - ./coffeeshop/logs:/app/www/coffeeshop/logs
       - ./nginx:/etc/nginx/conf.d
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
     depends_on:
       - coffeeshop
-
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    command: certonly --webroot --webroot-path=/var/www/certbot/ --email srt2000888tester@gmail.com --agree-tos --no-eff-email -d srt-tester.ru
-    depends_on:
-      - nginx
 
 
 networks:
